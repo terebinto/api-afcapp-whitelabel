@@ -15,6 +15,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Debug\FileLinkFormatter;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 
 /**
@@ -42,17 +43,18 @@ class HtmlErrorRenderer implements ErrorRendererInterface
     private static $template = 'views/error.html.php';
 
     /**
-     * @param bool|callable $debug        The debugging mode as a boolean or a callable that should return it
-     * @param bool|callable $outputBuffer The output buffer as a string or a callable that should return it
+     * @param bool|callable                 $debug          The debugging mode as a boolean or a callable that should return it
+     * @param string|FileLinkFormatter|null $fileLinkFormat
+     * @param bool|callable                 $outputBuffer   The output buffer as a string or a callable that should return it
      */
     public function __construct($debug = false, string $charset = null, $fileLinkFormat = null, string $projectDir = null, $outputBuffer = '', LoggerInterface $logger = null)
     {
         if (!\is_bool($debug) && !\is_callable($debug)) {
-            throw new \TypeError(sprintf('Argument 1 passed to "%s()" must be a boolean or a callable, "%s" given.', __METHOD__, get_debug_type($debug)));
+            throw new \TypeError(sprintf('Argument 1 passed to "%s()" must be a boolean or a callable, "%s" given.', __METHOD__, \gettype($debug)));
         }
 
         if (!\is_string($outputBuffer) && !\is_callable($outputBuffer)) {
-            throw new \TypeError(sprintf('Argument 5 passed to "%s()" must be a string or a callable, "%s" given.', __METHOD__, get_debug_type($outputBuffer)));
+            throw new \TypeError(sprintf('Argument 5 passed to "%s()" must be a string or a callable, "%s" given.', __METHOD__, \gettype($outputBuffer)));
         }
 
         $this->debug = $debug;
@@ -283,7 +285,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
             }
 
             for ($i = max($line - $srcContext, 1), $max = min($line + $srcContext, \count($content)); $i <= $max; ++$i) {
-                $lines[] = '<li'.($i == $line ? ' class="selected"' : '').'><a class="anchor" name="line'.$i.'"></a><code>'.$this->fixCodeMarkup($content[$i - 1]).'</code></li>';
+                $lines[] = '<li'.($i == $line ? ' class="selected"' : '').'><code>'.$this->fixCodeMarkup($content[$i - 1]).'</code></li>';
             }
 
             return '<ol start="'.max($line - $srcContext, 1).'">'.implode("\n", $lines).'</ol>';
@@ -302,9 +304,9 @@ class HtmlErrorRenderer implements ErrorRendererInterface
         }
 
         // missing </span> tag at the end of line
-        $opening = strpos($line, '<span');
-        $closing = strpos($line, '</span>');
-        if (false !== $opening && (false === $closing || $closing > $opening)) {
+        $opening = strrpos($line, '<span');
+        $closing = strrpos($line, '</span>');
+        if (false !== $opening && (false === $closing || $closing < $opening)) {
             $line .= '</span>';
         }
 
@@ -350,7 +352,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
         extract($context, \EXTR_SKIP);
         ob_start();
 
-        include file_exists($name) ? $name : __DIR__.'/../Resources/'.$name;
+        include is_file(\dirname(__DIR__).'/Resources/'.$name) ? \dirname(__DIR__).'/Resources/'.$name : $name;
 
         return trim(ob_get_clean());
     }

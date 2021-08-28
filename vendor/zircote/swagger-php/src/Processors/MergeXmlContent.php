@@ -13,6 +13,7 @@ use OpenApi\Annotations\RequestBody;
 use OpenApi\Annotations\Response;
 use OpenApi\Annotations\XmlContent;
 use OpenApi\Context;
+use OpenApi\Generator;
 use OpenApi\Logger;
 
 /**
@@ -22,18 +23,20 @@ class MergeXmlContent
 {
     public function __invoke(Analysis $analysis)
     {
+        /** @var XmlContent[] $annotations */
         $annotations = $analysis->getAnnotationsOfType(XmlContent::class);
+
         foreach ($annotations as $xmlContent) {
             $parent = $xmlContent->_context->nested;
             if (!($parent instanceof Response) && !($parent instanceof RequestBody) && !($parent instanceof Parameter)) {
                 if ($parent) {
-                    Logger::notice('Unexpected '.$xmlContent->identity().' in '.$parent->identity().' in '.$parent->_context);
+                    Logger::notice('Unexpected ' . $xmlContent->identity() . ' in ' . $parent->identity() . ' in ' . $parent->_context);
                 } else {
-                    Logger::notice('Unexpected '.$xmlContent->identity().' must be nested');
+                    Logger::notice('Unexpected ' . $xmlContent->identity() . ' must be nested');
                 }
                 continue;
             }
-            if ($parent->content === UNDEFINED) {
+            if ($parent->content === Generator::UNDEFINED) {
                 $parent->content = [];
             }
             $parent->content['application/xml'] = new MediaType([
@@ -45,8 +48,8 @@ class MergeXmlContent
             if (!$parent instanceof Parameter) {
                 $parent->content['application/xml']->mediaType = 'application/xml';
             }
-            $xmlContent->example = UNDEFINED;
-            $xmlContent->examples = UNDEFINED;
+            $xmlContent->example = Generator::UNDEFINED;
+            $xmlContent->examples = Generator::UNDEFINED;
 
             $index = array_search($xmlContent, $parent->_unmerged, true);
             if ($index !== false) {

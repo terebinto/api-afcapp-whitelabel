@@ -99,7 +99,7 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function linkCollection()
+    public function linkCollection()
     {
         return collect($this->elements())->flatMap(function ($item) {
             if (! is_array($item)) {
@@ -109,7 +109,7 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
             return collect($item)->map(function ($url, $page) {
                 return [
                     'url' => $url,
-                    'label' => $page,
+                    'label' => (string) $page,
                     'active' => $this->currentPage() === $page,
                 ];
             });
@@ -213,6 +213,7 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
      *
      * @return array
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->toArray();

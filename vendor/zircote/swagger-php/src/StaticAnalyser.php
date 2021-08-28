@@ -12,23 +12,11 @@ namespace OpenApi;
 class StaticAnalyser
 {
     /**
-     * @param string $filename
-     */
-    public function __construct($filename = null)
-    {
-        if ($filename !== null) {
-            $this->fromFile($filename);
-        }
-    }
-
-    /**
      * Extract and process all doc-comments from a file.
      *
      * @param string $filename path to a php file
-     *
-     * @return Analysis
      */
-    public function fromFile($filename)
+    public function fromFile(string $filename): Analysis
     {
         if (function_exists('opcache_get_status') && function_exists('opcache_get_configuration')) {
             if (empty($GLOBALS['openapi_opcache_warning'])) {
@@ -36,7 +24,7 @@ class StaticAnalyser
                 $status = opcache_get_status();
                 $config = opcache_get_configuration();
                 if (is_array($status) && $status['opcache_enabled'] && $config['directives']['opcache.save_comments'] == false) {
-                    Logger::warning("php.ini \"opcache.save_comments = 0\" interferes with extracting annotations.\n[LINK] http://php.net/manual/en/opcache.configuration.php#ini.opcache.save-comments");
+                    Logger::warning("php.ini \"opcache.save_comments = 0\" interferes with extracting annotations.\n[LINK] https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.save-comments");
                 }
             }
         }
@@ -50,10 +38,8 @@ class StaticAnalyser
      *
      * @param string  $code    PHP code. (including <?php tags)
      * @param Context $context the original location of the contents
-     *
-     * @return Analysis
      */
-    public function fromCode($code, $context)
+    public function fromCode(string $code, Context $context): Analysis
     {
         $tokens = token_get_all($code);
 
@@ -63,15 +49,12 @@ class StaticAnalyser
     /**
      * Shared implementation for parseFile() & parseContents().
      *
-     * @param array   $tokens       The result of a token_get_all()
-     * @param Context $parseContext
-     *
-     * @return Analysis
+     * @param array $tokens The result of a token_get_all()
      */
-    protected function fromTokens($tokens, $parseContext)
+    protected function fromTokens(array $tokens, Context $parseContext): Analysis
     {
         $analyser = new Analyser();
-        $analysis = new Analysis();
+        $analysis = new Analysis([], $parseContext);
 
         reset($tokens);
         $token = '';
@@ -96,6 +79,12 @@ class StaticAnalyser
 
             if (is_array($token) === false) {
                 // Ignore tokens like "{", "}", etc
+                continue;
+            }
+
+            if (defined('T_ATTRIBUTE') && $token[0] === T_ATTRIBUTE) {
+                // consume
+                $this->parseAttribute($tokens, $token, $parseContext);
                 continue;
             }
 
@@ -349,6 +338,8 @@ class StaticAnalyser
 
             if ($token[0] === T_NAMESPACE) {
                 $parseContext->namespace = $this->parseNamespace($tokens, $token, $parseContext);
+                $imports['__NAMESPACE__'] = $parseContext->namespace;
+                $analyser->docParser->setImports($imports);
                 continue;
             }
 
@@ -369,7 +360,7 @@ class StaticAnalyser
                             $imports[strtolower($alias)] = $target;
                         } else {
                             foreach (Analyser::$whitelist as $namespace) {
-                                if (strcasecmp(substr($target, 0, strlen($namespace)), $namespace) === 0) {
+                                if (strcasecmp(substr($target . '\\', 0, strlen($namespace)), $namespace) === 0) {
                                     $imports[strtolower($alias)] = $target;
                                     break;
                                 }
@@ -400,13 +391,8 @@ class StaticAnalyser
 
     /**
      * Parse comment and add annotations to analysis.
-     *
-     * @param Analysis $analysis
-     * @param Analyser $analyser
-     * @param string   $comment
-     * @param Context  $context
      */
-    private function analyseComment($analysis, $analyser, $comment, $context)
+    private function analyseComment(Analysis $analysis, Analyser $analyser, string $comment, Context $context): void
     {
         $analysis->addAnnotations($analyser->fromComment($comment, $context), $context);
     }
@@ -414,12 +400,10 @@ class StaticAnalyser
     /**
      * The next non-whitespace, non-comment token.
      *
-     * @param array   $tokens
-     * @param Context $context
      *
      * @return array|string The next token (or false)
      */
-    private function nextToken(&$tokens, $context)
+    private function nextToken(array &$tokens, Context $context)
     {
         while (true) {
             $token = next($tokens);
@@ -432,7 +416,7 @@ class StaticAnalyser
                     if ($pos) {
                         $line = $context->line ? $context->line + $token[2] : $token[2];
                         $commentContext = new Context(['line' => $line], $context);
-                        Logger::notice('Annotations are only parsed inside `/**` DocBlocks, skipping '.$commentContext);
+                        Logger::notice('Annotations are only parsed inside `/**` DocBlocks, skipping ' . $commentContext);
                     }
                     continue;
                 }
@@ -442,15 +426,40 @@ class StaticAnalyser
         }
     }
 
+    private function parseAttribute(array &$tokens, &$token, Context $parseContext): void
+    {
+        $nesting = 1;
+        while ($token !== false) {
+            $token = $this->nextToken($tokens, $parseContext);
+            if (!is_array($token) && '[' === $token) {
+                ++$nesting;
+                continue;
+            }
+
+            if (!is_array($token) && ']' === $token) {
+                --$nesting;
+                if (!$nesting) {
+                    break;
+                }
+            }
+        }
+    }
+
+    private function php8NamespaceToken()
+    {
+        return defined('T_NAME_QUALIFIED') ? [T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED] : [];
+    }
+
     /**
      * Parse namespaced string.
      */
-    private function parseNamespace(&$tokens, &$token, $parseContext)
+    private function parseNamespace(array &$tokens, &$token, Context $parseContext): string
     {
         $namespace = '';
+        $nsToken = array_merge([T_STRING, T_NS_SEPARATOR], $this->php8NamespaceToken());
         while ($token !== false) {
             $token = $this->nextToken($tokens, $parseContext);
-            if (!in_array($token[0], [T_STRING, T_NS_SEPARATOR, T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED])) {
+            if (!in_array($token[0], $nsToken)) {
                 break;
             }
             $namespace .= $token[1];
@@ -462,7 +471,7 @@ class StaticAnalyser
     /**
      * Parse comma separated list of namespaced strings.
      */
-    private function parseNamespaceList(&$tokens, &$token, $parseContext)
+    private function parseNamespaceList(array &$tokens, &$token, Context $parseContext): array
     {
         $namespaces = [];
         while ($namespace = $this->parseNamespace($tokens, $token, $parseContext)) {
@@ -478,7 +487,7 @@ class StaticAnalyser
     /**
      * Parse a use statement.
      */
-    private function parseUseStatement(&$tokens, &$token, $parseContext)
+    private function parseUseStatement(array &$tokens, &$token, Context $parseContext): array
     {
         $normalizeAlias = function ($alias) {
             $alias = ltrim($alias, '\\');
@@ -491,9 +500,10 @@ class StaticAnalyser
         $alias = '';
         $statements = [];
         $explicitAlias = false;
+        $nsToken = array_merge([T_STRING, T_NS_SEPARATOR], $this->php8NamespaceToken());
         while ($token !== false) {
             $token = $this->nextToken($tokens, $parseContext);
-            $isNameToken = in_array($token[0], [T_STRING, T_NS_SEPARATOR, T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED]);
+            $isNameToken = in_array($token[0], $nsToken);
             if (!$explicitAlias && $isNameToken) {
                 $class .= $token[1];
                 $alias = $token[1];
@@ -523,7 +533,7 @@ class StaticAnalyser
      */
     private function parseTypeAndNextToken(array &$tokens, Context $parseContext): array
     {
-        $type = UNDEFINED;
+        $type = Generator::UNDEFINED;
         $nullable = false;
         $token = $this->nextToken($tokens, $parseContext);
 
@@ -536,9 +546,11 @@ class StaticAnalyser
             $token = $this->nextToken($tokens, $parseContext);
         }
 
+        $qualifiedToken = array_merge([T_NS_SEPARATOR, T_STRING, T_ARRAY], $this->php8NamespaceToken());
+        $typeToken = array_merge([T_STRING], $this->php8NamespaceToken());
         // drill down namespace segments to basename property type declaration
-        while (in_array($token[0], [T_NS_SEPARATOR, T_STRING, T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED, T_ARRAY])) {
-            if (in_array($token[0], [T_STRING, T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED])) {
+        while (in_array($token[0], $qualifiedToken)) {
+            if (in_array($token[0], $typeToken)) {
                 $type = $token[1];
             }
             $token = $this->nextToken($tokens, $parseContext);

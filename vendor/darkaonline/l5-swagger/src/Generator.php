@@ -3,6 +3,7 @@
 namespace L5Swagger;
 
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use L5Swagger\Exceptions\L5SwaggerException;
 use OpenApi\Annotations\OpenApi;
@@ -13,6 +14,19 @@ use Symfony\Component\Yaml\Yaml;
 
 class Generator
 {
+    protected const SCAN_OPTION_PROCESSORS = 'processors';
+    protected const SCAN_OPTION_PATTERN = 'pattern';
+    protected const SCAN_OPTION_ANALYSER = 'analyser';
+    protected const SCAN_OPTION_ANALYSIS = 'analysis';
+    protected const SCAN_OPTION_EXCLUDE = 'exclude';
+
+    protected const AVAILABLE_SCAN_OPTIONS = [
+        self::SCAN_OPTION_PATTERN,
+        self::SCAN_OPTION_ANALYSER,
+        self::SCAN_OPTION_ANALYSIS,
+        self::SCAN_OPTION_EXCLUDE,
+    ];
+
     /**
      * @var string|array
      */
@@ -64,17 +78,24 @@ class Generator
     protected $security;
 
     /**
+     * @var array
+     */
+    protected $scanOptions;
+
+    /**
      * Generator constructor.
      * @param array $paths
      * @param array $constants
      * @param bool $yamlCopyRequired
      * @param SecurityDefinitions $security
+     * @param array $scanOptions
      */
     public function __construct(
         array $paths,
         array $constants,
         bool $yamlCopyRequired,
-        SecurityDefinitions $security
+        SecurityDefinitions $security,
+        array $scanOptions
     ) {
         $this->annotationsDir = $paths['annotations'];
         $this->docDir = $paths['docs'];
@@ -85,6 +106,7 @@ class Generator
         $this->constants = $constants;
         $this->yamlCopyRequired = $yamlCopyRequired;
         $this->security = $security;
+        $this->scanOptions = $scanOptions;
     }
 
     /**
@@ -149,10 +171,48 @@ class Generator
     {
         $this->openApi = openApiScan(
             $this->annotationsDir,
-            ['exclude' => $this->excludedDirs]
+            $this->getScanOptions()
         );
 
         return $this;
+    }
+
+    /**
+     * Prepares options array for scanning files.
+     *
+     * @return array
+     */
+    protected function getScanOptions(): array
+    {
+        $options = [];
+
+        $processorClasses = Arr::get($this->scanOptions, self::SCAN_OPTION_PROCESSORS, []);
+        $processors = [];
+
+        foreach (\OpenApi\Analysis::processors() as $processor) {
+            $processors[] = $processor;
+            if ($processor instanceof \OpenApi\Processors\BuildPaths) {
+                foreach ($processorClasses as $customProcessor) {
+                    $processors[] = new $customProcessor();
+                }
+            }
+        }
+
+        if (! empty($processors)) {
+            $options[self::SCAN_OPTION_PROCESSORS] = $processors;
+        }
+
+        foreach (self::AVAILABLE_SCAN_OPTIONS as $optionKey) {
+            $option = Arr::get($this->scanOptions, $optionKey);
+            if (! empty($option)) {
+                $options[$optionKey] = $option;
+            }
+        }
+
+        // `scanOptions.exclude` option overwrites `paths.excludes` option but fallbacks to old config if not set
+        $options[self::SCAN_OPTION_EXCLUDE] = ! empty($options[self::SCAN_OPTION_EXCLUDE]) ? $options[self::SCAN_OPTION_EXCLUDE] : $this->excludedDirs;
+
+        return $options;
     }
 
     /**

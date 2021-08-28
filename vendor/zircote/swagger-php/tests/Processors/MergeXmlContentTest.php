@@ -9,9 +9,10 @@ namespace OpenApi\Tests\Processors;
 use OpenApi\Analysis;
 use OpenApi\Annotations\Parameter;
 use OpenApi\Annotations\Response;
+use OpenApi\Context;
+use OpenApi\Generator;
 use OpenApi\Processors\MergeXmlContent;
 use OpenApi\Tests\OpenApiTestCase;
-use const OpenApi\UNDEFINED;
 
 class MergeXmlContentTest extends OpenApiTestCase
 {
@@ -24,10 +25,10 @@ class MergeXmlContentTest extends OpenApiTestCase
                 )
             )
 END;
-        $analysis = new Analysis($this->parseComment($comment));
+        $analysis = new Analysis($this->parseComment($comment), new Context());
         $this->assertCount(3, $analysis->annotations);
         $response = $analysis->getAnnotationsOfType(Response::class)[0];
-        $this->assertSame(UNDEFINED, $response->content);
+        $this->assertSame(Generator::UNDEFINED, $response->content);
         $this->assertCount(1, $response->_unmerged);
         $analysis->process(new MergeXmlContent());
         $this->assertCount(1, $response->content);
@@ -46,7 +47,7 @@ END;
                 )
             )
 END;
-        $analysis = new Analysis($this->parseComment($comment));
+        $analysis = new Analysis($this->parseComment($comment), new Context());
         $response = $analysis->getAnnotationsOfType(Response::class)[0];
         $this->assertCount(1, $response->content);
         $analysis->process(new MergeXmlContent());
@@ -61,10 +62,10 @@ END;
                 @OA\Property(property="color", type="string")
             ))
 END;
-        $analysis = new Analysis($this->parseComment($comment));
+        $analysis = new Analysis($this->parseComment($comment), new Context());
         $this->assertCount(4, $analysis->annotations);
         $parameter = $analysis->getAnnotationsOfType(Parameter::class)[0];
-        $this->assertSame(UNDEFINED, $parameter->content);
+        $this->assertSame(Generator::UNDEFINED, $parameter->content);
         $this->assertCount(1, $parameter->_unmerged);
         $analysis->process(new MergeXmlContent());
         $this->assertCount(1, $parameter->content);
@@ -83,7 +84,7 @@ END;
                 @OA\Items(ref="#/components/schemas/repository")
             )
 END;
-        $analysis = new Analysis($this->parseComment($comment));
+        $analysis = new Analysis($this->parseComment($comment), new Context());
         $analysis->process(new MergeXmlContent());
     }
 
@@ -97,7 +98,7 @@ END;
                 )
             )
 END;
-        $analysis = new Analysis($this->parseComment($comment));
+        $analysis = new Analysis($this->parseComment($comment), new Context());
         $analysis->process(new MergeXmlContent());
     }
 }

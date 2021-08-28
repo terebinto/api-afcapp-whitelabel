@@ -1,6 +1,16 @@
 CHANGELOG
 =========
 
+5.3
+---
+
+ * Add the `SessionFactory`, `NativeSessionStorageFactory`, `PhpBridgeSessionStorageFactory` and `MockFileSessionStorageFactory` classes
+ * Calling `Request::getSession()` when there is no available session throws a `SessionNotFoundException`
+ * Add the `RequestStack::getSession` method
+ * Deprecate the `NamespacedAttributeBag` class
+ * Add `ResponseFormatSame` PHPUnit constraint
+ * Deprecate the `RequestStack::getMasterRequest()` method and add `getMainRequest()` as replacement
+
 5.2.0
 -----
 
@@ -13,7 +23,6 @@ CHANGELOG
  * deprecated not passing a `Closure` together with `FILTER_CALLBACK` to `ParameterBag::filter()`; wrap your filter in a closure instead.
  * Deprecated the `Request::HEADER_X_FORWARDED_ALL` constant, use either `HEADER_X_FORWARDED_FOR | HEADER_X_FORWARDED_HOST | HEADER_X_FORWARDED_PORT | HEADER_X_FORWARDED_PROTO` or `HEADER_X_FORWARDED_AWS_ELB` or `HEADER_X_FORWARDED_TRAEFIK` constants instead.
  * Deprecated `BinaryFileResponse::create()`, use `__construct()` instead
-
 
 5.1.0
 -----

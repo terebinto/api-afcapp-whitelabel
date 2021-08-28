@@ -7,8 +7,12 @@
 namespace OpenApi\Tests;
 
 use OpenApi\Analyser;
+use OpenApi\Annotations\Property;
+use OpenApi\Annotations\Schema;
 use OpenApi\Context;
+use OpenApi\Generator;
 use OpenApi\StaticAnalyser;
+use OpenApi\Tests\Fixtures\Parser\User;
 
 class StaticAnalyserTest extends OpenApiTestCase
 {
@@ -122,15 +126,15 @@ class StaticAnalyserTest extends OpenApiTestCase
     public function testThirdPartyAnnotations()
     {
         $backup = Analyser::$whitelist;
-        Analyser::$whitelist = ['OpenApi\Annotations\\'];
+        Analyser::$whitelist = ['OpenApi\\Annotations\\'];
         $analyser = new StaticAnalyser();
-        $defaultAnalysis = $analyser->fromFile(__DIR__.'/Fixtures/ThirdPartyAnnotations.php');
+        $defaultAnalysis = $analyser->fromFile(__DIR__ . '/Fixtures/ThirdPartyAnnotations.php');
         $this->assertCount(3, $defaultAnalysis->annotations, 'Only read the @OA annotations, skip the others.');
 
         // Allow the analyser to parse 3rd party annotations, which might
         // contain useful info that could be extracted with a custom processor
-        Analyser::$whitelist[] = 'AnotherNamespace\Annotations';
-        $openapi = \OpenApi\scan(__DIR__.'/Fixtures/ThirdPartyAnnotations.php');
+        Analyser::$whitelist[] = 'AnotherNamespace\\Annotations\\';
+        $openapi = Generator::scan([__DIR__ . '/Fixtures/ThirdPartyAnnotations.php']);
         $this->assertSame('api/3rd-party', $openapi->paths[0]->path);
         $this->assertCount(4, $openapi->_unmerged);
         Analyser::$whitelist = $backup;
@@ -216,5 +220,45 @@ class StaticAnalyserTest extends OpenApiTestCase
         if (null !== $traits) {
             $this->assertSame($traits, $description['traits']);
         }
+    }
+
+    public function testNamespacedConstAccess()
+    {
+        $analysis = $this->analysisFromFixtures('Parser/User.php');
+        $schemas = $analysis->getAnnotationsOfType(Schema::class, true);
+
+        $this->assertCount(1, $schemas);
+        $this->assertEquals(User::CONSTANT, $schemas[0]->example);
+    }
+
+    /**
+     * @requires PHP 8
+     */
+    public function testPhp8AttributeMix()
+    {
+        $analysis = $this->analysisFromFixtures('StaticAnalyser/Php8AttrMix.php');
+        $schemas = $analysis->getAnnotationsOfType(Schema::class, true);
+
+        $this->assertCount(1, $schemas);
+        $analysis->process();
+        $properties = $analysis->getAnnotationsOfType(Property::class, true);
+        $this->assertCount(2, $properties);
+        $this->assertEquals('id', $properties[0]->property);
+        $this->assertEquals('otherId', $properties[1]->property);
+    }
+
+    /**
+     * @requires PHP 8
+     */
+    public function testPhp8NamedProperty()
+    {
+        $analysis = $this->analysisFromFixtures('StaticAnalyser/Php8NamedProperty.php');
+        $schemas = $analysis->getAnnotationsOfType(Schema::class, true);
+
+        $this->assertCount(1, $schemas);
+        $analysis->process();
+        $properties = $analysis->getAnnotationsOfType(Property::class, true);
+        $this->assertCount(1, $properties);
+        $this->assertEquals('labels', $properties[0]->property);
     }
 }

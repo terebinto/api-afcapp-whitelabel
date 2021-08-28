@@ -263,9 +263,22 @@ trait ManagesFrequencies
      */
     public function twiceDaily($first = 1, $second = 13)
     {
+        return $this->twiceDailyAt($first, $second, 0);
+    }
+
+    /**
+     * Schedule the event to run twice daily at a given offset.
+     *
+     * @param  int  $first
+     * @param  int  $second
+     * @param  int  $offset
+     * @return $this
+     */
+    public function twiceDailyAt($first = 1, $second = 13, $offset = 0)
+    {
         $hours = $first.','.$second;
 
-        return $this->spliceIntoPosition(1, 0)
+        return $this->spliceIntoPosition(1, $offset)
                     ->spliceIntoPosition(2, $hours);
     }
 
@@ -425,9 +438,7 @@ trait ManagesFrequencies
 
         $this->dailyAt($time);
 
-        return $this->spliceIntoPosition(1, 0)
-            ->spliceIntoPosition(2, 0)
-            ->spliceIntoPosition(3, $daysOfMonth);
+        return $this->spliceIntoPosition(3, $daysOfMonth);
     }
 
     /**

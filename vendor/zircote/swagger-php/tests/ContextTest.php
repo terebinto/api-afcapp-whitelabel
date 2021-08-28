@@ -7,6 +7,7 @@
 namespace OpenApi\Tests;
 
 use OpenApi\Context;
+use OpenApi\Generator;
 
 class ContextTest extends OpenApiTestCase
 {
@@ -20,13 +21,12 @@ class ContextTest extends OpenApiTestCase
         $this->assertSame(__FILE__, $context->filename);
         $this->assertSame($line, $context->line);
         $this->assertSame('OpenApi\Tests', $context->namespace);
-        //        $this->assertCount(1, $context->uses); // Context::detect() doesn't pick up USE statements (yet)
     }
 
     public function testFullyQualifiedName()
     {
         $this->assertOpenApiLogEntryContains('Required @OA\PathItem() not found');
-        $openapi = \OpenApi\scan(__DIR__.'/Fixtures/Customer.php');
+        $openapi = Generator::scan([__DIR__ . '/Fixtures/Customer.php']);
         $context = $openapi->components->schemas[0]->_context;
         // resolve with namespace
         $this->assertSame('\FullyQualified', $context->fullyQualifiedName('\FullyQualified'));

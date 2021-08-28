@@ -9,9 +9,10 @@ namespace OpenApi\Tests\Processors;
 use OpenApi\Analysis;
 use OpenApi\Annotations\OpenApi;
 use OpenApi\Annotations\Response;
+use OpenApi\Context;
+use OpenApi\Generator;
 use OpenApi\Processors\MergeIntoComponents;
 use OpenApi\Tests\OpenApiTestCase;
-use const OpenApi\UNDEFINED;
 
 class MergeIntoComponentsTest extends OpenApiTestCase
 {
@@ -23,9 +24,10 @@ class MergeIntoComponentsTest extends OpenApiTestCase
             [
                 $openapi,
                 $response,
-            ]
+            ],
+            new Context()
         );
-        $this->assertSame(UNDEFINED, $openapi->components);
+        $this->assertSame(Generator::UNDEFINED, $openapi->components);
         $analysis->process(new MergeIntoComponents());
         $this->assertCount(1, $openapi->components->responses);
         $this->assertSame($response, $openapi->components->responses[0]);

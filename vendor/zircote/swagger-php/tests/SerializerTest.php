@@ -8,8 +8,8 @@ namespace OpenApi\Tests;
 
 use OpenApi\Annotations;
 use OpenApi\Annotations\OpenApi;
+use OpenApi\Generator;
 use OpenApi\Serializer;
-use const OpenApi\UNDEFINED;
 
 class SerializerTest extends OpenApiTestCase
 {
@@ -149,7 +149,7 @@ JSON;
     public function testPetstoreExample()
     {
         $serializer = new Serializer();
-        $spec = __DIR__.'/../Examples/petstore.swagger.io/petstore.swagger.io.json';
+        $spec = __DIR__ . '/../Examples/petstore.swagger.io/petstore.swagger.io.json';
         $openapi = $serializer->deserializeFile($spec);
         $this->assertInstanceOf(OpenApi::class, $openapi);
         $this->assertJsonStringEqualsJsonString(file_get_contents($spec), $openapi->toJson());
@@ -191,13 +191,13 @@ JSON;
 
         foreach ($annotation->components->schemas as $schemaObject) {
             $this->assertObjectHasAttribute('allOf', $schemaObject);
-            $this->assertNotSame($schemaObject->allOf, UNDEFINED);
+            $this->assertNotSame($schemaObject->allOf, Generator::UNDEFINED);
             $this->assertIsArray($schemaObject->allOf);
             $allOfItem = current($schemaObject->allOf);
             $this->assertIsObject($allOfItem);
             $this->assertInstanceOf(Annotations\Schema::class, $allOfItem);
             $this->assertObjectHasAttribute('ref', $allOfItem);
-            $this->assertNotSame($allOfItem->ref, UNDEFINED);
+            $this->assertNotSame($allOfItem->ref, Generator::UNDEFINED);
             $this->assertSame('#/components/schemas/SomeSchema', $allOfItem->ref);
         }
     }

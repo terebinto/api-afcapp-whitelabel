@@ -30,12 +30,8 @@ Collection of code/annotation examples and their corresponding OpenAPI specs gen
 
   * simple response object: [source](example-object) / [spec](example-object/example-object.yaml)
   * misc: [source](misc) / [spec](misc/misc.yaml)
-  * using interfaces: [source](using-interfaces) 
-    / [spec (inherit)](using-interfaces/using-interfaces-inherit.yaml)
-    / [spec (merge)](using-interfaces/using-interfaces-merge.yaml) 
-  * using traits: [source](using-traits)
-    / [spec (inherit)](using-traits/using-traits-inherit.yaml)
-    / [spec (merge)](using-traits/using-interfaces-merge.yaml) 
+  * using interfaces: [source](using-interfaces) / [spec](using-interfaces/using-interfaces.yaml)
+  * using traits: [source](using-traits) / [spec](using-traits/using-traits.yaml)
   * using refs: [source](using-refs) / [spec](using-refs/using-refs.yaml) 
   
 
@@ -62,9 +58,15 @@ class MyCustomProcessor
 }
 ``` 
 
-* **schema-query-parameter-processor**
+* **schema-query-parameter processor**
 
   A processor that takes a vendor tag (expecting a schema `#ref`) and injects all properties of that given schema as
-  query parameter to the [request definition](schema-query-parameter-processor/app/ProductController.php).
+  query parameter to the [request definition](processors/schema-query-parameter/app/ProductController.php).
 
-  [source](schema-query-parameter-processor)
+  [source](processors/schema-query-parameter)
+
+* **sort-components processor**
+
+  A processor that sorts components so they appear in alphabetical order. 
+
+  [source](processors/sort-components)

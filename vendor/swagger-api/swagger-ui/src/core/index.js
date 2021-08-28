@@ -43,6 +43,7 @@ export default function SwaggerUI(opts) {
     displayOperationId: false,
     displayRequestDuration: false,
     deepLinking: false,
+    tryItOutEnabled: false,
     requestInterceptor: (a => a),
     responseInterceptor: (a => a),
     showMutatedRequest: true,
@@ -52,6 +53,25 @@ export default function SwaggerUI(opts) {
     showExtensions: false,
     showCommonExtensions: false,
     withCredentials: undefined,
+    requestSnippetsEnabled: false,
+    requestSnippets: {
+      generators: {
+        "curl_bash": {
+          title: "cURL (bash)",
+          syntax: "bash"
+        },
+        "curl_powershell": {
+          title: "cURL (PowerShell)",
+          syntax: "powershell"
+        },
+        "curl_cmd": {
+          title: "cURL (CMD)",
+          syntax: "bash"
+        },
+      },
+      defaultExpanded: true,
+      languagesMask: null, // e.g. only show curl bash = ["curl_bash"]
+    },
     supportedSubmitMethods: [
       "get",
       "put",
@@ -72,6 +92,13 @@ export default function SwaggerUI(opts) {
     // Plugins; ( loaded after presets )
     plugins: [
     ],
+
+    pluginsOptions: {
+      // Behavior during plugin registration. Can be :
+      // - legacy (default) : the current behavior for backward compatibility – last plugin takes precedence over the others
+      // - chain : chain wrapComponents when targeting the same core component
+      pluginLoadType: "legacy"
+    },
 
     // Initial state
     initialState: { },
@@ -98,6 +125,7 @@ export default function SwaggerUI(opts) {
       configs: constructorConfig.configs
     },
     plugins: constructorConfig.presets,
+    pluginsOptions: constructorConfig.pluginsOptions,
     state: deepExtend({
       layout: {
         layout: constructorConfig.layout,
@@ -106,7 +134,8 @@ export default function SwaggerUI(opts) {
       spec: {
         spec: "",
         url: constructorConfig.url
-      }
+      },
+      requestSnippets: constructorConfig.requestSnippets
     }, constructorConfig.initialState)
   }
 
@@ -116,7 +145,7 @@ export default function SwaggerUI(opts) {
     // known usage: Swagger-Editor validate plugin tests
     for (var key in constructorConfig.initialState) {
       if(
-        constructorConfig.initialState.hasOwnProperty(key)
+        Object.prototype.hasOwnProperty.call(constructorConfig.initialState, key)
         && constructorConfig.initialState[key] === undefined
       ) {
         delete storeConfigs.state[key]

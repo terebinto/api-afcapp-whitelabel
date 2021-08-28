@@ -1,6 +1,7 @@
 openapi: 3.0.0
 info:
   title: 'Testing annotations from bugreports'
+  description: "NOTE:\nThis sentence is on a new line"
   version: 1.0.0
 servers:
   -
@@ -15,6 +16,7 @@ servers:
 paths:
   /api/endpoint:
     get:
+      summary: 'An API endpoint.'
       parameters:
         -
           name: filter
@@ -29,3 +31,38 @@ paths:
       responses:
         '200':
           description: Success
+      security:
+        -
+          bearerAuth: []
+components:
+  responses:
+    '200':
+      description: ''
+      content:
+        application/json:
+          schema:
+            properties:
+              name:
+                description: demo
+                type: integer
+            type: object
+          examples:
+            '200':
+              summary: ''
+              value:
+                name: 1
+            '300':
+              summary: ''
+              value:
+                name: 1
+            '400':
+              summary: ''
+              value:
+                name: 1
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  -
+    bearerAuth: []

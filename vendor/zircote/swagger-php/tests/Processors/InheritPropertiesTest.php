@@ -11,17 +11,17 @@ use OpenApi\Annotations\Components;
 use OpenApi\Annotations\Info;
 use OpenApi\Annotations\PathItem;
 use OpenApi\Annotations\Schema;
+use OpenApi\Generator;
 use OpenApi\Processors\AugmentProperties;
 use OpenApi\Processors\AugmentSchemas;
 use OpenApi\Processors\BuildPaths;
 use OpenApi\Processors\CleanUnmerged;
-use OpenApi\Processors\InheritInterfaces;
+use OpenApi\Processors\ExpandInterfaces;
 use OpenApi\Processors\InheritProperties;
 use OpenApi\Processors\InheritTraits;
 use OpenApi\Processors\MergeIntoComponents;
 use OpenApi\Processors\MergeIntoOpenApi;
 use OpenApi\Tests\OpenApiTestCase;
-use const OpenApi\UNDEFINED;
 
 class InheritPropertiesTest extends OpenApiTestCase
 {
@@ -44,7 +44,7 @@ class InheritPropertiesTest extends OpenApiTestCase
         $analysis->process([
             new MergeIntoOpenApi(),
             new MergeIntoComponents(),
-            new InheritInterfaces(),
+            new ExpandInterfaces(),
             new InheritTraits(),
             new AugmentSchemas(),
             new AugmentProperties(),
@@ -81,7 +81,7 @@ class InheritPropertiesTest extends OpenApiTestCase
         $analysis->process([
             new MergeIntoOpenApi(),
             new MergeIntoComponents(),
-            new InheritInterfaces(),
+            new ExpandInterfaces(),
             new InheritTraits(),
             new AugmentSchemas(),
             new AugmentProperties(),
@@ -114,7 +114,7 @@ class InheritPropertiesTest extends OpenApiTestCase
         $analysis->process([
             new MergeIntoOpenApi(),
             new MergeIntoComponents(),
-            new InheritInterfaces(),
+            new ExpandInterfaces(),
             new InheritTraits(),
             new AugmentSchemas(),
             new AugmentProperties(),
@@ -130,14 +130,14 @@ class InheritPropertiesTest extends OpenApiTestCase
         /* @var Schema $extendedSchema */
         $extendedSchema = $schemas[0];
         $this->assertSame('ExtendedModel', $extendedSchema->schema);
-        $this->assertSame(UNDEFINED, $extendedSchema->properties);
+        $this->assertSame(Generator::UNDEFINED, $extendedSchema->properties);
 
         $this->assertArrayHasKey(1, $extendedSchema->allOf);
         $this->assertEquals($extendedSchema->allOf[1]->properties[0]->property, 'extendedProperty');
 
         /* @var $includeSchemaWithRef Schema */
         $includeSchemaWithRef = $schemas[1];
-        $this->assertSame(UNDEFINED, $includeSchemaWithRef->properties);
+        $this->assertSame(Generator::UNDEFINED, $includeSchemaWithRef->properties);
     }
 
     /**
@@ -153,7 +153,7 @@ class InheritPropertiesTest extends OpenApiTestCase
         $analysis->process([
             new MergeIntoOpenApi(),
             new MergeIntoComponents(),
-            new InheritInterfaces(),
+            new ExpandInterfaces(),
             new InheritTraits(),
             new AugmentSchemas(),
             new AugmentProperties(),
@@ -169,11 +169,11 @@ class InheritPropertiesTest extends OpenApiTestCase
         /* @var Schema $extendedSchema */
         $extendedSchema = $schemas[0];
         $this->assertSame('ExtendedWithoutAllOf', $extendedSchema->schema);
-        $this->assertSame(UNDEFINED, $extendedSchema->properties);
+        $this->assertSame(Generator::UNDEFINED, $extendedSchema->properties);
 
         $this->assertCount(2, $extendedSchema->allOf);
 
-        $this->assertEquals($extendedSchema->allOf[0]->ref, Components::SCHEMA_REF.'Base');
+        $this->assertEquals($extendedSchema->allOf[0]->ref, Components::SCHEMA_REF . 'Base');
         $this->assertEquals($extendedSchema->allOf[1]->properties[0]->property, 'extendedProperty');
     }
 
@@ -190,7 +190,7 @@ class InheritPropertiesTest extends OpenApiTestCase
         $analysis->process([
             new MergeIntoOpenApi(),
             new MergeIntoComponents(),
-            new InheritInterfaces(),
+            new ExpandInterfaces(),
             new InheritTraits(),
             new AugmentSchemas(),
             new AugmentProperties(),
@@ -206,16 +206,16 @@ class InheritPropertiesTest extends OpenApiTestCase
         /* @var Schema $extendedSchema */
         $extendedSchema = $schemas[0];
         $this->assertSame('ExtendedWithTwoSchemas', $extendedSchema->schema);
-        $this->assertSame(UNDEFINED, $extendedSchema->properties);
+        $this->assertSame(Generator::UNDEFINED, $extendedSchema->properties);
 
         $this->assertCount(2, $extendedSchema->allOf);
-        $this->assertEquals($extendedSchema->allOf[0]->ref, Components::SCHEMA_REF.'Base');
+        $this->assertEquals($extendedSchema->allOf[0]->ref, Components::SCHEMA_REF . 'Base');
         $this->assertEquals($extendedSchema->allOf[1]->properties[0]->property, 'nested');
         $this->assertEquals($extendedSchema->allOf[1]->properties[1]->property, 'extendedProperty');
 
         /* @var  $nestedSchema Schema */
         $nestedSchema = $schemas[1];
-        $this->assertSame(UNDEFINED, $nestedSchema->allOf);
+        $this->assertSame(Generator::UNDEFINED, $nestedSchema->allOf);
         $this->assertCount(1, $nestedSchema->properties);
         $this->assertEquals($nestedSchema->properties[0]->property, 'nestedProperty');
     }
@@ -234,7 +234,7 @@ class InheritPropertiesTest extends OpenApiTestCase
         $analysis->process([
             new MergeIntoOpenApi(),
             new MergeIntoComponents(),
-            new InheritInterfaces(),
+            new ExpandInterfaces(),
             new InheritTraits(),
             new AugmentSchemas(),
             new AugmentProperties(),
@@ -255,24 +255,24 @@ class InheritPropertiesTest extends OpenApiTestCase
         $baseInterface = $schemas[0];
         $this->assertSame('BaseInterface', $baseInterface->schema);
         $this->assertEquals($baseInterface->properties[0]->property, 'interfaceProperty');
-        $this->assertEquals(UNDEFINED, $baseInterface->allOf);
+        $this->assertEquals(Generator::UNDEFINED, $baseInterface->allOf);
 
         $extendsBaseThatImplements = $schemas[1];
         $this->assertSame('ExtendsBaseThatImplements', $extendsBaseThatImplements->schema);
-        $this->assertEquals(UNDEFINED, $extendsBaseThatImplements->properties);
-        $this->assertNotEquals(UNDEFINED, $extendsBaseThatImplements->allOf);
+        $this->assertEquals(Generator::UNDEFINED, $extendsBaseThatImplements->properties);
+        $this->assertNotEquals(Generator::UNDEFINED, $extendsBaseThatImplements->allOf);
         // base, trait and own properties
         $this->assertCount(3, $extendsBaseThatImplements->allOf);
 
         $baseThatImplements = $schemas[2];
         $this->assertSame('BaseThatImplements', $baseThatImplements->schema);
-        $this->assertEquals(UNDEFINED, $baseThatImplements->properties);
-        $this->assertNotEquals(UNDEFINED, $baseThatImplements->allOf);
+        $this->assertEquals(Generator::UNDEFINED, $baseThatImplements->properties);
+        $this->assertNotEquals(Generator::UNDEFINED, $baseThatImplements->allOf);
         $this->assertCount(2, $baseThatImplements->allOf);
 
         $traitUsedByExtendsBaseThatImplements = $schemas[3];
         $this->assertSame('TraitUsedByExtendsBaseThatImplements', $traitUsedByExtendsBaseThatImplements->schema);
         $this->assertEquals($traitUsedByExtendsBaseThatImplements->properties[0]->property, 'traitProperty');
-        $this->assertEquals(UNDEFINED, $traitUsedByExtendsBaseThatImplements->allOf);
+        $this->assertEquals(Generator::UNDEFINED, $traitUsedByExtendsBaseThatImplements->allOf);
     }
 }

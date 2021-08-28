@@ -10,7 +10,9 @@ use OpenApi\Analysis;
 use OpenApi\Annotations\Components;
 use OpenApi\Annotations\Property;
 use OpenApi\Annotations\Schema;
-use OpenApi\UNDEFINED;
+use OpenApi\Context;
+use OpenApi\Generator;
+use OpenApi\Util;
 use Traversable;
 
 /**
@@ -20,19 +22,18 @@ class InheritProperties
 {
     public function __invoke(Analysis $analysis)
     {
-        /* @var  $schemas Schema[] */
+        /* @var $schemas Schema[] */
         $schemas = $analysis->getAnnotationsOfType(Schema::class);
-
-        $processedSchemas = [];
+        $processed = [];
 
         foreach ($schemas as $schema) {
             if ($schema->_context->is('class')) {
-                if (in_array($schema->_context, $processedSchemas, true)) {
+                if (in_array($schema->_context, $processed, true)) {
                     // we should process only first schema in the same context
                     continue;
                 }
 
-                $processedSchemas[] = $schema->_context;
+                $processed[] = $schema->_context;
 
                 $existing = [];
                 if (is_array($schema->properties) || $schema->properties instanceof Traversable) {
@@ -46,8 +47,8 @@ class InheritProperties
                 foreach ($classes as $class) {
                     if ($class['context']->annotations) {
                         foreach ($class['context']->annotations as $annotation) {
-                            if ($annotation instanceof Schema && $annotation->schema !== UNDEFINED) {
-                                $this->addAllOfProperty($schema, $annotation);
+                            if ($annotation instanceof Schema && $annotation->schema !== Generator::UNDEFINED) {
+                                $this->inherit($schema, $annotation);
 
                                 continue 2;
                             }
@@ -73,43 +74,40 @@ class InheritProperties
     /**
      * Add schema to child schema allOf property.
      */
-    private function addAllOfProperty(Schema $childSchema, Schema $parentSchema)
+    private function inherit(Schema $to, Schema $from): void
     {
-        // clone (child) properties (except when they are already in allOf)
-        $currentSchema = new Schema(['_context' => $childSchema->_context]);
-        $currentSchema->mergeProperties($childSchema);
-
-        $defaultValues = get_class_vars(Schema::class);
-        foreach (array_keys(get_object_vars($currentSchema)) as $property) {
-            $childSchema->$property = $defaultValues[$property];
-        }
-
-        $childSchema->schema = $currentSchema->schema;
-        $currentSchema->schema = UNDEFINED;
-
-        if ($childSchema->allOf === UNDEFINED) {
-            $childSchema->allOf = [];
-        }
-
-        if ($currentSchema->allOf !== UNDEFINED) {
-            foreach ($currentSchema->allOf as $ii => $schema) {
-                if ($schema->schema === UNDEFINED && $schema->properties !== UNDEFINED) {
-                    // move properties from allOf back up into schema
-                    $currentSchema->properties = $schema->properties;
-                } elseif ($schema->ref !== UNDEFINED && $schema->ref != Components::SCHEMA_REF.$parentSchema->schema) {
-                    // keep other schemas
-                    $childSchema->allOf[] = $schema;
+        if ($to->allOf === Generator::UNDEFINED) {
+            // Move all properties into an `allOf` entry except the `schema` property.
+            $clone = new Schema(['_context' => new Context(['generated' => true], $to->_context)]);
+            $clone->mergeProperties($to);
+            $hasProperties = false;
+            $defaultValues = get_class_vars(Schema::class);
+            foreach (array_keys(get_object_vars($clone)) as $property) {
+                if (in_array($property, ['schema', 'title', 'description'])) {
+                    $clone->$property = Generator::UNDEFINED;
+                    continue;
                 }
+                if ($to->$property !== $defaultValues[$property]) {
+                    $hasProperties = true;
+                }
+                $to->$property = $defaultValues[$property];
             }
-            $currentSchema->allOf = UNDEFINED;
+            $to->allOf = [];
+            if ($hasProperties) {
+                $to->allOf[] = $clone;
+            }
         }
-
-        $childSchema->allOf[] = new Schema([
-            '_context' => $parentSchema->_context,
-            'ref' => Components::SCHEMA_REF.$parentSchema->schema,
-        ]);
-        if ($currentSchema->properties !== UNDEFINED) {
-            $childSchema->allOf[] = $currentSchema;
+        $append = true;
+        foreach ($to->allOf as $entry) {
+            if ($entry->ref !== Generator::UNDEFINED && $entry->ref === Components::SCHEMA_REF . Util::refEncode($from->schema)) {
+                $append = false; // ref was already specified manualy
+            }
+        }
+        if ($append) {
+            array_unshift($to->allOf, new Schema([
+                'ref' => Components::SCHEMA_REF . Util::refEncode($from->schema),
+                '_context' => new Context(['generated' => true], $from->_context),
+            ]));
         }
     }
 }

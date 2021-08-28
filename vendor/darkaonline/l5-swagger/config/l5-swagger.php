@@ -91,8 +91,47 @@ return [
 
             /*
              * Absolute path to directories that should be exclude from scanning
+             * @deprecated Please use `scanOptions.exclude`
+             * `scanOptions.exclude` overwrites this
             */
             'excludes' => [],
+        ],
+
+        'scanOptions' => [
+            /**
+             * analyser: defaults to \OpenApi\StaticAnalyser .
+             * @see \OpenApi\scan
+             */
+            'analyser' => null,
+
+            /**
+             * analysis: defaults to a new \OpenApi\Analysis .
+             * @see \OpenApi\scan
+             */
+            'analysis' => null,
+
+            /**
+             * Custom query path processors classes.
+             *
+             * @link https://github.com/zircote/swagger-php/tree/master/Examples/schema-query-parameter-processor
+             * @see \OpenApi\scan
+             */
+            'processors' => [
+                // new \App\SwaggerProcessors\SchemaQueryParameter(),
+            ],
+
+            /**
+             * pattern: string       $pattern File pattern(s) to scan (default: *.php) .
+             * @see \OpenApi\scan
+             */
+            'pattern' => null,
+
+            /*
+             * Absolute path to directories that should be exclude from scanning
+             * @note This option overwrites `paths.excludes`
+             * @see \OpenApi\scan
+            */
+            'exclude' => [],
         ],
 
         /*
@@ -192,6 +231,11 @@ return [
          * A null value here disables validation.
         */
         'validator_url' => null,
+
+        /*
+         * Persist authorization login after refresh browser
+         */
+        'persist_authorization' => true,
 
         /*
          * Uncomment to add constants which can be used in annotations

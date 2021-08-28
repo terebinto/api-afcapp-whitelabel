@@ -6,6 +6,8 @@
 
 namespace OpenApi\Annotations;
 
+use OpenApi\Generator;
+
 /**
  * Configuration details for a supported OAuth Flow
  * [OAuth Flow Object](https://swagger.io/specification/#oauthFlowObject).
@@ -20,7 +22,7 @@ class Flow extends AbstractAnnotation
      *
      * @var string
      */
-    public $authorizationUrl = UNDEFINED;
+    public $authorizationUrl = Generator::UNDEFINED;
 
     /**
      * The token URL to be used for this flow.
@@ -28,7 +30,7 @@ class Flow extends AbstractAnnotation
      *
      * @var string
      */
-    public $tokenUrl = UNDEFINED;
+    public $tokenUrl = Generator::UNDEFINED;
 
     /**
      * The URL to be used for obtaining refresh tokens.
@@ -36,34 +38,32 @@ class Flow extends AbstractAnnotation
      *
      * @var string
      */
-    public $refreshUrl = UNDEFINED;
+    public $refreshUrl = Generator::UNDEFINED;
 
     /**
      * Flow name. One of ['implicit', 'password', 'authorizationCode', 'clientCredentials'].
      *
      * @var string
      */
-    public $flow = UNDEFINED;
+    public $flow = Generator::UNDEFINED;
 
     /**
      * The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it.
-     *
-     * @var array
      */
-    public $scopes = UNDEFINED;
+    public $scopes = Generator::UNDEFINED;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static $_required = ['scopes', 'flow'];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static $_blacklist = ['_context', '_unmerged'];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static $_types = [
         'flow' => ['implicit', 'password', 'authorizationCode', 'clientCredentials'],
@@ -73,17 +73,17 @@ class Flow extends AbstractAnnotation
     ];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static $_parents = [
         SecurityScheme::class,
     ];
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     public function jsonSerialize()
     {
         if (is_array($this->scopes) && empty($this->scopes)) {
-            $this->scopes = new \StdClass();
+            $this->scopes = new \stdClass();
         }
 
         return parent::jsonSerialize();

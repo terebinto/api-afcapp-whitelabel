@@ -6,7 +6,7 @@
 
 namespace OpenApi\Tests\Annotations;
 
-use function get_class_vars;
+use function \get_class_vars;
 use OpenApi\Annotations\AbstractAnnotation;
 use OpenApi\Tests\OpenApiTestCase;
 
@@ -24,7 +24,7 @@ class AnnotationPropertiesDefinedTest extends OpenApiTestCase
                 continue;
             }
             if ($value === null) {
-                $this->fail('Property '.basename($annotation).'->'.$property.' should be DEFINED');
+                $this->fail('Property ' . basename($annotation) . '->' . $property . ' should be DEFINED');
             }
         }
     }
