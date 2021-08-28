@@ -11,6 +11,7 @@ use AppHttpRequestsRegisterAuthRequest;
 use TymonJWTAuthExceptionsJWTException;
 use SymfonyComponentHttpFoundationResponse;
 
+
 class JwtAuthController extends Controller
 {
     public $token = true;
