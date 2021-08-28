@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 
-class PlayerController extends Controller
+class TeamController extends Controller
 {
 
 
@@ -61,11 +61,10 @@ class PlayerController extends Controller
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
-            't_name' => 'required|unique:nx510_bl_teams',
-            'email' => 'required',
-            'descr' => 'required',
-            't_emblem' => 'required'
-
+            'first_name' => 'required|unique:nx510_bl_teams',
+            'last_name' => 'required',
+            'team_id' => 'exists:App\Models\Team,id',
+            'position_id' =>  'exists:App\Models\Position,id',
         ]);
 
         if ($validator->fails()) {
@@ -75,10 +74,10 @@ class PlayerController extends Controller
             ]);
         }
 
-        if (strpos($request->t_emblem, ';base64')) {
+        if (strpos($request->def_img, ';base64')) {
 
             try {
-                $image_64 = $request->t_emblem; //your base64 encoded data
+                $image_64 = $request->def_img; //your base64 encoded data
 
                 $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
 
@@ -94,7 +93,7 @@ class PlayerController extends Controller
 
                 $imageName = $name . "." . $extension;
 
-                $upload =  Storage::disk('public')->put('/teams/' . $imageName, base64_decode($image));
+                $upload =  Storage::disk('public')->put('/players/' . $imageName, base64_decode($image));
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Falha ao fazer upload drive'], 500);
             }
@@ -148,56 +147,57 @@ class PlayerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $mysqlRegister = Team::find($id);
+        $mysqlRegister = Player::find($id);
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Valor não encontrado!'], 200);
         }
 
-        //Validate data
-        $data = $request->only(
-            't_name',
-            't_descr',
-            't_about',
-            't_yteam',
-            't_def_img',
-            't_emblem',
-            't_city',
-            't_coach',
-            't_secondary_color',
-            't_main_color',
-            't_initials',
-            't_email',
-            't_representative',
-            't_assistant_1',
-            't_assistant_2',
-            't_assistant_3',
-            't_director',
-            't_foundation',
-            't_id_cidade'
-        );
-
-
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
-            't_name' => 'required|unique:nx510_bl_teams',
-            'email' => 'required',
-            'descr' => 'required',
-            't_emblem' => 'required'
-
+            'first_name' => 'required|unique:nx510_bl_teams',
+            'last_name' => 'required',
+            'team_id' => 'exists:App\Models\Team,id',
+            'position_id' =>  'exists:App\Models\Position,id',
         ]);
+
+
+        //Validate data
+        $data = $request->only(
+            'first_name',
+            'last_name',
+            'nick',
+            'about',
+            'position_id',
+            'def_img',
+            'team_id',
+            'rg',
+            'cpf',
+            'matricula',
+            'email',
+            'altura',
+            'federado',
+            'suspensoRodadas',
+            'dataNascimento'
+        );
+
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 200);
         }
 
-        try {
-            $delete =  Storage::disk('public')->delete('/teams/' . $mysqlRegister->t_emblem);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
+        if ($mysqlRegister->def_img) {
+
+            try {
+
+                $delete =  Storage::disk('public')->delete('/player/' . $mysqlRegister->def_img);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
+            }
         }
+
 
         $imageName = "";
 
@@ -220,7 +220,7 @@ class PlayerController extends Controller
 
                 $imageName = $name . "." . $extension;
 
-                $upload =  Storage::disk('public')->put('/teams/' . $imageName, base64_decode($image));
+                $upload =  Storage::disk('public')->put('/player/' . $imageName, base64_decode($image));
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Falha ao fazer upload drive'], 500);
             }
@@ -232,25 +232,21 @@ class PlayerController extends Controller
 
         //Request is valid, update 
         $update = $mysqlRegister->update([
-            't_name' => $request->t_name,
-            't_descr' => $request->t_descr,
-            't_about' => $request->t_about,
-            't_yteam' => $request->t_yteam,
-            't_def_img' => $request->t_def_img,
-            't_emblem' => $imageName,
-            't_city' => $request->t_city,
-            't_coach' => $request->t_coach,
-            't_secondary_color' => $request->t_secondary_color,
-            't_main_color' => $request->t_main_color,
-            't_initials' => $request->t_initials,
-            't_email' => $request->t_email,
-            't_representative' => $request->t_representative,
-            't_assistant_1' => $request->t_assistant_1,
-            't_assistant_2' => $request->t_assistant_2,
-            't_assistant_3' => $request->t_assistant_3,
-            't_director' => $request->t_director,
-            't_foundation' => $request->t_foundation,
-            't_id_cidade' => $request->t_id_cidade
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'nick' => $request->nick,
+            'about' => $request->about,
+            'position_id' => $request->position_id,
+            'def_img' => $imageName,
+            'team_id' => $request->team_id,
+            'rg' => $request->rg,
+            'cpf' => $request->cpf,
+            'matricula' => $request->matricula,
+            'email' => $request->email,
+            'altura' => $request->altura,
+            'federado' => $request->federado,
+            'suspensoRodadas' => $request->suspensoRodadas,
+            'dataNascimento' => $request->dataNascimento
         ]);
 
         return response()->json([
@@ -269,20 +265,22 @@ class PlayerController extends Controller
     public function destroy($id)
     {
 
-        $mysqlRegister = Team::find($id);
+        $mysqlRegister = Player::find($id);
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Valor não encontrado!'], 200);
         }
 
-        try {
 
-            $delete =  Storage::disk('public')->delete('/teams/' . $mysqlRegister->t_emblem);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
+        if ($mysqlRegister->def_img) {
+
+            try {
+
+                $delete =  Storage::disk('public')->delete('/player/' . $mysqlRegister->def_img);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
+            }
         }
-
-
 
         $mysqlRegister->delete();
 

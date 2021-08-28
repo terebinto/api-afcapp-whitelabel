@@ -11,4 +11,22 @@ class Player extends Model
 
     protected $table = ' nx510_bl_players';
 
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'nick',
+        'position_id',
+        'def_img',
+        'team_id',
+        'rg',
+        'cpf',
+        'matricula',
+        'email',
+        'altura',
+        'federado',
+        'suspensoRodadas',
+        'dataNascimento',
+    ];
+   
+
 }
