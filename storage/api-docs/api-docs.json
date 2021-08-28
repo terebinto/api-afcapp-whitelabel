@@ -1,0 +1,69 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Api Seguros",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": ""
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "http://apisegtest-env.eba-itbzbssm.us-east-1.elasticbeanstalk.com/api",
+            "description": "V1 API Server"
+        }
+    ],
+    "paths": {
+        "/v1/user": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "List Users",
+                "description": "List Users",
+                "operationId": "listUsers",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "402": {
+                        "description": "Error show action plan"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth endpoints"
+        },
+        {
+            "name": "Users",
+            "description": "Users endpoints"
+        },
+        {
+            "name": "Api Seguros",
+            "description": "API Endpoints of Projects"
+        }
+    ],
+    "security": [
+        []
+    ]
+}
