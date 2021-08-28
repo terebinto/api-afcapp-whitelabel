@@ -30,7 +30,7 @@ class InstalledVersions
     'aliases' => 
     array (
     ),
-    'reference' => '9c41fece346b52728e5513ea50592e78dfafed7f',
+    'reference' => 'bd810d099deb53fff337bfe28bcff47000f7652e',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -496,7 +496,7 @@ class InstalledVersions
       'aliases' => 
       array (
       ),
-      'reference' => '9c41fece346b52728e5513ea50592e78dfafed7f',
+      'reference' => 'bd810d099deb53fff337bfe28bcff47000f7652e',
     ),
     'laravel/tinker' => 
     array (
