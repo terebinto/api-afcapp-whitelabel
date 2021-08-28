@@ -90,10 +90,9 @@ class TeamController extends Controller
 
                 $image = str_replace(' ', '+', $image);
 
-
                 $name = uniqid(date('His'));
 
-                $imageName = $name . $extension;
+                $imageName = $name . "." . $extension;
 
                 $upload =  Storage::disk('public')->put('/teams/' . $imageName, base64_decode($image));
             } catch (\Exception $e) {
@@ -155,7 +154,6 @@ class TeamController extends Controller
             return response()->json(['error' => 'Valor não encontrado!'], 200);
         }
 
-
         //Validate data
         $data = $request->only(
             't_name',
@@ -180,15 +178,56 @@ class TeamController extends Controller
         );
 
 
-        $validator = Validator::make($data, [
-            'name' => 'required|string',
+        // validate incoming request
+
+        $validator = Validator::make($request->all(), [
+            't_name' => 'required|unique:nx510_bl_teams',
             'email' => 'required',
-            'descr' => 'required'
+            'descr' => 'required',
+            't_emblem' => 'required'
+
         ]);
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 200);
+        }
+
+        try {
+            $delete =  Storage::disk('public')->delete('/teams/' . $mysqlRegister->t_emblem);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
+        }
+        
+        $imageName="";
+
+        if (strpos($request->t_emblem, ';base64')) {
+
+            try {
+                $image_64 = $request->t_emblem; //your base64 encoded data
+
+                $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+
+                $replace = substr($image_64, 0, strpos($image_64, ',') + 1);
+
+                // find substring fro replace here eg: data:image/png;base64,
+
+                $image = str_replace($replace, '', $image_64);
+
+                $image = str_replace(' ', '+', $image);
+
+                $name = uniqid(date('His'));
+
+                $imageName = $name . "." . $extension;
+
+                $upload =  Storage::disk('public')->put('/teams/' . $imageName, base64_decode($image));
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Falha ao fazer upload drive'], 500);
+            }
+
+            if (!$upload) {
+                return response()->json(['error' => 'Falha ao fazer upload drive 2'], 500);
+            } 
         }
 
         //Request is valid, update 
@@ -198,7 +237,7 @@ class TeamController extends Controller
             't_about' => $request->t_about,
             't_yteam' => $request->t_yteam,
             't_def_img' => $request->t_def_img,
-            't_emblem' => $request->t_emblem,
+            't_emblem' => $imageName,
             't_city' => $request->t_city,
             't_coach' => $request->t_coach,
             't_secondary_color' => $request->t_secondary_color,
@@ -235,6 +274,15 @@ class TeamController extends Controller
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Valor não encontrado!'], 200);
         }
+
+        try {
+
+            $delete =  Storage::disk('public')->delete('/teams/' . $mysqlRegister->t_emblem);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
+        }
+
+
 
         $mysqlRegister->delete();
 
