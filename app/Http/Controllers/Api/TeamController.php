@@ -198,8 +198,8 @@ class TeamController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
         }
-        
-        $imageName="";
+
+        $imageName = "";
 
         if (strpos($request->t_emblem, ';base64')) {
 
@@ -227,7 +227,7 @@ class TeamController extends Controller
 
             if (!$upload) {
                 return response()->json(['error' => 'Falha ao fazer upload drive 2'], 500);
-            } 
+            }
         }
 
         //Request is valid, update 
