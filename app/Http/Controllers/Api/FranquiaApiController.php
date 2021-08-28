@@ -11,6 +11,7 @@ use App\Models\Franquia;
 class FranquiaApiController extends Controller
 {
     
+    
     protected $model;
 
     public function __construct(Franquia $f, Request $request)

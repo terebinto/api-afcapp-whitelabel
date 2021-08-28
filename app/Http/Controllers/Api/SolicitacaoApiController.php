@@ -38,6 +38,7 @@ class SolicitacaoApiController extends Controller
     public function create()
     {
         //
+        
     }
 
     /**

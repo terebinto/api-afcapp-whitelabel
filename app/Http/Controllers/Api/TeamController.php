@@ -102,6 +102,7 @@ class TeamController extends Controller
             'data' => $mysqlRegister
         ], Response::HTTP_OK);
     }
+    
 
 
     /**

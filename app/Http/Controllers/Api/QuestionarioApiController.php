@@ -30,6 +30,7 @@ class QuestionarioApiController extends Controller
     {
         $data = Questionario::with('opcoes')->where('tipo_seguro_id', '=', $id)->paginate();
         return response()->json($data);
+        
     }
 
     /**

@@ -8,6 +8,7 @@ use App\Models\CoberturaRespostas;
 use App\Models\Solicitacao;
 use Illuminate\Http\Request;
 
+
 class CoberturaApiController extends Controller
 {
     /**

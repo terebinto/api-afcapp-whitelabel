@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 class SeasonController extends Controller
 {
 
+    
 
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     /**
