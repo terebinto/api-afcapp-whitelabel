@@ -10,6 +10,8 @@ use App\Models\Team;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\Storage;
 
 class TeamController extends Controller
 {
@@ -62,6 +64,8 @@ class TeamController extends Controller
             't_name' => 'required|unique:nx510_bl_teams',
             'email' => 'required',
             'descr' => 'required',
+            't_emblem' => 'required'
+
         ]);
 
         if ($validator->fails()) {
@@ -71,6 +75,37 @@ class TeamController extends Controller
             ]);
         }
 
+        if (strpos($request->t_emblem, ';base64')) {
+
+            try {
+                $image_64 = $request->t_emblem; //your base64 encoded data
+
+                $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+
+                $replace = substr($image_64, 0, strpos($image_64, ',') + 1);
+
+                // find substring fro replace here eg: data:image/png;base64,
+
+                $image = str_replace($replace, '', $image_64);
+
+                $image = str_replace(' ', '+', $image);
+
+
+                $name = uniqid(date('His'));
+
+                $imageName = $name . $extension;
+
+                $upload =  Storage::disk('public')->put('/teams/' . $imageName, base64_decode($image));
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Falha ao fazer upload drive'], 500);
+            }
+
+            if (!$upload) {
+                return response()->json(['error' => 'Falha ao fazer upload drive 2'], 500);
+            } else {
+                $dataForm['t_emblem'] = $imageName;
+            }
+        }
 
         $data = $this->model->create($dataForm);
 
@@ -102,7 +137,7 @@ class TeamController extends Controller
             'data' => $mysqlRegister
         ], Response::HTTP_OK);
     }
-    
+
 
 
     /**
