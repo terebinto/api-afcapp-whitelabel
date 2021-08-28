@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInit949b5626f44db20dd63885b96cd4acee
 {
     public static $files = array (
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
@@ -24,18 +24,18 @@ class ComposerStaticInit949b5626f44db20dd63885b96cd4acee
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
-        '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
+        'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
         '265b4faa2b3a9766332744949e83bf97' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Collections/helpers.php',
         'c7a3c339e7e14b60e06a2d7fcce9476b' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Events/functions.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
-        '0ccdf99b8f62f02c52cba55802e0c2e7' => __DIR__ . '/..' . '/zircote/swagger-php/src/functions.php',
         '9cdd7b9056abc3081735233ba9dd9c7f' => __DIR__ . '/..' . '/facade/flare-client-php/src/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        '0ccdf99b8f62f02c52cba55802e0c2e7' => __DIR__ . '/..' . '/zircote/swagger-php/src/functions.php',
         'ac0aa5b57142c92aeadc397fa46b9d39' => __DIR__ . '/..' . '/darkaonline/l5-swagger/src/helpers.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
     );
@@ -93,7 +93,6 @@ class ComposerStaticInit949b5626f44db20dd63885b96cd4acee
             'Symfony\\Component\\ErrorHandler\\' => 31,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
-            'Sinesp\\' => 7,
         ),
         'R' => 
         array (
@@ -197,8 +196,8 @@ class ComposerStaticInit949b5626f44db20dd63885b96cd4acee
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'XdgBaseDir\\' => 
         array (
@@ -331,10 +330,6 @@ class ComposerStaticInit949b5626f44db20dd63885b96cd4acee
         'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
-        ),
-        'Sinesp\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/chapeupreto/sinesp/src',
         ),
         'Ramsey\\Uuid\\' => 
         array (
@@ -547,13 +542,6 @@ class ComposerStaticInit949b5626f44db20dd63885b96cd4acee
                 0 => __DIR__ . '/..' . '/mockery/mockery/library',
             ),
         ),
-        'A' => 
-        array (
-            'Artisaninweb\\SoapWrapper' => 
-            array (
-                0 => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src',
-            ),
-        ),
     );
 
     public static $classMap = array (
@@ -563,10 +551,14 @@ class ComposerStaticInit949b5626f44db20dd63885b96cd4acee
         'App\\Http\\Controllers\\Api\\CoberturaApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/CoberturaApiController.php',
         'App\\Http\\Controllers\\Api\\FranquiaApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/FranquiaApiController.php',
         'App\\Http\\Controllers\\Api\\QuestionarioApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/QuestionarioApiController.php',
+        'App\\Http\\Controllers\\Api\\SeasonController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/SeasonController.php',
         'App\\Http\\Controllers\\Api\\SolicitacaoApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/SolicitacaoApiController.php',
         'App\\Http\\Controllers\\Api\\SolicitacaoSeguradoraApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/SolicitacaoSeguradoraApiController.php',
+        'App\\Http\\Controllers\\Api\\TeamController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/TeamController.php',
+        'App\\Http\\Controllers\\Api\\TeamSeasonController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/TeamSeasonController.php',
         'App\\Http\\Controllers\\Api\\TipoSeguroApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/TipoSeguroApiController.php',
         'App\\Http\\Controllers\\Api\\TipoUsuarioApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/TipoUsuarioApiController.php',
+        'App\\Http\\Controllers\\Api\\TournamentController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/TournamentController.php',
         'App\\Http\\Controllers\\Api\\UserApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/UserApiController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\JwtAuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/JwtAuthController.php',
@@ -594,9 +586,13 @@ class ComposerStaticInit949b5626f44db20dd63885b96cd4acee
         'App\\Models\\Questionario' => __DIR__ . '/../..' . '/app/Models/Questionario.php',
         'App\\Models\\QuestionarioOpcoes' => __DIR__ . '/../..' . '/app/Models/QuestionarioOpcoes.php',
         'App\\Models\\QuestionarioRespostas' => __DIR__ . '/../..' . '/app/Models/QuestionarioRespostas.php',
+        'App\\Models\\Season' => __DIR__ . '/../..' . '/app/Models/Season.php',
+        'App\\Models\\SeasonTeam' => __DIR__ . '/../..' . '/app/Models/SeasonTeam.php',
         'App\\Models\\Solicitacao' => __DIR__ . '/../..' . '/app/Models/Solicitacao.php',
+        'App\\Models\\Team' => __DIR__ . '/../..' . '/app/Models/Team.php',
         'App\\Models\\TipoSeguro' => __DIR__ . '/../..' . '/app/Models/TipoSeguro.php',
         'App\\Models\\TipoUsuario' => __DIR__ . '/../..' . '/app/Models/TipoUsuario.php',
+        'App\\Models\\Tournament' => __DIR__ . '/../..' . '/app/Models/Tournament.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\UsuarioRedesSociais' => __DIR__ . '/../..' . '/app/Models/UsuarioRedesSociais.php',
         'App\\Models\\Veiculo' => __DIR__ . '/../..' . '/app/Models/Veiculo.php',
@@ -606,14 +602,6 @@ class ComposerStaticInit949b5626f44db20dd63885b96cd4acee
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
-        'Artisaninweb\\SoapWrapper\\Client' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/Client.php',
-        'Artisaninweb\\SoapWrapper\\Exceptions\\ServiceAlreadyExists' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/Exceptions/ServiceAlreadyExists.php',
-        'Artisaninweb\\SoapWrapper\\Exceptions\\ServiceMethodNotExists' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/Exceptions/ServiceMethodNotExists.php',
-        'Artisaninweb\\SoapWrapper\\Exceptions\\ServiceNotFound' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/Exceptions/ServiceNotFound.php',
-        'Artisaninweb\\SoapWrapper\\Facade' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/Facade.php',
-        'Artisaninweb\\SoapWrapper\\Service' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/Service.php',
-        'Artisaninweb\\SoapWrapper\\ServiceProvider' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/ServiceProvider.php',
-        'Artisaninweb\\SoapWrapper\\SoapWrapper' => __DIR__ . '/..' . '/artisaninweb/laravel-soap/src/Artisaninweb/SoapWrapper/SoapWrapper.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/CorsService.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
@@ -718,6 +706,11 @@ class ComposerStaticInit949b5626f44db20dd63885b96cd4acee
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
+        'Database\\Seeders\\SeasonSeeder' => __DIR__ . '/../..' . '/database/seeders/SeasonSeeder.php',
+        'Database\\Seeders\\TeamSeasonSeeder' => __DIR__ . '/../..' . '/database/seeders/TeamSeasonSeeder.php',
+        'Database\\Seeders\\TeamSeeder' => __DIR__ . '/../..' . '/database/seeders/TeamSeeder.php',
+        'Database\\Seeders\\TournamentSeeder' => __DIR__ . '/../..' . '/database/seeders/TournamentSeeder.php',
+        'Database\\Seeders\\UserSeeder' => __DIR__ . '/../..' . '/database/seeders/UserSeeder.php',
         'Database\\Seeders\\UserTypeTableSeeder' => __DIR__ . '/../..' . '/database/seeders/UserTypeTableSeeder.php',
         'Database\\Seeders\\UsersTableSeeder' => __DIR__ . '/../..' . '/database/seeders/UsersTableSeeder.php',
         'DeepCopy\\DeepCopy' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
@@ -4474,7 +4467,6 @@ class ComposerStaticInit949b5626f44db20dd63885b96cd4acee
         'SebastianBergmann\\Type\\UnknownType' => __DIR__ . '/..' . '/sebastian/type/src/UnknownType.php',
         'SebastianBergmann\\Type\\VoidType' => __DIR__ . '/..' . '/sebastian/type/src/VoidType.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
-        'Sinesp\\Sinesp' => __DIR__ . '/..' . '/chapeupreto/sinesp/src/Sinesp.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
         'Symfony\\Component\\Console\\Color' => __DIR__ . '/..' . '/symfony/console/Color.php',

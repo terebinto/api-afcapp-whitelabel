@@ -1,74 +1,18 @@
 {
     "packages": [
         {
-            "name": "artisaninweb/laravel-soap",
-            "version": "0.3.0.9",
-            "version_normalized": "0.3.0.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/artisaninweb/laravel-soap.git",
-                "reference": "48f16b0d56c565bbe776d3242865e4b5c47d53e4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/artisaninweb/laravel-soap/zipball/48f16b0d56c565bbe776d3242865e4b5c47d53e4",
-                "reference": "48f16b0d56c565bbe776d3242865e4b5c47d53e4",
-                "shasum": ""
-            },
-            "require": {
-                "ext-soap": "*",
-                "php": ">=5.4.0"
-            },
-            "time": "2018-05-28T08:54:07+00:00",
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Artisaninweb\\SoapWrapper\\ServiceProvider"
-                    ],
-                    "aliases": {
-                        "SoapWrapper": "Artisaninweb\\SoapWrapper\\Facade"
-                    }
-                }
-            },
-            "installation-source": "dist",
-            "autoload": {
-                "psr-0": {
-                    "Artisaninweb\\SoapWrapper": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michael van de Rijt",
-                    "email": "me@mvdrijt.com"
-                }
-            ],
-            "description": "A SoapClient wrapper integration for Laravel",
-            "keywords": [
-                "client",
-                "laravel",
-                "soap",
-                "wrapper"
-            ],
-            "install-path": "../artisaninweb/laravel-soap"
-        },
-        {
             "name": "asm89/stack-cors",
-            "version": "v2.0.2",
-            "version_normalized": "2.0.2.0",
+            "version": "v2.0.3",
+            "version_normalized": "2.0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/asm89/stack-cors.git",
-                "reference": "8d8f88b3b3830916be94292c1fbce84433efb1aa"
+                "reference": "9cb795bf30988e8c96dd3c40623c48a877bc6714"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/asm89/stack-cors/zipball/8d8f88b3b3830916be94292c1fbce84433efb1aa",
-                "reference": "8d8f88b3b3830916be94292c1fbce84433efb1aa",
+                "url": "https://api.github.com/repos/asm89/stack-cors/zipball/9cb795bf30988e8c96dd3c40623c48a877bc6714",
+                "reference": "9cb795bf30988e8c96dd3c40623c48a877bc6714",
                 "shasum": ""
             },
             "require": {
@@ -80,7 +24,7 @@
                 "phpunit/phpunit": "^6|^7|^8|^9",
                 "squizlabs/php_codesniffer": "^3.5"
             },
-            "time": "2020-10-29T16:03:21+00:00",
+            "time": "2021-03-11T06:42:03+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -109,6 +53,10 @@
                 "cors",
                 "stack"
             ],
+            "support": {
+                "issues": "https://github.com/asm89/stack-cors/issues",
+                "source": "https://github.com/asm89/stack-cors/tree/v2.0.3"
+            },
             "install-path": "../asm89/stack-cors"
         },
         {
@@ -165,58 +113,6 @@
                 }
             ],
             "install-path": "../brick/math"
-        },
-        {
-            "name": "chapeupreto/sinesp",
-            "version": "v1.7.0",
-            "version_normalized": "1.7.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/chapeupreto/sinesp.git",
-                "reference": "e9cd0963594d6fa5ea5c052094ac3c4239afcdd6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/chapeupreto/sinesp/zipball/e9cd0963594d6fa5ea5c052094ac3c4239afcdd6",
-                "reference": "e9cd0963594d6fa5ea5c052094ac3c4239afcdd6",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-libxml": "*",
-                "ext-xml": "*",
-                "php": ">=5.4.0"
-            },
-            "time": "2019-01-12T18:27:11+00:00",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "Sinesp\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rod Elias",
-                    "email": "rodiney@gmail.com"
-                }
-            ],
-            "description": "SINESP Cidadao API client",
-            "keywords": [
-                "governo",
-                "placa",
-                "seguranca",
-                "sinesp",
-                "sinesp-client",
-                "utilidade",
-                "veiculos"
-            ],
-            "abandoned": true,
-            "install-path": "../chapeupreto/sinesp"
         },
         {
             "name": "darkaonline/l5-swagger",
@@ -1191,17 +1087,17 @@
         },
         {
             "name": "fruitcake/laravel-cors",
-            "version": "v2.0.3",
-            "version_normalized": "2.0.3.0",
+            "version": "v2.0.4",
+            "version_normalized": "2.0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruitcake/laravel-cors.git",
-                "reference": "01de0fe5f71c70d1930ee9a80385f9cc28e0f63a"
+                "reference": "a8ccedc7ca95189ead0e407c43b530dc17791d6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruitcake/laravel-cors/zipball/01de0fe5f71c70d1930ee9a80385f9cc28e0f63a",
-                "reference": "01de0fe5f71c70d1930ee9a80385f9cc28e0f63a",
+                "url": "https://api.github.com/repos/fruitcake/laravel-cors/zipball/a8ccedc7ca95189ead0e407c43b530dc17791d6a",
+                "reference": "a8ccedc7ca95189ead0e407c43b530dc17791d6a",
                 "shasum": ""
             },
             "require": {
@@ -1214,11 +1110,11 @@
             },
             "require-dev": {
                 "laravel/framework": "^6|^7|^8",
-                "orchestra/testbench-dusk": "^4|^5|^6",
-                "phpunit/phpunit": "^6|^7|^8",
+                "orchestra/testbench-dusk": "^4|^5|^6|^7",
+                "phpunit/phpunit": "^6|^7|^8|^9",
                 "squizlabs/php_codesniffer": "^3.5"
             },
-            "time": "2020-10-22T13:57:20+00:00",
+            "time": "2021-04-26T11:24:25+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1257,6 +1153,10 @@
                 "crossdomain",
                 "laravel"
             ],
+            "support": {
+                "issues": "https://github.com/fruitcake/laravel-cors/issues",
+                "source": "https://github.com/fruitcake/laravel-cors/tree/v2.0.4"
+            },
             "funding": [
                 {
                     "url": "https://github.com/barryvdh",
@@ -7987,7 +7887,6 @@
     ],
     "dev": true,
     "dev-package-names": [
-        "chapeupreto/sinesp",
         "doctrine/instantiator",
         "facade/flare-client-php",
         "facade/ignition",

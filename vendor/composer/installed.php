@@ -6,28 +6,19 @@
     'aliases' => 
     array (
     ),
-    'reference' => '94c1b36dbff4219c31c501cf95af8fa8362c27cd',
+    'reference' => 'c5bfd7a07c9e1eb246e5c6bea2697709d201c01c',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
   array (
-    'artisaninweb/laravel-soap' => 
-    array (
-      'pretty_version' => '0.3.0.9',
-      'version' => '0.3.0.9',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '48f16b0d56c565bbe776d3242865e4b5c47d53e4',
-    ),
     'asm89/stack-cors' => 
     array (
-      'pretty_version' => 'v2.0.2',
-      'version' => '2.0.2.0',
+      'pretty_version' => 'v2.0.3',
+      'version' => '2.0.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '8d8f88b3b3830916be94292c1fbce84433efb1aa',
+      'reference' => '9cb795bf30988e8c96dd3c40623c48a877bc6714',
     ),
     'brick/math' => 
     array (
@@ -37,15 +28,6 @@
       array (
       ),
       'reference' => '283a40c901101e66de7061bd359252c013dcc43c',
-    ),
-    'chapeupreto/sinesp' => 
-    array (
-      'pretty_version' => 'v1.7.0',
-      'version' => '1.7.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'e9cd0963594d6fa5ea5c052094ac3c4239afcdd6',
     ),
     'cordoval/hamcrest-php' => 
     array (
@@ -198,12 +180,12 @@
     ),
     'fruitcake/laravel-cors' => 
     array (
-      'pretty_version' => 'v2.0.3',
-      'version' => '2.0.3.0',
+      'pretty_version' => 'v2.0.4',
+      'version' => '2.0.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '01de0fe5f71c70d1930ee9a80385f9cc28e0f63a',
+      'reference' => 'a8ccedc7ca95189ead0e407c43b530dc17791d6a',
     ),
     'graham-campbell/result-type' => 
     array (
@@ -490,7 +472,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '94c1b36dbff4219c31c501cf95af8fa8362c27cd',
+      'reference' => 'c5bfd7a07c9e1eb246e5c6bea2697709d201c01c',
     ),
     'laravel/tinker' => 
     array (
@@ -814,8 +796,8 @@
     array (
       'provided' => 
       array (
-        0 => '1.0',
-        1 => '1.0.0',
+        0 => '1.0.0',
+        1 => '1.0',
       ),
     ),
     'psr/simple-cache' => 
