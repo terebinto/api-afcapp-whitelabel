@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\SeasonController;
 use App\Http\Controllers\Api\TeamController;
 use App\Http\Controllers\Api\TeamSeasonController;
 use App\Http\Controllers\Api\SportController;
+use App\Http\Controllers\Api\PlayerController;
+
 
 
 
@@ -34,8 +36,9 @@ Route::prefix('v1')->group(function () {
         Route::get('tournaments/seasons/{id}', [SeasonController::class, 'tourseas']); 
         Route::resource('seasons', SeasonController::class);  
         Route::resource('teams', TeamController::class);  
-        Route::resource('teamSeason', TeamSeasonController::class); 
-        Route::resource('players', TournamentController::class); 
+        Route::get('teams/{id}/players', [TeamController::class, 'players']); 
+        Route::resource('teamSeason', TeamSeasonController::class);        
+        Route::resource('players', PlayerController::class);   
         Route::resource('sports', SportController::class); 
         Route::get('sports/{id}/positions', [SportController::class, 'positions']); 
 

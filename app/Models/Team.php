@@ -32,4 +32,16 @@ class Team extends Model
         't_foundation',
         't_id_cidade',
     ];
+
+
+    public function players()
+    {
+
+        return $this->hasMany(Player::class, 'team_id', 'id');
+    }
+
+
+
+
+
 }

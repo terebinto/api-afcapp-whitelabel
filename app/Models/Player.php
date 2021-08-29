@@ -9,7 +9,7 @@ class Player extends Model
 {
     use HasFactory;
 
-    protected $table = ' nx510_bl_players';
+    protected $table = 'nx510_bl_players';
 
     protected $fillable = [
         'first_name',
@@ -27,6 +27,8 @@ class Player extends Model
         'suspensoRodadas',
         'dataNascimento',
     ];
+
+    
    
 
 }

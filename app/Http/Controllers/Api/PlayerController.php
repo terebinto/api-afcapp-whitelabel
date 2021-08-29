@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 
-class TeamController extends Controller
+class PlayerController extends Controller
 {
 
 
@@ -33,6 +33,7 @@ class TeamController extends Controller
         $this->model = $modelConstructor;
         $this->request = $request;
     }
+    
 
 
     /**
@@ -61,10 +62,10 @@ class TeamController extends Controller
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required|unique:nx510_bl_teams',
+            'first_name' => 'required',
             'last_name' => 'required',
             'team_id' => 'exists:App\Models\Team,id',
-            'position_id' =>  'exists:App\Models\Position,id',
+            'position_id' =>  'exists:App\Models\Positions,id',
         ]);
 
         if ($validator->fails()) {
@@ -101,7 +102,7 @@ class TeamController extends Controller
             if (!$upload) {
                 return response()->json(['error' => 'Falha ao fazer upload drive 2'], 500);
             } else {
-                $dataForm['t_emblem'] = $imageName;
+                $dataForm['def_img'] = $imageName;
             }
         }
 
@@ -109,7 +110,7 @@ class TeamController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'message' => 'Equipe cadastrado com sucesso',
+            'message' => 'Atleta cadastrado com sucesso',
             'data' => $data,
         ], 200);
     }
@@ -122,7 +123,7 @@ class TeamController extends Controller
      */
     public function show($id)
     {
-        $mysqlRegister = Team::find($id);
+        $mysqlRegister = Player::find($id);
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Registro não encontrado!'], 200);
@@ -156,7 +157,7 @@ class TeamController extends Controller
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required|unique:nx510_bl_teams',
+            'first_name' => 'required',
             'last_name' => 'required',
             'team_id' => 'exists:App\Models\Team,id',
             'position_id' =>  'exists:App\Models\Position,id',

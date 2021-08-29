@@ -34,6 +34,20 @@ class TeamController extends Controller
         $this->request = $request;
     }
 
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function players($id)
+    {
+        $data = Team::with('players')->where('id', '=', $id)->paginate();
+        return response()->json($data);
+        
+    }
+
+
+
 
     /**
      * Display a listing of the resource.
