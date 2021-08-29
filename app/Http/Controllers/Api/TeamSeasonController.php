@@ -7,6 +7,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Models\SeasonTeam;
+use App\Models\Team;
+use App\Models\Season;
+
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
@@ -43,19 +46,61 @@ class TeamSeasonController extends Controller
     {
         $dataForm = $request->all();
 
-      //  $data = $this->model->create($dataForm);
+        $array = array();
+        $arrayDelete = array();
+
+
+        foreach ($dataForm['teamsSeason'] as $resposta) {
+
+            $cobRes = new SeasonTeam();
+            $cobRes->team_id = $resposta['team_id'];
+            $cobRes->season_id = $resposta['season_id'];
+
+            $dataT = Team::where('id', '=', $cobRes->team_id)->first();
+
+            if (!$dataT) {
+
+                return response()->json([
+                    'type' => 'error',
+                    'message' => 'Equipe invalida',
+                    'data' => $cobRes,
+                ], 202);
+            }
+
+            $dataS = Season::where('id', '=', $resposta['season_id'])->first();
+
+
+            if (!$dataS) {
+
+                return response()->json([
+                    'type' => 'error',
+                    'message' => 'Season invalida',
+                    'data' => $cobRes,
+                ], 202);
+            }
+
+            array_push($arrayDelete, $cobRes->season_id);
+            array_push($array, $cobRes);
+        }
+
+        $res = SeasonTeam::whereIn('season_id', $arrayDelete)->delete();
+
+        foreach ($array as $st) {
+
+            $st->save();
+        }
+
 
         return response()->json([
             'type' => 'success',
             'message' => 'Time x Temporada cadastrada com sucesso',
-            'data' => $dataForm->toArray(),
+            'data' => $array,
         ], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * 
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
