@@ -22,8 +22,8 @@ class CreateMatchdaysTable extends Migration
             $table->timestamps();
 
             $table->foreign('s_id')
-            ->references('id')
-            ->on('nx510_bl_seasons');
+                ->references('id')
+                ->on('nx510_bl_seasons');
         });
     }
 
@@ -37,4 +37,3 @@ class CreateMatchdaysTable extends Migration
         Schema::dropIfExists('nx510_bl_matchday');
     }
 }
-
