@@ -64,7 +64,7 @@ class TeamSeasonController extends Controller
                     'type' => 'error',
                     'message' => 'Equipe invalida',
                     'data' => $cobRes,
-                ], 202);
+                ], 409);
             }
 
             $dataS = Season::where('id', '=', $resposta['season_id'])->first();
@@ -76,7 +76,7 @@ class TeamSeasonController extends Controller
                     'type' => 'error',
                     'message' => 'Season invalida',
                     'data' => $cobRes,
-                ], 202);
+                ], 409);
             }
 
             array_push($arrayDelete, $cobRes->season_id);
