@@ -70,6 +70,7 @@ class TournamentController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:nx510_bl_tournament',          
             'descr' => 'required',
+            'id_sport' => 'exists:App\Models\Sports,id',
         ]);
 
         if ($validator->fails()) {

@@ -20,6 +20,7 @@ class TournamentSeeder extends Seeder
             'name' => 'Campeonato de Teste 1',
             'descr' => 'Descrição do campeonato',
             'published' => 'N',
+            'id_sport' => '1',
 
         ]);
     }

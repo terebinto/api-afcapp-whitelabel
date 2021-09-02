@@ -25,6 +25,7 @@ class Tournament extends Model
         'id_noticia',
         'id_banner',
         'parceiro',
+        'id_sport',
     ];
 
 

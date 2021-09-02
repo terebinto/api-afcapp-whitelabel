@@ -17,6 +17,7 @@ class CreateTournamentsTable extends Migration
             $table->id();
             $table->string('name',255);
             $table->string('descr',255);
+            $table->bigInteger('id_sport')->unsigned();
             $table->string('logo',255)->nullable();
             $table->enum('published', array('S','N'))->default('N');
             $table->string('path',200)->nullable();
@@ -29,6 +30,13 @@ class CreateTournamentsTable extends Migration
             $table->integer('id_banner')->nullable();;
             $table->integer('parceiro')->nullable();            
             $table->timestamps();
+
+            $table->foreign('id_sport')
+            ->references('id')
+            ->on('nx510_sports');
+
+
+
         });
     }
 
