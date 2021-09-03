@@ -136,7 +136,6 @@ class TournamentController extends Controller
             'logo',
             'published',
             'path',
-            'email',
             'sigla',
             'ordem',
             'id_cidade',
@@ -149,7 +148,6 @@ class TournamentController extends Controller
 
         $validator = Validator::make($data, [
             'name' => 'required|string',
-            'email' => 'required',
             'descr' => 'required'
         ]);
 

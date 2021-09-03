@@ -8,14 +8,14 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Http\Controllers\Controller;
 use App\Models\Season;
+use App\Models\SeasonTeam;
+use App\Models\Team;
 use App\Models\Tournament;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
 class SeasonController extends Controller
 {
-
-    
 
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     /**
@@ -33,8 +33,6 @@ class SeasonController extends Controller
         $this->model = $modelConstructor;
         $this->request = $request;
     }
-
-    
 
     /**
      * Display the specified resource.
@@ -106,6 +104,8 @@ class SeasonController extends Controller
     {
         $dataForm = $request->all();
 
+        $array = array();
+
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
@@ -123,6 +123,25 @@ class SeasonController extends Controller
 
 
         $data = $this->model->create($dataForm);
+
+        foreach ($dataForm['teamsSeason'] as $resposta) {
+
+            $cobRes = new SeasonTeam();
+            $cobRes->team_id = $resposta['team_id'];
+            $cobRes->season_id = $data->id;
+
+            $dataT = Team::where('id', '=', $cobRes->team_id)->first();
+
+            if ($dataT) {
+
+                array_push($array, $cobRes);
+            }
+        }
+
+        foreach ($array as $st) {
+
+            $st->save();
+        }
 
         return response()->json([
             'type' => 'success',
@@ -165,37 +184,16 @@ class SeasonController extends Controller
     {
         $mysqlRegister = Season::find($id);
 
+        $dataForm = $request->all();
+
         if (!$mysqlRegister) {
-            return response()->json(['error' => 'Valor não encontrado!'], 200);
+            return response()->json(['error' => 'Temporada não encontrada!'], 200);
         }
 
-        //Validate data
-        $data = $request->only(
-            's_name',
-            's_descr',
-            's_rounds',
-            'published',
-            't_id',
-            's_win_point',
-            's_lost_point',
-            's_enbl_extra',
-            's_extra_win',
-            's_extra_lost',
-            's_draw_point',
-            's_groups',
-            's_win_away',
-            's_draw_away',
-            's_lost_away',
-            's_segunda_fase_grupo',
-            's_segunda_fase_total_classificados',
-            's_segunda_fase_data',
-        );
-
-
-        $validator = Validator::make($data, [
-            's_name' => 'required|string',
-            's_descr' => 'required'
+        $validator = Validator::make($dataForm, [
+            's_name' => 'required|string'
         ]);
+
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
@@ -223,9 +221,34 @@ class SeasonController extends Controller
             's_segunda_fase_data' => $request->s_segunda_fase_data
         ]);
 
+        if ($request->has('teamsSeason')) {
+
+            $array = array();
+
+            $res = SeasonTeam::where('season_id', '=', $id)->delete();
+
+            foreach ($dataForm['teamsSeason'] as $resposta) {
+
+                $cobRes = new SeasonTeam();
+                $cobRes->team_id = $resposta['team_id'];
+                $cobRes->season_id = $id;
+
+                $dataT = Team::where('id', '=', $cobRes->team_id)->first();
+
+                if ($dataT) {
+
+                    array_push($array, $cobRes);
+                }
+            }
+
+            foreach ($array as $st) {
+                $st->save();
+            }
+        }
+
         return response()->json([
             'success' => true,
-            'message' => 'Atualização realizada com sucesso',
+            'message' => 'Atualização da temporada realizada com sucesso',
             'data' => $mysqlRegister
         ], Response::HTTP_OK);
     }

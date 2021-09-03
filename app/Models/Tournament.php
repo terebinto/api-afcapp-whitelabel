@@ -17,7 +17,6 @@ class Tournament extends Model
         'logo',
         'published',
         'path',
-        'email',
         'sigla',
         'ordem',
         'id_cidade',
