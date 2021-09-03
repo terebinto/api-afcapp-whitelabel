@@ -76,8 +76,8 @@ class TeamController extends Controller
 
         $validator = Validator::make($request->all(), [
             't_name' => 'required|unique:nx510_bl_teams',
-            'email' => 'required',
-            'descr' => 'required',
+            't_email' => 'required',
+            't_descr' => 'required',
             't_emblem' => 'required'
 
         ]);
@@ -195,11 +195,7 @@ class TeamController extends Controller
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
-            't_name' => 'required|unique:nx510_bl_teams',
-            'email' => 'required',
-            'descr' => 'required',
-            't_emblem' => 'required'
-
+            't_name' => 'required'
         ]);
 
         //Send failed response if request is not valid

@@ -37,13 +37,12 @@ class Season extends Model
         's_segunda_fase_grupo',
         's_segunda_fase_total_classificados',
         's_segunda_fase_data',
-       
+
     ];
 
 
-    	
-
-
-
-
+    public function matchdays()
+    {
+        return $this->hasMany(Matchday::class, 's_id', 'id');
+    }
 }

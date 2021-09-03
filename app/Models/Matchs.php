@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Matchs extends Model
+{
+    use HasFactory;
+
+    protected $table = 'nx510_bl_match';
+
+    protected $fillable = [
+        'match_descr',
+        'm_id',
+        'team1_id',
+        'team2_id',
+        'score1',
+        'score2',
+        'published',
+        'is_extra',
+        'm_played',
+        'm_date',
+        'm_time',
+    ];
+
+
+}

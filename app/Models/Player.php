@@ -28,6 +28,14 @@ class Player extends Model
         'dataNascimento',
     ];
 
+
+
+    public function team()
+    {
+
+        return $this->hasOne(Team::class, 'id', 'team_id');
+    }
+
     
    
 

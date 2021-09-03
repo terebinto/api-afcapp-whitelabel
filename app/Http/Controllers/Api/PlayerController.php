@@ -43,8 +43,8 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $data = $this->model->paginate();
-
+        $data= Player::with('team')->paginate();
+        
         return response()->json($data, 200);
     }
 
@@ -123,7 +123,7 @@ class PlayerController extends Controller
      */
     public function show($id)
     {
-        $mysqlRegister = Player::find($id);
+        $mysqlRegister = Player::with('team')->find($id);
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Registro não encontrado!'], 200);
@@ -160,7 +160,7 @@ class PlayerController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'team_id' => 'exists:App\Models\Team,id',
-            'position_id' =>  'exists:App\Models\Position,id',
+            'position_id' =>  'exists:App\Models\Positions,id',
         ]);
 
 
