@@ -164,6 +164,10 @@ class SeasonController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 200);
         }
 
+        $mysqlRegisterSeasson = SeasonTeam::where('season_id', '=', $id)->get();
+
+        $mysqlRegister['teamsSeason']=$mysqlRegisterSeasson;
+
         //updated, return success response
         return response()->json([
             'success' => true,

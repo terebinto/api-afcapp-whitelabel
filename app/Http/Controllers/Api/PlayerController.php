@@ -192,8 +192,7 @@ class PlayerController extends Controller
         if ($mysqlRegister->def_img) {
 
             try {
-
-                $delete =  Storage::disk('public')->delete('/player/' . $mysqlRegister->def_img);
+              $delete =  Storage::disk('public')->delete('/players/' . $mysqlRegister->def_img);
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
             }
@@ -202,10 +201,10 @@ class PlayerController extends Controller
 
         $imageName = "";
 
-        if (strpos($request->t_emblem, ';base64')) {
+        if (strpos($request->def_img, ';base64')) {
 
             try {
-                $image_64 = $request->t_emblem; //your base64 encoded data
+                $image_64 = $request->def_img; //your base64 encoded data
 
                 $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
 
@@ -221,7 +220,7 @@ class PlayerController extends Controller
 
                 $imageName = $name . "." . $extension;
 
-                $upload =  Storage::disk('public')->put('/player/' . $imageName, base64_decode($image));
+                $upload =  Storage::disk('public')->put('/players/' . $imageName, base64_decode($image));
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Falha ao fazer upload drive'], 500);
             }

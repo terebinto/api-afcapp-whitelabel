@@ -27,7 +27,7 @@ class CreatePlayersTable extends Migration
             $table->string('matricula', 255)->nullable();
             $table->string('email', 255)->nullable();
             $table->string('altura', 10)->nullable();
-            $table->enum('federado', array('N', 'S'))->default('N');
+            $table->enum('federado', array('N', 'S'))->default('N')->nullable();
             $table->string('suspensoRodadas', 255)->nullable();
             $table->timestamp('dataNascimento')->nullable();
 
