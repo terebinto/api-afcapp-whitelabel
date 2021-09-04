@@ -56,7 +56,7 @@ class MatchController extends Controller
     public function store(Request $request)
     {
         $dataForm = $request->all();
-        
+
         $array = array();
 
 
@@ -176,7 +176,6 @@ class MatchController extends Controller
             return response()->json(['error' => 'Valor não encontrado!'], 200);
         }
 
-
         //Validate data
         $data = $request->only(
             'm_name',
@@ -230,7 +229,7 @@ class MatchController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Rodada excluida com sucesso'
+            'message' => 'Jogo excluido com sucesso'
         ], Response::HTTP_OK);
     }
 }

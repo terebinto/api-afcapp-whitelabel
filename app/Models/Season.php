@@ -45,4 +45,12 @@ class Season extends Model
     {
         return $this->hasMany(Matchday::class, 's_id', 'id');
     }
+
+
+    public function jogos()
+    {
+
+        return $this->hasMany(Matchs::class, 'm_id', 'id');
+    }
+
 }

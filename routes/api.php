@@ -44,7 +44,9 @@ Route::prefix('v1')->group(function () {
         Route::get('sports/{id}/positions', [SportController::class, 'positions']); 
         Route::resource('matchdays', MatchdayController::class);  
         Route::get('tournaments/seasons/{id}/matchdays', [SeasonController::class, 'matchdays']); 
-        Route::resource('matchs', MatchController::class);  
+        Route::resource('matchs', MatchController::class); 
+        Route::get('tournaments/seasons/{id}/matchdays/matchs', [SeasonController::class, 'matchs']); 
+      
     });
 
 });

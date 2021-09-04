@@ -19,5 +19,23 @@ class MatchdaySeeder extends Seeder
             's_id' => '1'
 
         ]);
+
+        DB::table('nx510_bl_matchday')->insert([
+            'm_name' => '2',
+            's_id' => '1'
+
+        ]);
+
+        DB::table('nx510_bl_matchday')->insert([
+            'm_name' => '3',
+            's_id' => '1'
+
+        ]);
+
+        DB::table('nx510_bl_matchday')->insert([
+            'm_name' => '4',
+            's_id' => '1'
+
+        ]);
     }
 }

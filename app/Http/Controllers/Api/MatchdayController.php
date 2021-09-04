@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Models\Matchday;
+use App\Models\Matchs;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -57,9 +58,26 @@ class MatchdayController extends Controller
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
-            'm_name' => 'required|digits_between:1,99',           
+            'm_name' => 'required|digits_between:1,99',
             's_id' => 'required|exists:App\Models\Season,id',
         ]);
+
+
+
+        $dataT = Matchday::where('s_id', '=',  $dataForm['s_id'])->where('m_name', '=',  $dataForm['m_name'])->first();
+
+        if ($dataT) {
+
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Rodada já esta cadastrada para o campeonato',
+                'data' => $dataT,
+            ], 406);
+        }
+
+
+
+
 
         if ($validator->fails()) {
             return response()->json([
@@ -70,6 +88,27 @@ class MatchdayController extends Controller
 
 
         $data = $this->model->create($dataForm);
+        $array = array();
+
+
+        foreach ($dataForm['matchs'] as $resposta) {
+
+            $cobRes = new Matchs();
+            $cobRes->team1_id = $resposta['team1_id'];
+            $cobRes->team2_id = $resposta['team2_id'];
+            $cobRes->m_date = $resposta['m_date'];
+            $cobRes->m_time = $resposta['m_time'];
+            $cobRes->match_descr = $resposta['match_descr'];
+            $cobRes->m_id = $data->id;
+            array_push($array, $cobRes);
+        }
+
+        foreach ($array as $st) {
+
+            $st->save();
+        }
+
+        $data["matchs"]=$array;
 
         return response()->json([
             'type' => 'success',
@@ -127,7 +166,7 @@ class MatchdayController extends Controller
 
 
         $validator = Validator::make($data, [
-            'm_name' => 'required',         
+            'm_name' => 'required',
             's_id' => 'exists:App\Models\Season,id',
         ]);
 
@@ -159,13 +198,13 @@ class MatchdayController extends Controller
      */
     public function destroy($id)
     {
-        
+
         $mysqlRegister = Matchday::find($id);
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Valor não encontrado!'], 200);
-        }        
-        
+        }
+
         $mysqlRegister->delete();
 
         return response()->json([

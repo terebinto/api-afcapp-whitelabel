@@ -19,18 +19,18 @@ class CreateMatchesTable extends Migration
             $table->bigInteger('m_id')->unsigned();
             $table->bigInteger('team1_id')->unsigned();
             $table->bigInteger('team2_id')->unsigned();
-            $table->integer('score1')->nullable();
-            $table->integer('score2')->nullable();
-            $table->enum('published', array('0', '1'))->default('0');
-            $table->enum('is_extra', array('0', '1'))->default('0');
-            $table->enum('m_played', array('0', '1'))->default('0');
+            $table->integer('score1')->nullable()->default('0');
+            $table->integer('score2')->nullable()->default('0');
+            $table->enum('published', array('0', '1'))->default('0')->nullable();
+            $table->enum('is_extra', array('0', '1'))->default('0')->nullable();
+            $table->enum('m_played', array('0', '1'))->default('0')->nullable();
             $table->timestamp('m_date')->nullable();
             $table->string('m_time', 255)->nullable();
             $table->timestamps();
 
             $table->foreign('m_id')
                 ->references('id')
-                ->on('nx510_bl_matchday');
+                ->on('nx510_bl_matchday')->onDelete('cascade');
 
             $table->foreign('team1_id')
                 ->references('id')

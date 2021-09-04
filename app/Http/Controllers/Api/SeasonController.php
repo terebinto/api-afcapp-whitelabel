@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Season;
 use App\Models\SeasonTeam;
 use App\Models\Team;
+use App\Models\Matchs;
 use App\Models\Tournament;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +35,49 @@ class SeasonController extends Controller
         $this->request = $request;
     }
 
+    
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function matchs($id)
+    {
+
+        $mysqlRegister = Season::with('matchdays')->find($id);
+
+        if (!$mysqlRegister) {
+            return response()->json(['error' => 'Registro não encontrado!'], 200);
+        }
+
+       $data = $mysqlRegister->matchdays;
+       
+       $dataRetorno=array();
+
+        foreach ($data  as $match) {
+
+     //    $rodadas = Matchs::find($match->m_name)->get();  
+     
+          $matchdays = Matchs::where('m_id', '=', $match->m_name)->get();
+
+          $match['matchdays']=$matchdays; 
+
+          array_push($dataRetorno,$match);        
+    
+         }
+
+        //updated, return success response
+        return response()->json([
+            'success' => true,
+            'message' => 'Opearação realizada com sucesso',
+            'data' => $dataRetorno
+        ], Response::HTTP_OK);
+    }
+
+
+
     /**
      * Display the specified resource.
      *
@@ -43,7 +87,7 @@ class SeasonController extends Controller
     public function matchdays($id)
     {
 
-        $mysqlRegister = Season::with('matchdays')->get();
+        $mysqlRegister = Season::with('matchdays')->with('matchs')->get();
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Registro não encontrado!'], 200);
@@ -175,7 +219,6 @@ class SeasonController extends Controller
             'data' => $mysqlRegister
         ], Response::HTTP_OK);
     }
-
 
     /**
      * Update the specified resource in storage.
