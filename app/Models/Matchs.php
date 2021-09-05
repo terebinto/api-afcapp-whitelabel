@@ -25,5 +25,10 @@ class Matchs extends Model
         'm_time',
     ];
 
+    public function events()
+    {
+        return $this->hasMany(MatchEvent::class, 'match_id', 'id');
+    }
+
 
 }

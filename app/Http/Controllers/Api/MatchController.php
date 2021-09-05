@@ -146,7 +146,7 @@ class MatchController extends Controller
      */
     public function show($id)
     {
-        $mysqlRegister = Matchs::find($id);
+        $mysqlRegister = Matchs::with('events')->find($id);
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Registro não encontrado!'], 200);
@@ -232,4 +232,6 @@ class MatchController extends Controller
             'message' => 'Jogo excluido com sucesso'
         ], Response::HTTP_OK);
     }
+
+    
 }

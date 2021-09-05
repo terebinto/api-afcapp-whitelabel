@@ -18,12 +18,12 @@ class DatabaseSeeder extends Seeder
         $this->call(TournamentSeeder::class);
         $this->call(SeasonSeeder::class);
         $this->call(TeamSeeder::class);
-        $this->call(TeamSeasonSeeder::class);      
+        $this->call(TeamSeasonSeeder::class);
         $this->call(PositionSeeder::class);
         $this->call(PlayerSeeder::class);
-        $this->call(MatchdaySeeder::class);   
-        $this->call(MatchSeeder::class);  
-
-        
+        $this->call(MatchdaySeeder::class);
+        $this->call(MatchSeeder::class);
+        $this->call(EventSeeder::class);
+        $this->call(MatchEventSeeder::class);
     }
 }
