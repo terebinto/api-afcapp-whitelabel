@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Models\Matchday;
 use App\Models\Matchs;
+use App\Models\Team;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -98,7 +99,11 @@ class MatchdayController extends Controller
             $cobRes->team2_id = $resposta['team2_id'];
             $cobRes->m_date = $resposta['m_date'];
             $cobRes->m_time = $resposta['m_time'];
-            $cobRes->match_descr = $resposta['match_descr'];
+
+            $dataT = Team::where('id', '=', $cobRes->team1_id)->first();
+            $dataT2 = Team::where('id', '=', $cobRes->team2_id)->first();
+            $cobRes->match_descr =  $dataT->t_name . " X " .  $dataT2->t_name;
+
             $cobRes->m_id = $data->id;
             array_push($array, $cobRes);
         }
@@ -108,7 +113,7 @@ class MatchdayController extends Controller
             $st->save();
         }
 
-        $data["matchs"]=$array;
+        $data["matchs"] = $array;
 
         return response()->json([
             'type' => 'success',
