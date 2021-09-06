@@ -7,7 +7,7 @@
       <style type="text/css" media="print">
          /* @page {size:landscape}  */   
       </style>
-      <title>SÚMULA OFICIAL TRÊS MARIAS</title>
+      <title>SÚMULA OFICIAL CLUBE CURITIBANO - FUTEBOL SOCIETY</title>
    </head>
    <body >
           <div style="float:left; border :1px  solid; float:left; width:1200px; height:665px; background-color:white;">
@@ -16,7 +16,7 @@
                <tbody>
                   <tr>
                      <td style="text-align:center;/* border-top: 1px solid #000000; */border-bottom: 1px solid #000000;/* border-left: 1px solid #000000; *//* border-right: 1px solid #000000; */" height="27" align="left" valign="top">
-                       <font face="Verdana" size="4" style="color:white;">AMADOR F.C. - SÚMULA OFICIAL TRÊS MARIAS  </font></td>
+                       <font face="Verdana" size="4" style="color:white;">CLUBE CURITIBANO - FUTEBOL SOCIETY  </font></td>
                   </tr>
                </tbody>
             </table>
