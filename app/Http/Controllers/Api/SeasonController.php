@@ -11,7 +11,7 @@ use App\Models\Season;
 use App\Models\SeasonTeam;
 use App\Models\Team;
 use App\Models\Matchs;
-use App\Models\Tournament;
+use App\Models\Matchday;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -35,7 +35,32 @@ class SeasonController extends Controller
         $this->request = $request;
     }
 
-    
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function matchsporid($id, $idMatchday)
+    {
+        $mysqlRegister = Matchday::where('s_id', '=',  $id)->where('m_name', '=',  $idMatchday)->get();
+
+
+        $dataRetorno = array();
+
+
+        foreach ($mysqlRegister  as $matchday) {
+
+            $matchdays = Matchs::where('m_id', '=', $matchday->id)->get();
+
+            //updated, return success response
+            return response()->json([
+                'success' => true,
+                'message' => 'Opearação realizada com sucesso',
+                'data' => $matchdays
+            ], Response::HTTP_OK);
+        }        
+    }
 
     /**
      * Display the specified resource.
@@ -52,21 +77,20 @@ class SeasonController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 200);
         }
 
-       $data = $mysqlRegister->matchdays;
-       
-       $dataRetorno=array();
+        $data = $mysqlRegister->matchdays;
+
+        $dataRetorno = array();
 
         foreach ($data  as $match) {
 
-     //    $rodadas = Matchs::find($match->m_name)->get();  
-     
-          $matchdays = Matchs::where('m_id', '=', $match->m_name)->get();
+            //    $rodadas = Matchs::find($match->m_name)->get();  
 
-          $match['matchdays']=$matchdays; 
+            $matchdays = Matchs::where('m_id', '=', $match->m_name)->get();
 
-          array_push($dataRetorno,$match);        
-    
-         }
+            $match['matchdays'] = $matchdays;
+
+            array_push($dataRetorno, $match);
+        }
 
         //updated, return success response
         return response()->json([
@@ -210,7 +234,7 @@ class SeasonController extends Controller
 
         $mysqlRegisterSeasson = SeasonTeam::where('season_id', '=', $id)->get();
 
-        $mysqlRegister['teamsSeason']=$mysqlRegisterSeasson;
+        $mysqlRegister['teamsSeason'] = $mysqlRegisterSeasson;
 
         //updated, return success response
         return response()->json([
