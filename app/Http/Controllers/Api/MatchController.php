@@ -102,7 +102,7 @@ class MatchController extends Controller
 
             $dataT2 = Team::where('id', '=', $cobRes->team2_id)->first();
 
-            if (!$dataT) {
+            if (!$dataT2) {
 
                 return response()->json([
                     'type' => 'error',
@@ -110,6 +110,8 @@ class MatchController extends Controller
                     'data' => $cobRes,
                 ], 409);
             }
+
+            $cobRes->match_descr =  $dataT->t_name . "X" .  $dataT2->t_name;
 
             $dataS = Matchday::where('id', '=', $resposta['m_id'])->first();
 
