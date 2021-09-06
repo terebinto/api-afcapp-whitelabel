@@ -31,6 +31,7 @@ Route::prefix('v1')->group(function () {
         Route::resource('players', PlayerController::class);   
         Route::resource('sports', SportController::class); 
         Route::get('sports/{id}/positions', [SportController::class, 'positions']); 
+        Route::get('sports/{id}/events', [SportController::class, 'events']); 
         Route::resource('matchdays', MatchdayController::class);  
         Route::get('tournaments/seasons/{id}/matchdays', [SeasonController::class, 'matchdays']); 
         Route::resource('matchs', MatchController::class); 
