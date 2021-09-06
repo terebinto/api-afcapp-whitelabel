@@ -34,7 +34,7 @@ class TeamController extends Controller
         $this->request = $request;
     }
 
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -43,7 +43,6 @@ class TeamController extends Controller
     {
         $data = Team::with('players')->where('id', '=', $id)->paginate();
         return response()->json($data);
-        
     }
 
 
@@ -203,15 +202,16 @@ class TeamController extends Controller
             return response()->json(['error' => $validator->messages()], 200);
         }
 
-        try {
-            $delete =  Storage::disk('public')->delete('/teams/' . $mysqlRegister->t_emblem);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
-        }
 
-        $imageName = "";
+        $imageName =  $mysqlRegister->t_emblem;
 
         if (strpos($request->t_emblem, ';base64')) {
+
+            try {
+                $delete =  Storage::disk('public')->delete('/teams/' . $mysqlRegister->t_emblem);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
+            }
 
             try {
                 $image_64 = $request->t_emblem; //your base64 encoded data

@@ -189,19 +189,19 @@ class PlayerController extends Controller
             return response()->json(['error' => $validator->messages()], 200);
         }
 
-        if ($mysqlRegister->def_img) {
-
-            try {
-              $delete =  Storage::disk('public')->delete('/players/' . $mysqlRegister->def_img);
-            } catch (\Exception $e) {
-                return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
-            }
-        }
-
-
-        $imageName = "";
+        $imageName = $mysqlRegister->def_img;      
 
         if (strpos($request->def_img, ';base64')) {
+
+            if ($mysqlRegister->def_img) {
+
+                try {
+                  $delete =  Storage::disk('public')->delete('/players/' . $mysqlRegister->def_img);
+                } catch (\Exception $e) {
+                    return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
+                }
+            }
+
 
             try {
                 $image_64 = $request->def_img; //your base64 encoded data
