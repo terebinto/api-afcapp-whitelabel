@@ -12,6 +12,7 @@ use App\Models\SeasonTeam;
 use App\Models\Team;
 use App\Models\Matchs;
 use App\Models\Matchday;
+use App\Models\Tournament;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
