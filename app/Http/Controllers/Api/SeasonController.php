@@ -87,7 +87,7 @@ class SeasonController extends Controller
     public function matchdays($id)
     {
 
-        $mysqlRegister = Season::with('matchdays')->with('matchs')->get();
+        $mysqlRegister = Season::with('matchdays')->get();
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Registro não encontrado!'], 200);

@@ -1,5 +1,8 @@
-<?
-	include '../../configCampeonato.php';
+<?php
+
+$host = "ccfutebolsociety.com";
+
+
 ?>
 
 <div style="float: left;

@@ -69,9 +69,8 @@ $obj = (object)$result; //change array to stdClass object
   //                  [tid] =
   
   $equipe = $obj->equipe;
-  $partida = $obj->partida;
+  //$partida = $equipe ->partida;
 
-  
  
   
    echo '<pre>'; 
@@ -84,6 +83,7 @@ $atletas =  $equipe[0]->atletas;
 $atletas2 =  $equipe[0]->atletas2;
 $dataPartida=$equipe[0]->partida;
 
+//echo var_dump($atletas );
 
 
   include 'sumulaFutsal/sumula.php';

@@ -29,9 +29,9 @@
                      <td style="text-align:center;/* border-top: 1px solid #000000; */border-bottom: 1px solid #000000;/* border-left: 1px solid #000000; *//* border-right: 1px solid #000000; */" height="27" align="left" valign="top">
                       
                        <div style="width:100%;float:left;height: 100%;border-top: 1px black solid;">
-                         <div style="width: 38%;float:left;height: 100%;border-right: 2px black solid;     padding-top: 5px;"><?= strtoupper($equipe[0]->nomeEquipe) ;?></div>
+                         <div style="width: 38%;float:left;height: 100%;border-right: 2px black solid;     padding-top: 5px;"><?php echo strtoupper($equipe[0]->nomeEquipe) ;?></div>
                        <div style="width:20%;float:left;height: 100%;text:align:center;padding-top: 1px;font-size: 21px;">X</div>
-                         <div style="width:40%;float:left;height: 100%;border-left: 2px black solid;     padding-top: 5px;"><?= strtoupper($equipe[0]->nomeEquipe2) ;?></div>
+                         <div style="width:40%;float:left;height: 100%;border-left: 2px black solid;     padding-top: 5px;"><?php echo strtoupper($equipe[0]->nomeEquipe2) ;?></div>
                        
                        </div></td>
                   </tr>
@@ -39,11 +39,9 @@
             </table>
          </div>  
             
-        <? include 'cabecalho.php';?>         
-        <? include 'equipe1.php'; ?>        
-        <? 
-        include 'equipe2.php';
-        ?>      
+        <?php include 'cabecalho.php';?>         
+        <?php include 'equipe1.php'; ?>        
+        <?php include 'equipe2.php'; ?>      
       </div>
    </body>
 </html>

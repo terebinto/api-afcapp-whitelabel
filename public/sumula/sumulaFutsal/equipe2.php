@@ -48,7 +48,7 @@
                <colgroup width="18"></colgroup>
                <tbody>
                   <tr>
-                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */text-align: left;padding-left: 5px;background-color: lightgray;" colspan="41" height="18" align="center" valign="top"><b><font face="Arial" size="1"><?=strtoupper($equipe[0]->nomeEquipe2); ?> </font></b></td>
+                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */text-align: left;padding-left: 5px;background-color: lightgray;" colspan="41" height="18" align="center" valign="top"><b><font face="Arial" size="1"><?php echo strtoupper($equipe[0]->nomeEquipe2); ?> </font></b></td>
                      
                      
                      

@@ -2,7 +2,6 @@
 
 $servername="127.0.0.1:3306";
 $base = "ccfute89_api-afcapp";
-$host = "http://127.0.0.1:8000/";
 $prefixo = "nx510";
 $username='ccfute89_root';
 $password='qwop&1971';
@@ -43,7 +42,7 @@ while ($campo = mysqli_fetch_row($sqlTimes)) {
   $id          = utf8_encode($campo[0]);
   $name        = utf8_encode($campo[1]);
   $cidade      = utf8_encode($campo[6]);
-  $foto          = utf8_encode($campo[5]);
+  $foto        = utf8_encode($campo[5]);
 }
 
 
@@ -52,11 +51,7 @@ while ($campo2 = mysqli_fetch_row($sqlTimes2)) {
   $id2          = utf8_encode($campo2[0]);
   $name2        = utf8_encode($campo2[1]);
   $cidade2      = utf8_encode($campo2[6]);
-  $foto2        = utf8_encode($campo2[5]);
-
-  $name2  = str_replace("M35", "", $name2);
-  $name2  = str_replace("SL", "", $name2);
-  $name2  = str_replace("FS", "", $name2);
+  $foto2        = utf8_encode($campo2[5]); 
 }
 
 
