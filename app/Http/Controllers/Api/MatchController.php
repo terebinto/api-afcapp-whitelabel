@@ -161,51 +161,29 @@ class MatchController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $mysqlRegister = Matchs::find($id);
 
         if (!$mysqlRegister) {
-            return response()->json(['error' => 'Valor não encontrado!'], 200);
-        }
-
-        //Validate data
-        $data = $request->only(
-            'm_name',
-            'm_descr',
-            's_id',
-            'is_playoff'
-        );
-
-
-        $validator = Validator::make($data, [
-            'm_name' => 'required',
-            's_id' => 'exists:App\Models\Season,id',
-        ]);
-
-        //Send failed response if request is not valid
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 200);
-        }
+            return response()->json(['error' => 'Partida não encontrada!'], 200);
+        }        
 
         //Request is valid, update 
         $update = $mysqlRegister->update([
-            'm_name' => $request->m_name,
-            'm_descr' => $request->m_descr,
-            's_id' => $request->s_id,
-            'is_playoff' => $request->is_playoff
+            'score1' => $request->score1,
+            'score2' => $request->score2,
+            'published' => $request->published,
+            'is_extra' => $request->is_extra,
+            'm_played' => $request->m_played,
+            'm_date' => $request->m_date,
+            'm_time' => $request->m_time
         ]);
+
 
         return response()->json([
             'success' => true,
-            'message' => 'Atualização realizada com sucesso',
+            'message' => 'Atualização da partida realizada com sucesso',
             'data' => $mysqlRegister
         ], Response::HTTP_OK);
     }
