@@ -113,11 +113,23 @@ class TeamSeasonController extends Controller
             return response()->json(['error' => 'Registro não encontrado!'], 200);
         }
 
+        $dataRet = array();
+
+        foreach ($mysqlRegister as $seassonT) {
+
+            $ttt = Team::find($seassonT->team_id);
+
+            $seassonT['t_name'] = $ttt->t_name;
+            $seassonT['t_emblem'] = $ttt->t_emblem;
+
+            array_push($dataRet, $seassonT);
+        }
+
         //updated, return success response
         return response()->json([
             'success' => true,
             'message' => 'Operação realizada com sucesso',
-            'data' => $mysqlRegister
+            'data' => $dataRet
         ], Response::HTTP_OK);
     }
 

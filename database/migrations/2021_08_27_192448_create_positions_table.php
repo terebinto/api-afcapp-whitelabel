@@ -13,7 +13,7 @@ class CreatePositionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('nx510_positions', function (Blueprint $table) {
+        Schema::create('nx510_bl_positions', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('sports_id')->unsigned();
             $table->string('name')->nullable();  

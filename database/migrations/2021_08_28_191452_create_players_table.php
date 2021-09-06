@@ -33,7 +33,7 @@ class CreatePlayersTable extends Migration
 
             $table->foreign('position_id')
                 ->references('id')
-                ->on('nx510_positions');
+                ->on('nx510_bl_positions');
 
             $table->foreign('team_id')
                 ->references('id')

@@ -14,29 +14,29 @@ class PositionSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('nx510_positions')->insert([
+        DB::table('nx510_bl_positions')->insert([
             "name" =>  "Atacante",
             "sports_id" =>  "1",
             
         ]);
 
 
-        DB::table('nx510_positions')->insert([
+        DB::table('nx510_bl_positions')->insert([
             "name" =>  "Volante",
             "sports_id" =>  "1",
         ]);
 
-        DB::table('nx510_positions')->insert([
+        DB::table('nx510_bl_positions')->insert([
             "name" =>  "Zagueiro",
             "sports_id" =>  "1",
         ]);
 
-        DB::table('nx510_positions')->insert([
+        DB::table('nx510_bl_positions')->insert([
             "name" =>  "Goleiro",
             "sports_id" =>  "1",
         ]);
 
-        DB::table('nx510_positions')->insert([
+        DB::table('nx510_bl_positions')->insert([
             "name" =>  "Meio-Campo",
             "sports_id" =>  "1",
         ]);
