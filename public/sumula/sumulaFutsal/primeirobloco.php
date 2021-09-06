@@ -41,7 +41,7 @@ $host = "ccfutebolsociety.com";
    <div style="width:100%; float:left; background-color:white; height:30%;">
     
     <div style="width:99%; float:left; height:100%;     text-align: center; background-color:white; border:1px gray solid;">
-      <img src="http://afcapp.com.br/tresmarias/administrator/sumula/logoamador.png" style="width:70px;">
+      <img src="http://adm.ccfutebolsociety.com/assets/img/brand/logoVerde.png" style="width:202px;">
     </div>
     
   

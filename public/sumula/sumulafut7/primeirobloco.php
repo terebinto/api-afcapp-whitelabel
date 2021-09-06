@@ -11,7 +11,7 @@
     
     <div style="width:40%; float:left; height:100%;   text-align: center;">
       
-      <img style="width:60px; height:55px; padding-top: 7px;"  src="<?=$equipe[0]->escudoEquipe ;?>">
+      <img style="width:60px; height:55px; padding-top: 7px;"  src="https://ccfutebolsociety.com/storage/teams/<?=$equipe[0]->escudoEquipe ;?>">
       
     </div>
     
