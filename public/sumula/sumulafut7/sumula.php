@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -41,9 +39,9 @@
             </table>
          </div>  
             
-        <? include 'cabecalho.php';?>         
-        <? include 'equipe1.php'; ?>        
-        <? 
+        <?php include 'cabecalho.php';?>         
+        <?php include 'equipe1.php'; ?>        
+        <?php 
         include 'equipe2.php';
         ?>      
       </div>

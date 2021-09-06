@@ -21,6 +21,12 @@
 
   $data = isset($_POST['data']) ? $_POST['data'] : false;
 
+  $idTime1  = 1;
+
+  $idTime2 = 2;
+
+  $rodada  = 3 ;
+
 ?>
 
 <?php
@@ -35,7 +41,7 @@ $date = date('Y-m-d');
 $str = $tokenInput.$date; 
 $str = md5($str);  
 
-$url = "http://127.0.0.1:8000/sumula//retornarSumulaGenerica.php?campeonato=1&token=".$str."&idTime=".$idTime1."&idTime2=".$idTime2."&data=".$data."&rodada=".$rodada;
+$url = "https://www.ccfutebolsociety.com/sumula/retornarSumulaGenerica.php?campeonato=1&token=".$str."&idTime=".$idTime1."&idTime2=".$idTime2."&data=".$data."&rodada=".$rodada;
 //  echo $url;
 $client = curl_init($url);
 curl_setopt($client,CURLOPT_RETURNTRANSFER,true);

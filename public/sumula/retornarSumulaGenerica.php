@@ -1,9 +1,5 @@
 <?php
 
-
-
-
-
 $base = "seguro";
 $conexao = mysqli_connect("127.0.0.1", "root", "root", $base);
 $host = "http://127.0.0.1:8000/";
@@ -15,9 +11,6 @@ $campeonato = (isset($_GET['campeonato'])) ? $_GET['campeonato'] : 1;
 $token = (isset($_GET['token'])) ? $_GET['token'] : 1;
 
 
-
-
-
 $token = trim($token);
 
 $rodada = isset($_GET['rodada']) ? $_GET['rodada'] : false;
@@ -25,15 +18,15 @@ $rodada = isset($_GET['rodada']) ? $_GET['rodada'] : false;
 $data = isset($_GET['data']) ? $_GET['data'] : false;
 
 
-$query = "SELECT * FROM  nx510_bl_teams WHERE id = " . $idTime;
+$query = "SELECT * FROM  seguro.nx510_bl_teams WHERE id = " . $idTime;
 
 //echo $query;
 
-$query2 = "SELECT * FROM  nx510_bl_teams WHERE id = " . $idTime2;
+$query2 = "SELECT * FROM  seguro.nx510_bl_teams WHERE id = " . $idTime2;
 
 
-$sqlTimes = mysqli_query($conexao, $query) or die("ERRO no comando SQL :" );
-$sqlTimes2 = mysqli_query($conexao, $query2) or die("ERRO no comando SQL :" );
+$sqlTimes = mysqli_query($conexao, $query) or die("ERRO no comando SQL 3:");
+$sqlTimes2 = mysqli_query($conexao, $query2) or die("ERRO no comando SQL 4:");
 
 
 
@@ -46,8 +39,7 @@ while ($campo = mysqli_fetch_row($sqlTimes)) {
   $name        = utf8_encode($campo[1]);
   $cidade      = utf8_encode($campo[6]);
   $foto          = utf8_encode($campo[5]);
-
- }
+}
 
 
 while ($campo2 = mysqli_fetch_row($sqlTimes2)) {
@@ -65,9 +57,9 @@ while ($campo2 = mysqli_fetch_row($sqlTimes2)) {
 
 //lista de atletas
 
-$sql = 'SELECT * FROM nx510_bl_players a, nx510_bl_positions b where b.p_id = a.position_id and a.team_id=' . $idTime . ' order by a.first_name';
+$sql = 'SELECT * FROM seguro.nx510_bl_players a, seguro.nx510_bl_positions b where b.id = a.position_id and a.team_id=' . $idTime . ' order by a.first_name';
 
-$sqlTimes = mysqli_query($conexao, $sql) or die("ERRO no comando SQL :" . mysqli_error());
+$sqlTimes = mysqli_query($conexao, $sql) or die("ERRO no comando SQL 1:");
 
 $arrayAtletas = array();
 
@@ -96,40 +88,27 @@ while ($campo = mysqli_fetch_row($sqlTimes)) {
   $nome_completo = substr($nome_completo, 0, 24);
 
 
-  //cpf
-  $cpf = "";
-  $sqlcpf = mysqli_query($conexao, "select b.fvalue from nx510_bl_extra_values b, nx510_bl_players a where a.id = b.uid and b.uid = $id_jogador and b.f_id = 1") or die("ERRO no comando SQL :" . mysql_error());
-
-  while ($campocpf = mysqli_fetch_row($sqlcpf)) {
-
-    //$cpf = mysql_result($sqlcpf, 0);
-  }
-
-  $cpf =  str_replace("-", "", $cpf);
-  $cpf =  str_replace(".", "", $cpf);
-  $cpf = trim($cpf);
-
   //verificar suspensao 
 
   $sql_cartoes = "SELECT 
-                                    nx510_bl_match.m_date as 'data',
-                                    nx510_bl_players.team_id as 'time',
-                                    nx510_bl_players.id as 'player_id',
-                                    nx510_bl_players.first_name as nome,
-                                    nx510_bl_players.last_name as 'sobrenome',
-                                    nx510_bl_match_events.e_id, 
-                                    nx510_bl_events.e_name,
-                                    nx510_bl_matchday.m_name as rodada
+                                    seguro.nx510_bl_match.m_date as 'data',
+                                    seguro.nx510_bl_players.team_id as 'time',
+                                    seguro.nx510_bl_players.id as 'player_id',
+                                    seguro.nx510_bl_players.first_name as nome,
+                                    seguro.nx510_bl_players.last_name as 'sobrenome',
+                                    seguro.nx510_bl_match_events.e_id, 
+                                    seguro.nx510_bl_events.e_name,
+                                    seguro.nx510_bl_matchday.m_name as rodada
                                   FROM
-                                    nx510_bl_match
-                                    INNER JOIN nx510_bl_matchday ON (nx510_bl_match.m_id = nx510_bl_matchday.id)
-                                    INNER JOIN nx510_bl_match_events ON (nx510_bl_match.id = nx510_bl_match_events.match_id)
-                                    INNER JOIN nx510_bl_players ON (nx510_bl_match_events.player_id = nx510_bl_players.id)
-                                    INNER JOIN nx510_bl_teams ON (nx510_bl_players.team_id = nx510_bl_teams.id)
-                                    INNER JOIN nx510_bl_events ON (nx510_bl_match_events.e_id = nx510_bl_events.id)
+                                    seguro.nx510_bl_match
+                                    INNER JOIN seguro.nx510_bl_matchday ON (seguro.nx510_bl_match.m_id = seguro.nx510_bl_matchday.id)
+                                    INNER JOIN seguro.nx510_bl_match_events ON (seguro.nx510_bl_match.id = seguro.nx510_bl_match_events.match_id)
+                                    INNER JOIN seguro.nx510_bl_players ON (seguro.nx510_bl_match_events.player_id = seguro.nx510_bl_players.id)
+                                    INNER JOIN seguro.nx510_bl_teams ON (seguro.nx510_bl_players.team_id = seguro.nx510_bl_teams.id)
+                                    INNER JOIN seguro.nx510_bl_events ON (seguro.nx510_bl_match_events.e_id = seguro.nx510_bl_events.id)
                                     where e_id < 3	
                                     and m_date between '2021-01-01' and '2021-12-31'
-                                    and player_id = ' $id_jogador' ORDER BY CONVERT(nx510_bl_matchday.m_name, SIGNED INTEGER); ";
+                                    and player_id = ' $id_jogador' ORDER BY CONVERT(seguro.nx510_bl_matchday.m_name, SIGNED INTEGER); ";
 
   $query_cartoes =  mysqli_query($conexao, $sql_cartoes);
 
@@ -219,9 +198,9 @@ while ($campo = mysqli_fetch_row($sqlTimes)) {
 
 //lista de atletas 2
 
-$sql = 'SELECT * FROM nx510_bl_players a, nx510_bl_positions b where b.p_id = a.position_id and a.team_id=' . $idTime2 . ' order by a.first_name';
+$sql = 'SELECT * FROM seguro.nx510_bl_players a, seguro.nx510_bl_positions b where b.id = a.position_id and a.team_id=' . $idTime2 . ' order by a.first_name';
 
-$sqlTimes = mysqli_query($conexao, $sql) or die("ERRO no comando SQL :");
+$sqlTimes = mysqli_query($conexao, $sql) or die("ERRO no comando SQL 2 :");
 
 $arrayAtletas2 = array();
 $arrayPartida = array();
@@ -250,40 +229,28 @@ while ($campo = mysqli_fetch_row($sqlTimes)) {
 
   $nome_completo = substr($nome_completo, 0, 24);
 
-  //cpf
-  $cpf = "";
-  $sqlcpf = mysqli_query($conexao, "select b.fvalue from nx510_bl_extra_values b, nx510_bl_players a where a.id = b.uid and b.uid = $id_jogador and b.f_id = 1") or die("ERRO no comando SQL :" . mysql_error());
-
-  while ($campocpf = mysqli_fetch_row($sqlcpf)) {
-
-    // $cpf = mysql_result($sqlcpf, 0);
-  }
-
-  $cpf =  str_replace("-", "", $cpf);
-  $cpf =  str_replace(".", "", $cpf);
-  $cpf = trim($cpf);
 
   //verificar suspensao 
 
   $sql_cartoes = "SELECT 
-                                    nx510_bl_match.m_date as 'data',
-                                    nx510_bl_players.team_id as 'time',
-                                    nx510_bl_players.id as 'player_id',
-                                    nx510_bl_players.first_name as nome,
-                                    nx510_bl_players.last_name as 'sobrenome',
-                                    nx510_bl_match_events.e_id, 
-                                    nx510_bl_events.e_name,
-                                    nx510_bl_matchday.m_name as rodada
+                                    seguro.nx510_bl_match.m_date as 'data',
+                                    seguro.nx510_bl_players.team_id as 'time',
+                                    seguro.nx510_bl_players.id as 'player_id',
+                                    seguro.nx510_bl_players.first_name as nome,
+                                    seguro.nx510_bl_players.last_name as 'sobrenome',
+                                    seguro.nx510_bl_match_events.e_id, 
+                                    seguro.nx510_bl_events.e_name,
+                                    seguro.nx510_bl_matchday.m_name as rodada
                                   FROM
-                                    nx510_bl_match
-                                    INNER JOIN nx510_bl_matchday ON (nx510_bl_match.m_id = nx510_bl_matchday.id)
-                                    INNER JOIN nx510_bl_match_events ON (nx510_bl_match.id = nx510_bl_match_events.match_id)
-                                    INNER JOIN nx510_bl_players ON (nx510_bl_match_events.player_id = nx510_bl_players.id)
-                                    INNER JOIN nx510_bl_teams ON (nx510_bl_players.team_id = nx510_bl_teams.id)
-                                    INNER JOIN nx510_bl_events ON (nx510_bl_match_events.e_id = nx510_bl_events.id)
+                                    seguro.nx510_bl_match
+                                    INNER JOIN seguro.nx510_bl_matchday ON (seguro.nx510_bl_match.m_id = seguro.nx510_bl_matchday.id)
+                                    INNER JOIN seguro.nx510_bl_match_events ON (seguro.nx510_bl_match.id = seguro.nx510_bl_match_events.match_id)
+                                    INNER JOIN seguro.nx510_bl_players ON (seguro.nx510_bl_match_events.player_id = seguro.nx510_bl_players.id)
+                                    INNER JOIN seguro.nx510_bl_teams ON (seguro.nx510_bl_players.team_id = seguro.nx510_bl_teams.id)
+                                    INNER JOIN seguro.nx510_bl_events ON (seguro.nx510_bl_match_events.e_id = seguro.nx510_bl_events.id)
                                     where e_id < 3	
                                     and m_date between '2019-01-01' and '2019-12-31'
-                                    and player_id = ' $id_jogador' ORDER BY CONVERT(nx510_bl_matchday.m_name, SIGNED INTEGER); ";
+                                    and player_id = ' $id_jogador' ORDER BY CONVERT(seguro.nx510_bl_matchday.m_name, SIGNED INTEGER); ";
 
   $query_cartoes =  mysqli_query($conexao, $sql_cartoes);
 

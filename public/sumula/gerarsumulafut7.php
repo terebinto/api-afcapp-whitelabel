@@ -1,8 +1,24 @@
 <?php
-$base = "seguro";
-$conexao = mysqli_connect("127.0.0.1", "root", "root", $base);
+
+
+$servername="127.0.0.1:3306";
+$base = "ccfute89_api-afcapp";
 $host = "http://127.0.0.1:8000/";
-$prefixo = "seguro.nx510";
+$prefixo = "nx510";
+$username='ccfute89_root';
+$password='qwop&1971';
+
+// Create connection
+
+$conexao = mysqli_connect($servername, $username, $password, $base);
+
+// Check connection
+
+if ($conexao->connect_error) {
+die("Connection failed: " . $conexao->connect_error);
+}
+
+
 ?>
 
 <body style="background-position: top center; background-image: linear-gradient(980deg,rgba(150,105,97,0) 0%,rgba(2,0,61,0.67) 100%),url(images/sumula.png);">
@@ -22,12 +38,10 @@ border-top-width: 18px; border-top: 5px #ffbf00 solid; border-bottom: 5px #ffbf0
 
 				<?php
 
-
 				$sql = 'SELECT distinct  b.id, b.t_emblem, b.t_name, b.id FROM ' . $prefixo . '_bl_season_teams a, ' . $prefixo . '_bl_teams b where a.team_id = b.id order by b.t_name';
+			
 
-				//echo $sql;	
-
-				$sqlTimes = mysqli_query($conexao, $sql) or die("ERRO no comando SQL :" . mysqli_error());
+				$sqlTimes = mysqli_query($conexao, $sql) or die("ERRO no comando SQL :" + $sql );
 
 				$completarTimes = mysqli_num_rows($sqlTimes);
 
@@ -62,7 +76,7 @@ border-top-width: 18px; border-top: 5px #ffbf00 solid; border-bottom: 5px #ffbf0
 				$sql = 'SELECT distinct b.id, b.t_emblem, b.t_name, b.id FROM ' . $prefixo . '_bl_season_teams a, ' . $prefixo . '_bl_teams b where a.team_id = b.id order by b.t_name';
 
 
-				$sqlTimes = mysqli_query($conexao, $sql) or die("ERRO no comando SQL :" . mysqli_error());
+				$sqlTimes = mysqli_query($conexao, $sql) or die("ERRO no comando SQL :");
 
 				$completarTimes = mysqli_num_rows($sqlTimes);
 
