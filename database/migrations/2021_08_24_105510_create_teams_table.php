@@ -22,7 +22,7 @@ class CreateTeamsTable extends Migration
             $table->string('def_img', 255)->nullable();
             $table->string('t_emblem', 255)->nullable();
             $table->string('t_city', 255)->nullable();
-            $table->integer('id_cidade')->nullable();
+            $table->integer('t_id_cidade')->nullable();
             $table->string('t_coach', 255)->nullable();
             $table->string('t_secondary_color', 255)->nullable();
             $table->string('t_main_color', 255)->nullable();
