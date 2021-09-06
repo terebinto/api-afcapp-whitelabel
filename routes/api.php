@@ -35,6 +35,7 @@ Route::prefix('v1')->group(function () {
         Route::get('tournaments/seasons/{id}/matchdays', [SeasonController::class, 'matchdays']); 
         Route::resource('matchs', MatchController::class); 
         Route::get('tournaments/seasons/{id}/matchdays/matchs', [SeasonController::class, 'matchs']); 
+        Route::get('tournaments/seasons/{id}/matchdays/{idMatch}', [SeasonController::class, 'matchsporid']);
         Route::resource('matchevents', MatchEventController::class);        
 
     });

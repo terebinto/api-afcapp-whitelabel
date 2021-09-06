@@ -2,7 +2,6 @@
 
 $host = "ccfutebolsociety.com";
 
-
 ?>
 
 <div style="float: left;
@@ -18,7 +17,7 @@ $host = "ccfutebolsociety.com";
     
     <div style="width:40%; float:left; height:100%;   text-align: center;">
       
-      <img style="width:60px; height:55px; padding-top: 7px;"  src="<?='http://'.$host.'/media/bearleague/'.$equipe[0]->escudoEquipe; ?>">
+      <img style="width:60px; height:55px; padding-top: 7px;"  src="<?='http://'.$host.'/storage/teams/'.$equipe[0]->escudoEquipe; ?>">
       
     </div>
     
@@ -32,7 +31,7 @@ $host = "ccfutebolsociety.com";
     
       <div style="width:40%; float:left; height:100%;     text-align: center;">
         
-      <img style="width:60px; height:55px; padding-top: 7px;"  src="<?='http://'.$host.'/media/bearleague/'.$equipe[0]->escudoEquipe2; ?>">
+      <img style="width:60px; height:55px; padding-top: 7px;"  src="<?='http://'.$host.'/storage/teams/'.$equipe[0]->escudoEquipe2; ?>">
   
     </div>
   
