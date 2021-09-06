@@ -36,7 +36,7 @@ $str = $tokenInput.$date;
 $str = md5($str);  
 
 $url = "https://www.ccfutebolsociety.com/sumula/retornarSumulaGenerica.php?campeonato=1&token=".$str."&idTime=".$idTime1."&idTime2=".$idTime2."&data=".$data."&rodada=".$rodada;
-echo $url;
+//  echo $url;
 $client = curl_init($url);
 curl_setopt($client,CURLOPT_RETURNTRANSFER,true);
 $response = curl_exec($client);
@@ -47,7 +47,7 @@ $result = json_decode($response);
   
 $obj = (object)$result; //change array to stdClass object   
 
-exit;
+
 
 
 
