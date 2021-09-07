@@ -25,5 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->call(MatchSeeder::class);
         $this->call(EventSeeder::class);
         $this->call(MatchEventSeeder::class);
+        $this->call(GroupSeeder::class);
+        $this->call(GroupTeamSeeder::class);
+        
     }
 }

@@ -23,5 +23,13 @@ class TournamentSeeder extends Seeder
             'id_sport' => '1',
 
         ]);
+
+        DB::table('nx510_bl_tournament')->insert([
+            'name' => 'Campeonato de Grupos',
+            'descr' => 'Descrição do grupos',
+            'published' => 'S',
+            'id_sport' => '1',
+
+        ]);
     }
 }

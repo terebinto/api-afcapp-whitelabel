@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Storage;
 
 class TeamController extends Controller
 {
-
-
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     /**
      * Display a listing of the resource.
@@ -89,7 +87,6 @@ class TeamController extends Controller
         }
 
         if (strpos($request->t_emblem, ';base64')) {
-
             try {
                 $image_64 = $request->t_emblem; //your base64 encoded data
 
@@ -117,6 +114,8 @@ class TeamController extends Controller
             } else {
                 $dataForm['t_emblem'] = $imageName;
             }
+        } else {
+            $dataForm['t_emblem'] = 'semescudo.jpg';
         }
 
         $data = $this->model->create($dataForm);
@@ -206,7 +205,6 @@ class TeamController extends Controller
         $imageName =  $mysqlRegister->t_emblem;
 
         if (strpos($request->t_emblem, ';base64')) {
-
             try {
                 $delete =  Storage::disk('public')->delete('/teams/' . $mysqlRegister->t_emblem);
             } catch (\Exception $e) {
@@ -238,9 +236,12 @@ class TeamController extends Controller
             if (!$upload) {
                 return response()->json(['error' => 'Falha ao fazer upload drive 2'], 500);
             }
+        } else {
+            $imageName = 'semescudo.jpg';
         }
 
-        //Request is valid, update 
+
+        //Request is valid, update
         $update = $mysqlRegister->update([
             't_name' => $request->t_name,
             't_descr' => $request->t_descr,
@@ -278,7 +279,6 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-
         $mysqlRegister = Team::find($id);
 
         if (!$mysqlRegister) {
@@ -286,7 +286,6 @@ class TeamController extends Controller
         }
 
         try {
-
             $delete =  Storage::disk('public')->delete('/teams/' . $mysqlRegister->t_emblem);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Falha ao fazer delete drive'], 500);

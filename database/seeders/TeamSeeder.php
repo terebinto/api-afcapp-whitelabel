@@ -17,19 +17,23 @@ class TeamSeeder extends Seeder
     public function run()
     {
         DB::table('nx510_bl_teams')->insert([
-            "t_name" =>  "time  1"
+            "t_name" =>  "time  1",
+            "t_emblem" =>  "semescudo.jpg"
         ]);
 
         DB::table('nx510_bl_teams')->insert([
-            "t_name" =>  "time  2"
+            "t_name" =>  "time  2",
+            "t_emblem" =>  "semescudo.jpg"
         ]);
 
         DB::table('nx510_bl_teams')->insert([
-            "t_name" =>  "time  3"
+            "t_name" =>  "time  3",
+            "t_emblem" =>  "semescudo.jpg"
         ]);
 
         DB::table('nx510_bl_teams')->insert([
-            "t_name" =>  "time  4"
+            "t_name" =>  "time  4",
+            "t_emblem" =>  "semescudo.jpg"
         ]);
     }
 }

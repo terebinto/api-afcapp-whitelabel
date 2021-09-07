@@ -33,6 +33,7 @@ return array(
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Http\\Middleware\\jwt_auth' => $baseDir . '/app/Http/Middleware/jwt_auth.php',
+    'App\\Models\\Dashboard' => $baseDir . '/app/Models/Dashboard.php',
     'App\\Models\\Event' => $baseDir . '/app/Models/Event.php',
     'App\\Models\\ExtraValue' => $baseDir . '/app/Models/ExtraValue.php',
     'App\\Models\\Group' => $baseDir . '/app/Models/Group.php',

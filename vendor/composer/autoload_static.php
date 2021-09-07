@@ -590,6 +590,7 @@ class ComposerStaticInit949b5626f44db20dd63885b96cd4acee
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Middleware\\jwt_auth' => __DIR__ . '/../..' . '/app/Http/Middleware/jwt_auth.php',
+        'App\\Models\\Dashboard' => __DIR__ . '/../..' . '/app/Models/Dashboard.php',
         'App\\Models\\Event' => __DIR__ . '/../..' . '/app/Models/Event.php',
         'App\\Models\\ExtraValue' => __DIR__ . '/../..' . '/app/Models/ExtraValue.php',
         'App\\Models\\Group' => __DIR__ . '/../..' . '/app/Models/Group.php',

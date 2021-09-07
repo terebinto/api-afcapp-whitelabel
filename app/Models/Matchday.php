@@ -18,5 +18,11 @@ class Matchday extends Model
         'is_playoff',        
     ];
 
+    public function matchs()
+    {
+        return $this->hasMany(Matchs::class, 'm_id', 'id');
+    }
+
+
 }
 

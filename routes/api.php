@@ -12,8 +12,7 @@ use App\Http\Controllers\Api\PlayerController;
 use App\Http\Controllers\Api\MatchdayController;
 use App\Http\Controllers\Api\MatchController;
 use App\Http\Controllers\Api\MatchEventController;
-
-
+use App\Http\Controllers\Api\DashboardController;
 
 Route::prefix('v1')->group(function () {
 
@@ -37,7 +36,10 @@ Route::prefix('v1')->group(function () {
         Route::resource('matchs', MatchController::class); 
         Route::get('tournaments/seasons/{id}/matchdays/matchs', [SeasonController::class, 'matchs']); 
         Route::get('tournaments/seasons/{id}/matchdays/{idMatch}', [SeasonController::class, 'matchsporid']);
-        Route::resource('matchevents', MatchEventController::class);        
+        Route::resource('matchevents', MatchEventController::class); 
+        Route::resource('dashboard', DashboardController::class); 
+        
+        
 
     });
 

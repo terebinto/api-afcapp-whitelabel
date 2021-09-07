@@ -17,7 +17,7 @@ class CreateSeasonsTable extends Migration
             $table->id();
             $table->bigInteger('t_id')->unsigned();
             $table->string('s_name', 255);
-            $table->string('s_descr', 255);
+            $table->longText('s_descr', 255);
             $table->enum('published', array('S', 'N'))->default('N');
             $table->string('s_rounds', 3)->nullable();
             $table->string('s_win_point', 3)->nullable();

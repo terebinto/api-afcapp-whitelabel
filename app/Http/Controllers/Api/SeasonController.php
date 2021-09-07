@@ -83,9 +83,7 @@ class SeasonController extends Controller
         $dataRetorno = array();
 
         foreach ($data  as $match) {
-
-            //    $rodadas = Matchs::find($match->m_name)->get();  
-
+            
             $matchdays = Matchs::where('m_id', '=', $match->m_name)->get();
 
             $match['matchdays'] = $matchdays;
@@ -230,7 +228,7 @@ class SeasonController extends Controller
         $mysqlRegister = Season::find($id);
 
         if (!$mysqlRegister) {
-            return response()->json(['error' => 'Registro não encontrado!'], 200);
+            return response()->json(['error' => 'Temporada não encontrada!'], 200);
         }
 
         $mysqlRegisterSeasson = SeasonTeam::where('season_id', '=', $id)->get();
