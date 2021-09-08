@@ -16,36 +16,7 @@ class MatchEventSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('nx510_bl_match_events')->insert([
-            'e_id' => '1',
-            'player_id' => '1',
-            'match_id' => '1',
-            'ecount' => '1',
-            'minutes' => '10',
-            't_id' => '1'
-
-        ]);
-
-        DB::table('nx510_bl_match_events')->insert([
-            'e_id' => '2',
-            'player_id' => '1',
-            'match_id' => '1',
-            'ecount' => '1',
-            'minutes' => '20',
-            't_id' => '1'
-
-        ]);
-
-        DB::table('nx510_bl_match_events')->insert([
-            'e_id' => '3',
-            'player_id' => '1',
-            'match_id' => '1',
-            'ecount' => '1',
-            'minutes' => '30',
-            't_id' => '1'
-
-        ]);
-
+      
         
     }
 }
