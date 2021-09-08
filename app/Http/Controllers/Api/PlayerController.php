@@ -75,6 +75,8 @@ class PlayerController extends Controller
             ]);
         }
 
+        $dataForm['def_img'] ="sem-foto.jpg";
+
         if (strpos($request->def_img, ';base64')) {
 
             try {
