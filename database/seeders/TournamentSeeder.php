@@ -17,17 +17,9 @@ class TournamentSeeder extends Seeder
     public function run()
     {
         DB::table('nx510_bl_tournament')->insert([
-            'name' => 'Campeonato de Teste 1',
-            'descr' => 'Descrição do campeonato',
+            'name' => 'CAMPEONATO INTERNO DE FUTEBOL SOCIETY',
+            'descr' => 'CAMPEONATO INTERNO',
             'published' => 'N',
-            'id_sport' => '1',
-
-        ]);
-
-        DB::table('nx510_bl_tournament')->insert([
-            'name' => 'Campeonato de Grupos',
-            'descr' => 'Descrição do grupos',
-            'published' => 'S',
             'id_sport' => '1',
 
         ]);

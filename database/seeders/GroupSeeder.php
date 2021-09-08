@@ -18,13 +18,13 @@ class GroupSeeder extends Seeder
     {
         DB::table('nx510_bl_groups')->insert([
             "group_name" =>  "Grupo A",
-            "s_id" =>  "2"
+            "s_id" =>  "1"
 
         ]);
 
         DB::table('nx510_bl_groups')->insert([
             "group_name" =>  "Grupo B",
-            "s_id" =>  "2"
+            "s_id" =>  "1"
 
         ]);
     }

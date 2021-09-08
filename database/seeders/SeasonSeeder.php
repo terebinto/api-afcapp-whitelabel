@@ -18,29 +18,9 @@ class SeasonSeeder extends Seeder
     {
         DB::table('nx510_bl_seasons')->insert([
             "t_id" => "1",
-            'published' => 'N',
-            "s_name" =>  "temporada 2021",
-            "s_descr" =>  "descricao 2021",
-            "published" =>  "N",
-            "s_win_point" =>  "3",
-            "s_lost_point" => "0",
-            "s_enbl_extra" =>  "0",
-            "s_extra_win" => "3",
-            "s_extra_lost" =>  "0",
-            "s_draw_point" =>  "1",
-            "s_groups" =>  "0",
-            "s_draw_away" => "1",
-            "s_lost_away" =>  "O",
-            "s_win_away" =>  "3"
-
-        ]);
-
-
-        DB::table('nx510_bl_seasons')->insert([
-            "t_id" => "2",
             'published' => 'S',
-            "s_name" =>  "temporada 2022",
-            "s_descr" =>  "descricao 2022",
+            "s_name" =>  "FUTEBOL SOCIETY – 2020+1",
+            "s_descr" =>  "Regulamento",
             "published" =>  "N",
             "s_win_point" =>  "3",
             "s_lost_point" => "0",
@@ -54,5 +34,7 @@ class SeasonSeeder extends Seeder
             "s_win_away" =>  "3"
 
         ]);
+
+
     }
 }

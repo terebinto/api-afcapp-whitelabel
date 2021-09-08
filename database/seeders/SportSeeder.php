@@ -14,17 +14,24 @@ class SportSeeder extends Seeder
      */
     public function run()
     {
+
+        DB::table('nx510_sports')->insert([
+            "name" =>  "Futebol Society"
+        ]);
+
+
         DB::table('nx510_sports')->insert([
             "name" =>  "Futebol de Campo",
         ]);
 
         DB::table('nx510_sports')->insert([
-            "name" =>  "Futebol Suiço"
+            "name" =>  "Futebol Sintético"
         ]);
 
         DB::table('nx510_sports')->insert([
             "name" =>  "Futsal"
         ]);
 
+      
     }
 }
