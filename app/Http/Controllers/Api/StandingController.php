@@ -11,6 +11,10 @@ use App\Models\SeasonTeam;
 
 class StandingController extends Controller
 {
+    public static function getStandingStart($seasonId)
+    {
+    }
+        
     public static function getStanding($seasonId)
     {
         $seasson = Season::find($seasonId);
@@ -80,53 +84,56 @@ class StandingController extends Controller
             $loose_away=0;
             $drows_away=0;
 
-            foreach ($matchday['matchs'] as $match) {
+            if (isset($matchday['matchs']) ? count($matchday['matchs']) : 0) {
+                foreach ($matchday['matchs'] as $match) {
                
-                //gols home
-                if ($match->published=="1" && $matchday->is_playoff =="0" && $match->is_extra=="0" && $match->m_played=="1" && $match->team1_id==$team->id) {
-                    $homeSc = $homeSc+$match->score1;
-                    $homeRc = $homeRc + $match->score2;
-
-                    if ($match->score1 > $match->score2) {
-                        $wins++;
+                    //gols home
+                    if ($match->published=="1" && $matchday->is_playoff =="0" && $match->is_extra=="0" && $match->m_played=="1" && $match->team1_id==$team->id) {
+                        $homeSc = $homeSc+$match->score1;
+                        $homeRc = $homeRc + $match->score2;
+    
+                        if ($match->score1 > $match->score2) {
+                            $wins++;
+                        }
+    
+                        if ($match->score1 == $match->score2) {
+                            $drows++;
+                        }
+    
+                        if ($match->score1 < $match->score2) {
+                            $loose++;
+                        }
                     }
-
-                    if ($match->score1 == $match->score2) {
-                        $drows++;
-                    }
-
-                    if ($match->score1 < $match->score2) {
-                        $loose++;
-                    }
-                }
-
-                //gols fora
-                if ($match->published=="1" && $matchday->is_playoff =="0" && $match->is_extra=="0" && $match->m_played=="1" && $match->team2_id==$team->id) {
-                    $awaySc = $awaySc+$match->score1;
-                    $awayRc = $awayRc + $match->score2;
-
-                    if ($match->score1 > $match->score2) {
-                        $loose++;
-                        $loose_away++;
-                    }
-
-                    if ($match->score1 == $match->score2) {
-                        $drows++;
-                        $drows_away++;
-                    }
-
-                    if ($match->score1 < $match->score2) {
-                        $wins++;
-                        $wins_away++;
+    
+                    //gols fora
+                    if ($match->published=="1" && $matchday->is_playoff =="0" && $match->is_extra=="0" && $match->m_played=="1" && $match->team2_id==$team->id) {
+                        $awaySc = $awaySc+$match->score1;
+                        $awayRc = $awayRc + $match->score2;
+    
+                        if ($match->score1 > $match->score2) {
+                            $loose++;
+                            $loose_away++;
+                        }
+    
+                        if ($match->score1 == $match->score2) {
+                            $drows++;
+                            $drows_away++;
+                        }
+    
+                        if ($match->score1 < $match->score2) {
+                            $wins++;
+                            $wins_away++;
+                        }
                     }
                 }
             }
 
-            $table_view[$i]['posicao'] = "";
-            $table_view[$i]['g_id'] = $group_id;
-            $table_view[$i]['g_name'] = $group_name;
-            $table_view[$i]['tid'] = $team->id;
-            $table_view[$i]['nomeEquipe'] = $team->t_name;
+            
+
+            $table_view[$i]['group_id'] = $group_id;
+            $table_view[$i]['group_name'] = $group_name;
+            $table_view[$i]['team_id'] = $team->id;
+            $table_view[$i]['team_name'] = $team->t_name;
             $table_view[$i]['played'] = $wins + $drows + $loose +$wins_away+$drows_away+$loose_away;
             $table_view[$i]['win'] = $wins +$wins_away;
             $table_view[$i]['draw'] = $drows+$drows_away;
@@ -135,8 +142,8 @@ class StandingController extends Controller
             $table_view[$i]['points'] = $wins * 3 + $drows * 1 + $loose * 0 + $wins_away * 3 + $drows_away * 1 + $loose_away * 0 ;
             $table_view[$i]['goal_score'] = $homeSc +  $awayRc;
             $table_view[$i]['goals_conc'] = $homeRc + 	$awaySc;
-            $table_view[$i]['gd'] = ($homeSc +  $awayRc) - ($homeRc + 	$awaySc);
-            $table_view[$i]['escudo']=$team->t_emblem;
+            $table_view[$i]['goals_dif'] = ($homeSc +  $awayRc) - ($homeRc + 	$awaySc);
+            $table_view[$i]['emblem']=$team->t_emblem;
         }
 
         if ($equalpts_chk) {
@@ -156,7 +163,7 @@ class StandingController extends Controller
             foreach ($pts_equal as $pts) {
                 foreach ($table_view as $tv) {
                     if ($tv['points'] == $pts) {
-                        $team_arr[$k][] = $tv['tid'];
+                        $team_arr[$k][] = $tv['team_id'];
                     }
                 }
                 $k++;
@@ -174,7 +181,7 @@ class StandingController extends Controller
         }
        
 
-        array_multisort($sort_arr['g_id'], SORT_ASC, $sort_arr['points'], SORT_DESC, $sort_arr['win'], SORT_DESC, $sort_arr['gd'], SORT_DESC, $sort_arr['goal_score'], SORT_DESC, $sort_arr['gd'], SORT_DESC, $sort_arr['goal_score'], SORT_DESC, $table_view);
+        array_multisort($sort_arr['group_id'], SORT_ASC, $sort_arr['points'], SORT_DESC, $sort_arr['win'], SORT_DESC, $sort_arr['goals_dif'], SORT_DESC, $sort_arr['goal_score'], SORT_DESC, $sort_arr['goals_dif'], SORT_DESC, $sort_arr['goal_score'], SORT_DESC, $table_view);
        
 
         $list =   $table_view;
@@ -183,8 +190,8 @@ class StandingController extends Controller
         $classificacao = array();
 
         foreach ($list as $obj) {
-            $obj["posicao"]=$cont;
-            $obj["posicao"];
+            $obj["position"]=$cont;
+            $obj["position"];
             $cont++;
             array_push($classificacao, $obj);
         }
