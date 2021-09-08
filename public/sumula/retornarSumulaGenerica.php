@@ -51,7 +51,7 @@ while ($campo2 = mysqli_fetch_row($sqlTimes2)) {
   $id2          = utf8_encode($campo2[0]);
   $name2        = utf8_encode($campo2[1]);
   $cidade2      = utf8_encode($campo2[6]);
-  $foto2        = utf8_encode($campo2[5]); 
+  $foto2        = utf8_encode($campo2[6]); 
 }
 
 
