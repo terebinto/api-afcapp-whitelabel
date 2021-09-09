@@ -53,7 +53,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $data = $this->model->paginate();
+        $data = $this->model->paginate(10);
 
         return response()->json($data, 200);
     }
@@ -205,12 +205,15 @@ class TeamController extends Controller
         $imageName =  $mysqlRegister->t_emblem;
 
         if (strpos($request->t_emblem, ';base64')) {
-            try {
-                $delete =  Storage::disk('public')->delete('/teams/' . $mysqlRegister->t_emblem);
-            } catch (\Exception $e) {
-                return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
-            }
-
+           
+            if ($imageName!="semescudo.jpg"){
+                try {
+                    $delete =  Storage::disk('public')->delete('/teams/' . $mysqlRegister->t_emblem);
+                } catch (\Exception $e) {
+                    return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
+                }
+            }         
+          
             try {
                 $image_64 = $request->t_emblem; //your base64 encoded data
 

@@ -44,7 +44,7 @@ class SeasonController extends Controller
      */
     public function matchsporid($id, $idMatchday)
     {
-        $mysqlRegister = Matchday::where('s_id', '=',  $id)->where('m_name', '=',  $idMatchday)->get();
+        $mysqlRegister = Matchday::where('s_id', '=',  $id)->where('id', '=',  $idMatchday)->get();
 
 
         $dataRetorno = array();

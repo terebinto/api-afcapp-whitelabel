@@ -43,8 +43,7 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $data= Player::with('team')->paginate();
-        
+        $data= Player::with('team')->paginate(  );
         return response()->json($data, 200);
     }
 
@@ -197,11 +196,16 @@ class PlayerController extends Controller
 
             if ($mysqlRegister->def_img) {
 
-                try {
-                  $delete =  Storage::disk('public')->delete('/players/' . $mysqlRegister->def_img);
-                } catch (\Exception $e) {
-                    return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
-                }
+                if ($imageName!="sem-foto.jpg"){
+
+                    try {
+                        $delete =  Storage::disk('public')->delete('/players/' . $mysqlRegister->def_img);
+                      } catch (\Exception $e) {
+                          return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
+                      }
+                }    
+
+               
             }
 
 
