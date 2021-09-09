@@ -180,11 +180,11 @@ class MatchEventController extends Controller
         $dataForm = $request->all();
 
         $array = array();
-
+     
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
-            'events' => 'required'
+            'match_id' => 'required|exists:App\Models\Matchs,id'
         ]);
 
         if ($validator->fails()) {
@@ -194,15 +194,40 @@ class MatchEventController extends Controller
             ]);
         }
 
-        //limpar eventos
-        $res = MatchEvent::where('match_id', '=', $id)->delete();
+        $matchs = Matchs::find($dataForm['match_id']);
+
+            if (!$matchs) {
+
+                return response()->json([
+                    'type' => 'error',
+                    'message' => 'Partida invalida',
+                    'data' => $dataForm['match_id'],
+                ], 409);
+            }
+
+        //atualizar jogo   
+
+        if (!$matchs) {
+            return response()->json(['error' => 'Partida não encontrada!'], 409);
+        }        
+
+        //Request is valid, update 
+        $update = $matchs->update([
+            'score1' => $dataForm['score1'],
+            'score2' => $dataForm['score2'],
+            'm_played' => $dataForm['m_played']
+        ]);
+
+
+           //limpar eventos
+           $res = MatchEvent::where('match_id', '=', $id)->delete();
 
         foreach ($dataForm['events'] as $resposta) {
 
             $cobRes = new MatchEvent();
             $cobRes->e_id = $resposta['e_id'];
             $cobRes->player_id = $resposta['player_id'];
-            $cobRes->match_id = $resposta['match_id'];
+            $cobRes->match_id = $dataForm['match_id'];
             $cobRes->ecount = $resposta['ecount'];
             $cobRes->minutes = $resposta['minutes'];
             $cobRes->t_id = $resposta['t_id'];
@@ -240,17 +265,7 @@ class MatchEventController extends Controller
                 ], 409);
             }
 
-            $dataT4 = Matchs::where('id', '=', $resposta['match_id'])->first();
-
-            if (!$dataT4) {
-
-                return response()->json([
-                    'type' => 'error',
-                    'message' => 'Partida invalida',
-                    'data' => $cobRes,
-                ], 409);
-            }
-
+            
             array_push($array, $cobRes);
         }
 
@@ -259,11 +274,14 @@ class MatchEventController extends Controller
             $st->save();
         }
 
-
+       
         return response()->json([
             'type' => 'success',
             'message' => 'Eventos atualizados com sucesso',
             'data' => $array,
         ], 200);
+     
+
+        
     }
 }
