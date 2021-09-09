@@ -90,7 +90,7 @@ class MatchEventController extends Controller
             $cobRes = new MatchEvent();
             $cobRes->e_id = $resposta['e_id'];
             $cobRes->player_id = $resposta['player_id'];
-            $cobRes->match_id = $resposta['match_id'];
+            $cobRes->match_id = $dataForm['match_id'];
             $cobRes->ecount = $resposta['ecount'];
             $cobRes->minutes = $resposta['minutes'];
             $cobRes->t_id = $resposta['t_id'];
