@@ -47,12 +47,11 @@ class MatchEventController extends Controller
         $dataForm = $request->all();
 
         $array = array();
-
-
+     
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
-            'events' => 'required|array|min:1'
+            'match_id' => 'required|exists:App\Models\Matchs,id'
         ]);
 
         if ($validator->fails()) {
@@ -62,6 +61,29 @@ class MatchEventController extends Controller
             ]);
         }
 
+        $matchs = Matchs::find($dataForm['match_id']);
+
+            if (!$matchs) {
+
+                return response()->json([
+                    'type' => 'error',
+                    'message' => 'Partida invalida',
+                    'data' => $dataForm['match_id'],
+                ], 409);
+            }
+
+        //atualizar jogo   
+
+        if (!$matchs) {
+            return response()->json(['error' => 'Partida não encontrada!'], 409);
+        }        
+
+        //Request is valid, update 
+        $update = $matchs->update([
+            'score1' => $dataForm['score1'],
+            'score2' => $dataForm['score2'],
+            'm_played' => $dataForm['m_played']
+        ]);
 
         foreach ($dataForm['events'] as $resposta) {
 
@@ -106,17 +128,7 @@ class MatchEventController extends Controller
                 ], 409);
             }
 
-            $dataT4 = Matchs::where('id', '=', $resposta['match_id'])->first();
-
-            if (!$dataT4) {
-
-                return response()->json([
-                    'type' => 'error',
-                    'message' => 'Partida invalida',
-                    'data' => $cobRes,
-                ], 409);
-            }
-
+            
             array_push($array, $cobRes);
         }
 
