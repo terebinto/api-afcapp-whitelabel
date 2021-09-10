@@ -14,11 +14,13 @@ use App\Http\Controllers\Api\MatchController;
 use App\Http\Controllers\Api\MatchEventController;
 use App\Http\Controllers\Api\DashboardController;
 
+Route::resource('dashboard', DashboardController::class); 
+
 Route::prefix('v1')->group(function () {
 
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [UserApiController::class, 'store']);
-    Route::resource('dashboard', DashboardController::class); 
+  
   
     Route::middleware('jwt')->group(function () {        
         
