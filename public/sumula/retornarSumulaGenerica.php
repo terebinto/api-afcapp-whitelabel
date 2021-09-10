@@ -43,7 +43,7 @@ $userNoticias = array();
 while ($campo = mysqli_fetch_row($sqlTimes)) {
 
   $id          = utf8_encode($campo[0]);
-  $name        = utf8_encode($campo[1]);
+  $name        = $campo[1];
   $cidade      = utf8_encode($campo[6]);
   $foto        = utf8_encode($campo[6]);
   $cpf        = utf8_encode($campo[9]);
@@ -53,7 +53,7 @@ while ($campo = mysqli_fetch_row($sqlTimes)) {
 while ($campo2 = mysqli_fetch_row($sqlTimes2)) {
 
   $id2          = utf8_encode($campo2[0]);
-  $name2        = utf8_encode($campo2[1]);
+  $name2        = $campo2[1];
   $cidade2      = utf8_encode($campo2[6]);
   $foto2        = utf8_encode($campo2[6]); 
   $cpf2        = utf8_encode($campo2[9]);
