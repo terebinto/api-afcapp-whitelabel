@@ -73,14 +73,14 @@ while ($campo = mysqli_fetch_row($sqlTimes)) {
   $posicao = $campo['9'];
   $posicao = strtoupper($posicao[0] . $posicao[1] . $posicao[2]);
   $nome_completo = trim($campo['1']) .  " " . trim($campo['2']);
-  $nome_completo = utf8_encode(trim($nome_completo));
+  $nome_completo = trim($nome_completo);
   $apelido = explode(" ", $campo['1']);
   $apelidoFinal   = utf8_encode($campo['3']);
   if ($apelidoFinal == "") {
     $apelidoFinal = utf8_encode($apelido[0]);
   }
 
-  $nomeCurto =  trim(utf8_encode($campo['1']));
+  $nomeCurto =  trim($campo['1']);
   $nc = explode(" ", $nomeCurto);
   $apeAtleta = utf8_encode($campo['3']);
 
@@ -217,9 +217,9 @@ while ($campo = mysqli_fetch_row($sqlTimes)) {
   $posicao = $campo['9'];
   $posicao = strtoupper($posicao[0] . $posicao[1] . $posicao[2]);
   $nome_completo = trim($campo['1']) .  " " . trim($campo['2']);
-  $nome_completo = utf8_encode(trim($nome_completo));
+  $nome_completo = trim($nome_completo);
   $apelido = explode(" ", $campo['1']);
-  $apelidoFinal   = utf8_encode($campo['3']);
+  $apelidoFinal   = $campo['3'];
   if ($apelidoFinal == "") {
     $apelidoFinal = utf8_encode($apelido[0]);
   }
