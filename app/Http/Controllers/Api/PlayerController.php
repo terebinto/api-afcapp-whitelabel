@@ -159,7 +159,6 @@ class PlayerController extends Controller
 
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
-            'last_name' => 'required',
             'team_id' => 'exists:App\Models\Team,id',
             'position_id' =>  'exists:App\Models\Positions,id',
         ]);
