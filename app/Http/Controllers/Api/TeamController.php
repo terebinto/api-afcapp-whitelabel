@@ -53,7 +53,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $data = $this->model->paginate(10);
+        $data = $this->model->paginate(30);
 
         return response()->json($data, 200);
     }
