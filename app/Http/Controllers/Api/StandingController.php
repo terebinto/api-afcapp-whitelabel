@@ -90,7 +90,7 @@ class StandingController extends Controller
                 foreach ($matchday['matchs'] as $match) {
                
                     //gols home
-                    if ($match->published=="1" && $matchday->is_playoff =="0" && $match->is_extra=="0" && $match->m_played=="1" && $match->team1_id==$team->id) {
+                    if ($matchday->is_playoff =="0" && $match->is_extra=="0" && $match->m_played=="1" && $match->team1_id==$team->id) {
                         $homeSc = $homeSc+$match->score1;
                         $homeRc = $homeRc + $match->score2;
     
