@@ -56,16 +56,18 @@ class StandingController extends Controller
             $group_id="";
             $group_name="";
     
-            foreach ($groupTeam as $group) {
+            foreach ($groupTeam as $group) {   
+                
                 foreach ($group['groupteam'] as $gr) {
+      
                     if ($gr->t_id==$team->id) {
-                        $group_id = $gr->g_id;
-                        $group_name=$gr->group_name;
+
+                        $group_id = $group->id;
+                        $group_name=$group->group_name;
                         $groups_exists[] = $group_id;
                     }
                 }
             }
-
             $matchday = Matchday::with('matchs')->where('s_id', '=', $seasonId)->first();
 
             //home score

@@ -18,6 +18,7 @@ Route::prefix('v1')->group(function () {
 
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [UserApiController::class, 'store']);
+    Route::resource('dashboard', DashboardController::class); 
   
     Route::middleware('jwt')->group(function () {        
         
@@ -37,7 +38,7 @@ Route::prefix('v1')->group(function () {
         Route::get('tournaments/seasons/{id}/matchdays/matchs', [SeasonController::class, 'matchs']); 
         Route::get('tournaments/seasons/{id}/matchdays/{idMatch}', [SeasonController::class, 'matchsporid']);
         Route::resource('matchevents', MatchEventController::class); 
-        Route::resource('dashboard', DashboardController::class); 
+      
         
         
 
