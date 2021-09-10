@@ -31,9 +31,9 @@ $response = curl_exec($client);
  
 //echo $response[];
 
-echo var_dump($response);
+//echo var_dump($response);
   
-$result = json_decode($response);
+$result = $response;
   
 $obj = (object)$result; //change array to stdClass object   
 
