@@ -31,7 +31,7 @@ $response = curl_exec($client);
  
 //echo $response[];
 
-echo var_dump(json_encode($response));
+echo var_dump(json_decode($response));
   
 $result = json_decode($response);
   
