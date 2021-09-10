@@ -10,17 +10,24 @@ $password='qwop&1971';
 
 $conexao = mysqli_connect($servername, $username, $password, $base);
 
-$idTime = (isset($_GET['idTime'])) ? $_GET['idTime'] : 1;
-$idTime2 = (isset($_GET['idTime'])) ? $_GET['idTime2'] : 1;
-$campeonato = (isset($_GET['campeonato'])) ? $_GET['campeonato'] : 1;
+$id_match = (isset($_GET['id_match'])) ? $_GET['id_match'] : 1;
+
+$queryM = "SELECT * FROM  nx510_bl_match WHERE id = " . $id_match;
+
+$sqlM = mysqli_query($conexao, $queryM) or die("ERRO no comando SQL 3:");
+
+while ($campo2 = mysqli_fetch_row($sqlM)) {
+
+  $idTime = $campo2[3];
+  $idTime2 = $campo2[4];
+  $data = utf8_encode($campo2[10]);
+  $horaJogo = utf8_encode($campo2[11]);
+  $rodada = utf8_encode($campo2[2]);
+}
+
 $token = (isset($_GET['token'])) ? $_GET['token'] : 1;
 
-
 $token = trim($token);
-
-$rodada = isset($_GET['rodada']) ? $_GET['rodada'] : false;
-
-$data = isset($_GET['data']) ? $_GET['data'] : false;
 
 $query = "SELECT * FROM  nx510_bl_teams WHERE id = " . $idTime;
 
@@ -28,12 +35,8 @@ $query = "SELECT * FROM  nx510_bl_teams WHERE id = " . $idTime;
 
 $query2 = "SELECT * FROM  nx510_bl_teams WHERE id = " . $idTime2;
 
-
 $sqlTimes = mysqli_query($conexao, $query) or die("ERRO no comando SQL 3:");
 $sqlTimes2 = mysqli_query($conexao, $query2) or die("ERRO no comando SQL 4:");
-
-
-
 
 $userNoticias = array();
 

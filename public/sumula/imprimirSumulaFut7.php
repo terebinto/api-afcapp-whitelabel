@@ -1,25 +1,13 @@
 <?php
 
 
-  $idTime1 = isset($_POST['idTime1']) ? $_POST['idTime1'] : false;
-   if ($idTime1) {
+  $id_match = isset($_POST['id_match']) ? $_POST['id_match'] : false;
+   if ($id_match) {
     //  echo htmlentities($_POST['idTime1'], ENT_QUOTES, "UTF-8");
    } else {
      echo "acesso negado";
      exit; 
    }
-
-  $idTime2 = isset($_POST['idTime2']) ? $_POST['idTime2'] : false;
-   if ($idTime2) {
-    //  echo htmlentities($_POST['idTime2'], ENT_QUOTES, "UTF-8");
-   } else {
-     echo "acesso negado";
-     exit; 
-   }
-
-  $rodada = isset($_POST['rodada']) ? $_POST['rodada'] : false;
-
-  $data = isset($_POST['data']) ? $_POST['data'] : false;
 
 ?>
 
@@ -35,7 +23,7 @@ $date = date('Y-m-d');
 $str = $tokenInput.$date; 
 $str = md5($str);  
 
-$url = "https://www.ccfutebolsociety.com/sumula/retornarSumulaGenerica.php?campeonato=1&token=".$str."&idTime=".$idTime1."&idTime2=".$idTime2."&data=".$data."&rodada=".$rodada;
+$url = "https://www.ccfutebolsociety.com/sumula/retornarSumulaGenerica.php?campeonato=1&token=".$str."&id_match=".$id_match;
 //  echo $url;
 $client = curl_init($url);
 curl_setopt($client,CURLOPT_RETURNTRANSFER,true);
