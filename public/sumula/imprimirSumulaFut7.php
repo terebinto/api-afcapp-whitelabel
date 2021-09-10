@@ -30,9 +30,9 @@ curl_setopt($client,CURLOPT_RETURNTRANSFER,true);
 $response = curl_exec($client);
  
 //echo $response[];
-//echo var_dump($response);
+
   
-$result = json_encode($response);
+$result = json_decode($response);
   
 $obj = (object)$result; //change array to stdClass object   
 
