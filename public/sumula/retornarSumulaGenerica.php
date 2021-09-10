@@ -79,6 +79,7 @@ while ($campo = mysqli_fetch_row($sqlTimes)) {
   if ($apelidoFinal == "") {
     $apelidoFinal = utf8_encode($apelido[0]);
   }
+  $camisa = $campo['10'];
 
   $nomeCurto =  trim($campo['1']);
   $nc = explode(" ", $nomeCurto);
@@ -192,7 +193,7 @@ while ($campo = mysqli_fetch_row($sqlTimes)) {
     "fotoAtleta" => $fotoAtl,
     "posicao" => $posicao,
     "dataNas" => "XXX",
-    "rg" => $cpf,
+    "rg" => $camisa ,
     "isSuspenso" => $is_suspenso
   );
 
@@ -220,6 +221,7 @@ while ($campo = mysqli_fetch_row($sqlTimes)) {
   $nome_completo = trim($nome_completo);
   $apelido = explode(" ", $campo['1']);
   $apelidoFinal   = $campo['3'];
+  $camisa2   = $campo['10'];
   if ($apelidoFinal == "") {
     $apelidoFinal = utf8_encode($apelido[0]);
   }
@@ -254,7 +256,7 @@ while ($campo = mysqli_fetch_row($sqlTimes)) {
                                     INNER JOIN nx510_bl_teams ON (nx510_bl_players.team_id = nx510_bl_teams.id)
                                     INNER JOIN nx510_bl_events ON (nx510_bl_match_events.e_id = nx510_bl_events.id)
                                     where e_id < 3	
-                                    and m_date between '2019-01-01' and '2019-12-31'
+                                    and m_date between '2021-01-01' and '2021-12-31'
                                     and player_id = ' $id_jogador' ORDER BY CONVERT(nx510_bl_matchday.m_name, SIGNED INTEGER); ";
 
   $query_cartoes =  mysqli_query($conexao, $sql_cartoes);
@@ -339,7 +341,7 @@ while ($campo = mysqli_fetch_row($sqlTimes)) {
     "fotoAtleta" => $fotoAtl,
     "posicao" => $posicao,
     "dataNas" => "XXX",
-    "rg" => $cpf2,
+    "rg" => $camisa2,
     "isSuspenso" => $is_suspenso
   );
 
