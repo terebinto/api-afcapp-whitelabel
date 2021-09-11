@@ -185,12 +185,28 @@ class StandingController extends Controller
 
         $list =   $table_view;
 
+        $cc=0;
+        $cont=1;
+        foreach ($list as $time) {
+            
+            if ($cc>0){
+
+                if($list[$cc]['group_id'] != $list[$cc-1]['group_id']){
+                    $cont=1;
+                } 
+
+            }
+
+            $list[$cc]['position'] =$cont;
+            $cont++;            
+            $cc++;
+        } 
+
         $cont=1;
         $classificacao = array();
 
         foreach ($list as $obj) {
-            $obj["position"]=$cont;
-            $obj["position"];
+            $obj["positionTotal"]=$cont;
             $cont++;
             array_push($classificacao, $obj);
         }
