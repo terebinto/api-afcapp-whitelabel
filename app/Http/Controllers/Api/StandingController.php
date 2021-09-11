@@ -108,22 +108,19 @@ class StandingController extends Controller
                     }
     
                     //gols fora
-                    if ($match->published=="1" && $matchday->is_playoff =="0" && $match->is_extra=="0" && $match->m_played=="1" && $match->team2_id==$team->id) {
+                    if ($matchday->is_playoff =="0" && $match->is_extra=="0" && $match->m_played=="1" && $match->team2_id==$team->id) {
                         $awaySc = $awaySc+$match->score1;
                         $awayRc = $awayRc + $match->score2;
     
                         if ($match->score1 > $match->score2) {
-                            $loose++;
                             $loose_away++;
                         }
     
                         if ($match->score1 == $match->score2) {
-                            $drows++;
                             $drows_away++;
                         }
     
                         if ($match->score1 < $match->score2) {
-                            $wins++;
                             $wins_away++;
                         }
                     }
