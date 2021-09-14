@@ -13,13 +13,37 @@ use App\Http\Controllers\Api\MatchdayController;
 use App\Http\Controllers\Api\MatchController;
 use App\Http\Controllers\Api\MatchEventController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Mobile\SeasonControllerMobile;
+use App\Http\Controllers\Mobile\TournamentControllerMobile;
+use App\Http\Controllers\Mobile\TeamControllerMobile;
+use App\Http\Controllers\Mobile\StandingControllerMobile;
+use App\Http\Controllers\Mobile\MatchsControllerMobile;
+
 
 Route::prefix('v1')->group(function () {
 
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [UserApiController::class, 'store']);
     Route::resource('dashboard', DashboardController::class); 
-  
+
+    //mobile
+    Route::prefix('mobile')->group(function () {
+        Route::resource('seasons', SeasonControllerMobile::class); 
+        Route::resource('content', ContentControllerMobile::class);
+        Route::resource('tournaments', TournamentControllerMobile::class);
+        Route::resource('teams', TeamControllerMobile::class);
+        Route::resource('standings', StandingControllerMobile::class);
+        Route::resource('matchs', MatchsControllerMobile::class);
+        Route::get('matchs/{id}/played', [MatchsControllerMobile::class, 'played']); 
+    
+        
+
+
+        
+        
+    }); 
+    
+    
     Route::middleware('jwt')->group(function () {        
         
         Route::resource('tournaments', TournamentController::class);  
