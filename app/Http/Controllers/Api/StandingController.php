@@ -68,7 +68,7 @@ class StandingController extends Controller
                     }
                 }
             }
-            $matchday = Matchday::with('matchs')->where('s_id', '=', $seasonId)->first();
+            $matchday = Matchday::with('matchs')->where('s_id', '=', $seasonId)->get();
 
             //home score
             $homeSc = 0;
@@ -86,11 +86,11 @@ class StandingController extends Controller
             $loose_away=0;
             $drows_away=0;
 
-            if (isset($matchday['matchs']) ? count($matchday['matchs']) : 0) {
-                foreach ($matchday['matchs'] as $match) {
+            foreach ($matchday as $mm) {
+                foreach ( $mm['matchs'] as $match) {  
                
                     //gols home
-                    if ($matchday->is_playoff =="0" && $match->is_extra=="0" && $match->m_played=="1" && $match->team1_id==$team->id) {
+                    if ($match->m_played=="1" && $match->team1_id==$team->id) {
                         $homeSc = $homeSc+$match->score1;
                         $homeRc = $homeRc + $match->score2;
     
@@ -108,7 +108,7 @@ class StandingController extends Controller
                     }
     
                     //gols fora
-                    if ($matchday->is_playoff =="0" && $match->is_extra=="0" && $match->m_played=="1" && $match->team2_id==$team->id) {
+                    if ($match->m_played=="1" && $match->team2_id==$team->id) {
                         $awaySc = $awaySc+$match->score1;
                         $awayRc = $awayRc + $match->score2;
     
