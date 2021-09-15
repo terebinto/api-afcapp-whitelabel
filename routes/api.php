@@ -18,7 +18,7 @@ use App\Http\Controllers\Mobile\TournamentControllerMobile;
 use App\Http\Controllers\Mobile\TeamControllerMobile;
 use App\Http\Controllers\Mobile\StandingControllerMobile;
 use App\Http\Controllers\Mobile\MatchsControllerMobile;
-
+use App\Http\Controllers\Mobile\EventsControllerMobile;
 
 Route::prefix('v1')->group(function () {
 
@@ -35,6 +35,7 @@ Route::prefix('v1')->group(function () {
         Route::resource('standings', StandingControllerMobile::class);
         Route::resource('matchs', MatchsControllerMobile::class);
         Route::get('matchs/{id}/played', [MatchsControllerMobile::class, 'played']); 
+        Route::get('events/{id}/goals', [EventsControllerMobile::class, 'goals']); 
     
         
 
