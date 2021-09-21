@@ -42,6 +42,23 @@ class TeamControllerMobile extends Controller
     {
         $data = Team::with('players')->where('id', '=', $id)->paginate();
 
+        foreach ($data   as $teams) {
+
+            foreach ($teams['players']  as $player) {
+
+                $url = "https://ccfutebolsociety.com/api/v1/image?filename=https://ccfutebolsociety.com/storage/players/";
+                $img = $player->def_img;
+                $player->def_img =  $url.$img;   
+                
+            }
+
+             
+        }    
+
+
+
+     //  
+
         //updated, return success response
         return response()->json([
             'success' => true,
