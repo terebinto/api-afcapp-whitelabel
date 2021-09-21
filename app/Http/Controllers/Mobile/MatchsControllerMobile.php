@@ -107,6 +107,9 @@ class MatchsControllerMobile extends Controller
                 $team2 = Team::find($m->team2_id);
                 $m->team1_id=$team1;
                 $m->team2_id=$team2;
+
+                $m->score1="";
+                $m->score2="";
             }    
 
 
