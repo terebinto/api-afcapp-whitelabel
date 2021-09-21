@@ -19,12 +19,16 @@ use App\Http\Controllers\Mobile\TeamControllerMobile;
 use App\Http\Controllers\Mobile\StandingControllerMobile;
 use App\Http\Controllers\Mobile\MatchsControllerMobile;
 use App\Http\Controllers\Mobile\EventsControllerMobile;
+use App\Http\Controllers\Api\ImageController;
+
+
 
 Route::prefix('v1')->group(function () {
 
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [UserApiController::class, 'store']);
     Route::resource('dashboard', DashboardController::class); 
+    Route::get('image', [ImageController::class, 'image']); 
 
     //mobile
     Route::prefix('mobile')->group(function () {
