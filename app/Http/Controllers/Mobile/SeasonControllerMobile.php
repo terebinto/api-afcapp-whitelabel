@@ -58,9 +58,18 @@ class SeasonControllerMobile extends Controller
             ->where('nx510_bl_season_teams.season_id', '=', $id)
             ->orderByRaw('nx510_bl_teams.t_name ASC')
             ->get();
+
+            foreach ($teams  as $t) {
+
+                $t->id = $t->team_id;    
+            }    
+
        
 
         $mysqlRegister['teamsSeason'] = $teams ;  
+
+
+
 
         //updated, return success response
         return response()->json([
