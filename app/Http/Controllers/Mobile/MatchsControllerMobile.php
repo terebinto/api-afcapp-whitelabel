@@ -127,7 +127,7 @@ class MatchsControllerMobile extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function detail($id,$idMatch)
+    public function detail($idMatch)
     {
 
         $mysqlRegister = Matchs::find($idMatch);
@@ -167,9 +167,7 @@ class MatchsControllerMobile extends Controller
         $team1_events = array();
         $team2_events = array();
 
-        foreach ($mysqlFind as $event) {
-
-          
+        foreach ($mysqlFind as $event) {          
 
             if ($event->player->nick==""){
                 $nick = explode(" ", $event->player->first_name);
@@ -184,7 +182,7 @@ class MatchsControllerMobile extends Controller
             $detalhe['ecount'] = $event->ecount;
             $detalhe['minutes'] = $event->minutes;
             $detalhe['e_name'] = $event->event->e_name;
-            $detalhe['e_img'] = $event->event->e_img;
+            $detalhe['e_img'] = "storage/events/".$event->event->e_img;
 
             if ($event->t_id==$mysqlRegister->team1_id->id){                  
                 
