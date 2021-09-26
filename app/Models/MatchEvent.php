@@ -19,4 +19,16 @@ class MatchEvent extends Model
         'minutes',
         't_id',
     ];
+
+    public function event()
+    {
+        return $this->hasOne(Event::class, 'id', 'e_id');
+    }
+
+    public function player()
+    {
+        return $this->hasOne(Player::class, 'id', 'player_id');
+    }
+
+    
 }

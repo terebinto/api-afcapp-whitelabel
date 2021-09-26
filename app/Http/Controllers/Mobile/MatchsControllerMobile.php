@@ -12,6 +12,7 @@ use App\Models\SeasonTeam;
 use App\Models\Team;
 use App\Models\Matchs;
 use App\Models\Matchday;
+use App\Models\MatchEvent;
 use App\Models\Tournament;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,7 +58,7 @@ class MatchsControllerMobile extends Controller
             ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
             ->where('nx510_bl_matchday.s_id', '=', $id)
             ->where('nx510_bl_match.m_played', '=', '1')
-            ->orderByRaw('nx510_bl_matchday.id DESC')
+            ->orderByRaw('nx510_bl_match.m_date DESC')
             ->paginate(30);
 
        
@@ -117,7 +118,93 @@ class MatchsControllerMobile extends Controller
         return response()->json([
             $matchs,
         ], Response::HTTP_OK);
+       
+    }
 
+      /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function detail($id,$idMatch)
+    {
+
+        $mysqlRegister = Matchs::find($idMatch);
+        
+
+        if (!$mysqlRegister) {
+            return response()->json(['error' => 'Registro não encontrado!'], 200);
+        }
+
+            $team1 = Team::find($mysqlRegister->team1_id);
+            $team2 = Team::find($mysqlRegister->team2_id);
+            $mysqlRegister->team1_id=$team1;
+            $mysqlRegister->team2_id=$team2;
+
+        $dataRetorno['id'] = $mysqlRegister->id;
+        $dataRetorno['m_id'] = $mysqlRegister->m_id;
+        $dataRetorno['match_descr'] = $mysqlRegister->match_descr;
+        $dataRetorno['team1_id'] = $mysqlRegister->team1_id->id;
+        $dataRetorno['team1_name'] = $team1->t_name;
+
+        $dataRetorno['team2_id'] = $mysqlRegister->team2_id->id;
+        $dataRetorno['team2_name'] = $team2->t_name;
+
+        $dataRetorno['score1'] = $mysqlRegister->score1;
+        $dataRetorno['score2'] = $mysqlRegister->score2;
+
+        $data =$mysqlRegister->m_date;
+        $horaJogo = $mysqlRegister->m_time;
+
+        $dataJogo = $data[8] . $data[9] . "/" . $data[5] . $data[6] . "/" . $data[0] . $data[1] . $data[2] . $data[3];
+        $dataPartida = $dataJogo;
+        $dataRetorno['date'] = $dataPartida ;
+        $dataRetorno['hour'] = $horaJogo;
+
+        $mysqlFind = MatchEvent::with('event')->with('player')->where('match_id', '=', $idMatch)->get();
+       
+        $team1_events = array();
+        $team2_events = array();
+
+        foreach ($mysqlFind as $event) {
+
+          
+
+            if ($event->player->nick==""){
+                $nick = explode(" ", $event->player->first_name);
+                $detalhe['nick'] = $nick[0]; 
+            }else{
+                $detalhe['nick'] = $event->player->nick; 
+            }
+
+            $detalhe['player_id'] = $event->player_id; 
+            $detalhe['first_name'] = $event->player->first_name; 
+             
+            $detalhe['ecount'] = $event->ecount;
+            $detalhe['minutes'] = $event->minutes;
+            $detalhe['e_name'] = $event->event->e_name;
+            $detalhe['e_img'] = $event->event->e_img;
+
+            if ($event->t_id==$mysqlRegister->team1_id->id){                  
+                
+                array_push($team1_events,$detalhe);
+
+            }else if ($event->t_id==$mysqlRegister->team2_id->id){
+                array_push($team2_events,$detalhe);
+            }
+        } 
+
+        $dataRetorno['team1_events']=$team1_events;
+        $dataRetorno['team2_events']=$team2_events;
+
+
+        //updated, return success response
+        return response()->json([
+            'success' => true,
+            'message' => 'Operação realizada com sucesso',
+            'data' => $dataRetorno
+        ], Response::HTTP_OK);
 
        
     }

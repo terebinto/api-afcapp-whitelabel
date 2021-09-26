@@ -11,4 +11,15 @@ class Event extends Model
 
     protected $table = 'nx510_bl_events';
 
+    protected $fillable = [
+        'e_name',
+        'e_img',
+        'e_descr',
+        'player_event',
+        'id_sport',
+        'exibir_app',
+        'titulo_app',
+        'descricao_unica',       
+    ];
+    
 }

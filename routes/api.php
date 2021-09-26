@@ -40,11 +40,8 @@ Route::prefix('v1')->group(function () {
         Route::resource('matchs', MatchsControllerMobile::class);
         Route::get('matchs/{id}/played', [MatchsControllerMobile::class, 'played']); 
         Route::get('events/{id}/goals', [EventsControllerMobile::class, 'goals']); 
-    
-        
+        Route::get('matchs/{id}/played/{idMatch}', [MatchsControllerMobile::class, 'detail']); 
 
-
-        
         
     }); 
     
