@@ -54,8 +54,8 @@ class ImageController extends Controller
       // Largura e altura máximos (máximo, pois como é proporcional, o resultado varia)
       // No caso da pergunta, basta usar $_GET['width'] e $_GET['height'], ou só
       // $_GET['width'] e adaptar a fórmula de proporção abaixo.
-      $width = 800;
-      $height = 300;
+      $width = 400;
+      $height = 150;
    
       // Obtendo o tamanho original
       list($width_orig, $height_orig) = getimagesize($filename);
