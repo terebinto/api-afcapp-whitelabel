@@ -57,19 +57,19 @@ class PlayerController extends Controller
             ]);
         }
 
-        $users = DB::table('nx510_bl_players')
+        $players = Player::with('team')
         ->where('first_name', 'like', '%'.$request->search.'%')
         ->orWhere('last_name', 'like','%'.$request->search.'%')
         ->get();
 
-        if (!$users) {
+        if (!$players) {
             return response()->json(['error' => 'Jogador não encontrado!'], 200);
         }
 
         return response()->json([
             'type' => 'success',
             'message' => 'Atletas recuperados com sucesso',
-            'data' =>$users,
+            'data' =>$players ,
         ], 200);
 
 
