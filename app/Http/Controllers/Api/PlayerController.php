@@ -57,8 +57,9 @@ class PlayerController extends Controller
             ]);
         }
 
-        $users = DB::table('nx510_bl_players')
+        $users = DB::table('first_name')
         ->where('first_name', 'like', $request->search.'%')
+        ->orWhere('last_name', 'like', $request->search.'%')
         ->get();
 
         if (!$users) {
