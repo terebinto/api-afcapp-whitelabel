@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class PlayerController extends Controller
 {
@@ -32,6 +33,41 @@ class PlayerController extends Controller
     {
         $this->model = $modelConstructor;
         $this->request = $request;
+    }
+
+       /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $dataForm = $request->all();
+
+        // validate incoming request
+
+        $validator = Validator::make($request->all(), [
+            'search' => 'required',            
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'type' => 'fail',
+                'data' => $validator->errors(),
+            ]);
+        }
+
+        $users = DB::table('nx510_bl_players')
+        ->where('first_name', 'like', $request->search.'%')
+        ->get();
+
+        if (!$users) {
+            return response()->json(['error' => 'Jogador não encontrado!'], 200);
+        }
+
+        return response()->json($users , 200);
+
+
     }
     
 
@@ -127,7 +163,7 @@ class PlayerController extends Controller
         $mysqlRegister = Player::with('team')->find($id);
 
         if (!$mysqlRegister) {
-            return response()->json(['error' => 'Registro não encontrado!'], 200);
+            return response()->json(['error' => 'Jogador não encontrado!'], 200);
         }
 
         //updated, return success response

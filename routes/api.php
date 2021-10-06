@@ -53,7 +53,8 @@ Route::prefix('v1')->group(function () {
         Route::resource('seasons', SeasonController::class);  
         Route::resource('teams', TeamController::class);  
         Route::get('teams/{id}/players', [TeamController::class, 'players']); 
-        Route::resource('teamSeason', TeamSeasonController::class);        
+        Route::resource('teamSeason', TeamSeasonController::class);      
+        Route::get('players/search', [PlayerController::class, 'search']); 
         Route::resource('players', PlayerController::class);   
         Route::resource('sports', SportController::class); 
         Route::get('sports/{id}/positions', [SportController::class, 'positions']); 
