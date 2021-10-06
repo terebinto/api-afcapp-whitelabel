@@ -69,7 +69,7 @@ class PlayerController extends Controller
         return response()->json([
             'type' => 'success',
             'message' => 'Atletas recuperados com sucesso',
-            'data' => $user,
+            'data' =>$users,
         ], 200);
 
 
