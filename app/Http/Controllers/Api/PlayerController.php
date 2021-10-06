@@ -47,7 +47,7 @@ class PlayerController extends Controller
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
-            'search' => 'required',            
+            'search' => 'required|string|min:3|max:15',            
         ]);
 
         if ($validator->fails()) {
@@ -66,7 +66,13 @@ class PlayerController extends Controller
             return response()->json(['error' => 'Jogador não encontrado!'], 200);
         }
 
-        return response()->json($users , 200);
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Atletas recuperados com sucesso',
+            'data' => $user,
+        ], 200);
+
+
 
 
     }
