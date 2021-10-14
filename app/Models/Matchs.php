@@ -30,5 +30,11 @@ class Matchs extends Model
         return $this->hasMany(MatchEvent::class, 'match_id', 'id');
     }
 
+    public function matchday()
+    {
+        return $this->hasOne(Matchday::class, 'id', 'm_id');
+    }
+
+
 
 }

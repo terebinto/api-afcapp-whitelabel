@@ -78,13 +78,13 @@ class EventsControllerMobile extends Controller
         foreach ($filters as $key  => $val) {
 
             $url = "https://ccfutebolsociety.com/api/v1/image?filename=https://ccfutebolsociety.com/storage/players/";
-            
+
 
             $player = Player::with('team')->find($key);
             $table_view[$i]['id'] = $player->id;
             $table_view[$i]['first_name'] = $player->first_name;
             $table_view[$i]['last_name'] = $player->last_name;
-            $table_view[$i]['def_img'] = $url.$player->def_img;
+            $table_view[$i]['def_img'] = $url . $player->def_img;
             $table_view[$i]['team_id'] = $player->team_id;
             $table_view[$i]['t_name'] = $player->team->t_name;
             $table_view[$i]['goals'] = $val;
@@ -106,15 +106,99 @@ class EventsControllerMobile extends Controller
         $classificacao = array();
 
         foreach ($list as $obj) {
+
             $obj["position"] = $cont;
-            $cont++;
-            array_push($classificacao, $obj);
+
+            if ($cont < 11) {
+
+                $obj["position"] = $cont;
+
+                $amarelos = DB::table('nx510_bl_matchday')
+                    ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
+                    ->join('nx510_bl_match_events', 'nx510_bl_match.id', '=', 'nx510_bl_match_events.match_id')
+                    ->where('nx510_bl_matchday.s_id', '=', $id)
+                    ->where('nx510_bl_match.m_played', '=', '1')
+                    ->where('nx510_bl_match_events.e_id', '=', '1')
+                    ->where('nx510_bl_match_events.player_id', '=',  $obj["id"])
+                    ->orderByRaw('nx510_bl_matchday.id ASC')
+                    ->select('player_id')
+                    ->get();
+
+
+                $amarelosTotal = array();
+
+                foreach ($amarelos  as $m) {
+                    array_push($amarelosTotal, $m->player_id);
+                }
+
+                $filtersAmarelo = array_count_values($amarelosTotal);
+
+                $obj["yellow"] = "0";
+                foreach ($filtersAmarelo  as $key  => $val) {
+                    $obj["yellow"] = $val;
+                }
+
+                $reds = DB::table('nx510_bl_matchday')
+                    ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
+                    ->join('nx510_bl_match_events', 'nx510_bl_match.id', '=', 'nx510_bl_match_events.match_id')
+                    ->where('nx510_bl_matchday.s_id', '=', $id)
+                    ->where('nx510_bl_match.m_played', '=', '1')
+                    ->where('nx510_bl_match_events.e_id', '=', '2')
+                    ->where('nx510_bl_match_events.player_id', '=',  $obj["id"])
+                    ->orderByRaw('nx510_bl_matchday.id ASC')
+                    ->select('player_id')
+                    ->get();
+
+
+                $redsTotal = array();
+
+                foreach ($reds  as $m) {
+                    array_push($redsTotal, $m->player_id);
+                }
+
+                $filtersRed = array_count_values($redsTotal);
+
+                $obj["red"] = "0";
+                foreach ($filtersRed  as $key  => $val) {
+                    $obj["red"] = $val;
+                }
+
+                $blues = DB::table('nx510_bl_matchday')
+                    ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
+                    ->join('nx510_bl_match_events', 'nx510_bl_match.id', '=', 'nx510_bl_match_events.match_id')
+                    ->where('nx510_bl_matchday.s_id', '=', $id)
+                    ->where('nx510_bl_match.m_played', '=', '1')
+                    ->where('nx510_bl_match_events.e_id', '=', '4')
+                    ->where('nx510_bl_match_events.player_id', '=',  $obj["id"])
+                    ->orderByRaw('nx510_bl_matchday.id ASC')
+                    ->select('player_id')
+                    ->get();
+
+
+                $blueTotal = array();
+
+                foreach ($blues  as $m) {
+                    array_push($blueTotal, $m->player_id);
+                }
+
+                $filtersBlue = array_count_values($blueTotal);
+
+                $obj["blue"] = "0";
+                foreach ($filtersBlue  as $key  => $val) {
+                    $obj["blue"] = $val;
+                }
+
+                $cont++;
+                array_push($classificacao, $obj);
+            }
         }
 
 
         //updated, return success response
         return response()->json([
-            $classificacao
+            'success' => true,
+            'message' => 'Operação realizada com sucesso',
+            'data' => $classificacao
         ], Response::HTTP_OK);
     }
 }

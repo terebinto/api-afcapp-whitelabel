@@ -19,6 +19,7 @@ use App\Http\Controllers\Mobile\TeamControllerMobile;
 use App\Http\Controllers\Mobile\StandingControllerMobile;
 use App\Http\Controllers\Mobile\MatchsControllerMobile;
 use App\Http\Controllers\Mobile\EventsControllerMobile;
+use App\Http\Controllers\Mobile\ContentControllerMobile;
 use App\Http\Controllers\Api\ImageController;
 
 
@@ -32,7 +33,8 @@ Route::prefix('v1')->group(function () {
 
     //mobile
     Route::prefix('mobile')->group(function () {
-        Route::resource('seasons', SeasonControllerMobile::class); 
+        Route::get('seasons/{id}/player/{idPlayer}', [PlayerController::class, 'atletaSumula']); 
+        Route::resource('seasons', SeasonControllerMobile::class);         
         Route::resource('content', ContentControllerMobile::class);
         Route::resource('tournaments', TournamentControllerMobile::class);
         Route::resource('teams', TeamControllerMobile::class);
@@ -41,7 +43,7 @@ Route::prefix('v1')->group(function () {
         Route::get('matchs/{id}/played', [MatchsControllerMobile::class, 'played']); 
         Route::get('events/{id}/goals', [EventsControllerMobile::class, 'goals']); 
         Route::get('matchs/played/{idMatch}', [MatchsControllerMobile::class, 'detail']); 
-
+     
         
     }); 
     

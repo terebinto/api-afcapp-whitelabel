@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Content;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Http;
 
 class ContentControllerMobile extends Controller
 {
@@ -31,7 +32,7 @@ class ContentControllerMobile extends Controller
         $this->request = $request;
     }
 
-   
+
     /**
      * Display a listing of the resource.
      *
@@ -39,13 +40,15 @@ class ContentControllerMobile extends Controller
      */
     public function index()
     {
-        $data = $this->model->paginate();
 
-        return response()->json($data, 200);
+        $url='https://www.clubecuritibano.com.br/wp-json/wp/v2/posts?_embed';
+        $response = Http::get('https://www.clubecuritibano.com.br/wp-json/wp/v2/posts?_embed');
+
+
+        $json = json_decode(file_get_contents($url), true);
+
+        //updated, return success response
+        return response()->json($json, Response::HTTP_OK);
+
     }
-
-
-   
-
-   
 }

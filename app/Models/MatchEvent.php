@@ -30,5 +30,11 @@ class MatchEvent extends Model
         return $this->hasOne(Player::class, 'id', 'player_id');
     }
 
+    public function match()
+    {
+        return $this->hasOne(Matchs::class, 'id', 'match_id');
+    }
+
+
     
 }

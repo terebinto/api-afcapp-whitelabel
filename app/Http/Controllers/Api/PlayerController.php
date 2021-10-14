@@ -7,6 +7,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Models\Player;
+use App\Models\MatchEvent;
+use App\Models\Positions;
+use App\Models\Matchs;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
@@ -35,7 +38,7 @@ class PlayerController extends Controller
         $this->request = $request;
     }
 
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -47,7 +50,7 @@ class PlayerController extends Controller
         // validate incoming request
 
         $validator = Validator::make($request->all(), [
-            'search' => 'required|string|min:3|max:15',            
+            'search' => 'required|string|min:3|max:15',
         ]);
 
         if ($validator->fails()) {
@@ -58,9 +61,9 @@ class PlayerController extends Controller
         }
 
         $players = Player::with('team')
-        ->where('first_name', 'like', '%'.$request->search.'%')
-        ->orWhere('last_name', 'like','%'.$request->search.'%')
-        ->get();
+            ->where('first_name', 'like', '%' . $request->search . '%')
+            ->orWhere('last_name', 'like', '%' . $request->search . '%')
+            ->get();
 
         if (!$players) {
             return response()->json(['error' => 'Jogador não encontrado!'], 200);
@@ -69,14 +72,9 @@ class PlayerController extends Controller
         return response()->json([
             'type' => 'success',
             'message' => 'Atletas recuperados com sucesso',
-            'data' =>$players ,
+            'data' => $players,
         ], 200);
-
-
-
-
     }
-    
 
 
     /**
@@ -86,7 +84,7 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $data= Player::with('team')->paginate(  );
+        $data = Player::with('team')->paginate();
         return response()->json($data, 200);
     }
 
@@ -117,7 +115,7 @@ class PlayerController extends Controller
             ]);
         }
 
-        $dataForm['def_img'] ="sem-foto.jpg";
+        $dataForm['def_img'] = "sem-foto.jpg";
 
         if (strpos($request->def_img, ';base64')) {
 
@@ -154,6 +152,7 @@ class PlayerController extends Controller
 
         return response()->json([
             'type' => 'success',
+            'success' => true,
             'message' => 'Atleta cadastrado com sucesso',
             'data' => $data,
         ], 200);
@@ -165,19 +164,59 @@ class PlayerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function atletaSumula($id, $idAtleta)
     {
-        $mysqlRegister = Player::with('team')->find($id);
+
+
+        $mysqlRegister = Player::with('team')->find($idAtleta);
 
         if (!$mysqlRegister) {
             return response()->json(['error' => 'Jogador não encontrado!'], 200);
         }
 
+        $events = MatchEvent::with('match')->with('event')->where('player_id', '=', $mysqlRegister->id)
+            ->get();
+
+        
+        $position = Positions::find($mysqlRegister->position_id);
+
+        $dataRetorno['id'] =  $mysqlRegister->id;
+        $dataRetorno['first_name'] =  $mysqlRegister->first_name;
+        $dataRetorno['last_name'] =  $mysqlRegister->last_name;
+        $dataRetorno['nick'] =  $mysqlRegister->nick;
+        $dataRetorno['position_name'] =  $position->name;
+        $dataRetorno['def_img'] =  $mysqlRegister->def_img;
+        $dataRetorno['team_id'] =  $mysqlRegister->team->id;
+        $dataRetorno['team'] =  $mysqlRegister->team->t_name;
+        $dataRetorno['team_logo'] =  $mysqlRegister->team->t_emblem;
+
+        $arrayEventos = array();
+
+        foreach ($events as $evento) {
+
+            $matchday = Matchs::with('matchday')->find($evento->match_id);
+
+            if ($matchday->matchday->s_id == $id) {
+
+                $dataEvento['id'] = $evento->id;
+                $dataEvento['data'] = $evento->match->m_date;
+                $dataEvento['ecount'] = $evento->ecount;
+                $dataEvento['minutes'] = $evento->minutes;
+                $dataEvento['match_descr'] = $evento->match->match_descr;
+                $dataEvento['e_name'] = $evento->event->e_name;
+                $dataEvento['e_img'] = $evento->event->e_img;
+                array_push($arrayEventos, $dataEvento);
+            }
+        }
+
+        $dataRetorno['events'] =  $arrayEventos;
+
         //updated, return success response
         return response()->json([
             'success' => true,
+            'type' => 'success',
             'message' => 'Operação realizada com sucesso',
-            'data' => $mysqlRegister
+            'data' =>   $dataRetorno
         ], Response::HTTP_OK);
     }
 
@@ -232,22 +271,20 @@ class PlayerController extends Controller
             return response()->json(['error' => $validator->messages()], 200);
         }
 
-        $imageName = $mysqlRegister->def_img;      
+        $imageName = $mysqlRegister->def_img;
 
         if (strpos($request->def_img, ';base64')) {
 
             if ($mysqlRegister->def_img) {
 
-                if ($imageName!="sem-foto.jpg"){
+                if ($imageName != "sem-foto.jpg") {
 
                     try {
                         $delete =  Storage::disk('public')->delete('/players/' . $mysqlRegister->def_img);
-                      } catch (\Exception $e) {
-                          return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
-                      }
-                }    
-
-               
+                    } catch (\Exception $e) {
+                        return response()->json(['error' => 'Falha ao fazer delete drive'], 500);
+                    }
+                }
             }
 
 
@@ -299,6 +336,7 @@ class PlayerController extends Controller
 
         return response()->json([
             'success' => true,
+            'type' => 'success',
             'message' => 'Atualização realizada com sucesso',
             'data' => $mysqlRegister
         ], Response::HTTP_OK);
@@ -334,6 +372,7 @@ class PlayerController extends Controller
 
         return response()->json([
             'success' => true,
+            'type' => 'success',
             'message' => 'Equipe excluida com sucesso'
         ], Response::HTTP_OK);
     }
