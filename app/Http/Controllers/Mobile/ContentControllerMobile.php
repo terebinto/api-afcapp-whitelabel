@@ -41,12 +41,16 @@ class ContentControllerMobile extends Controller
     public function index()
     {
 
-        $url='https://www.clubecuritibano.com.br/wp-json/wp/v2/posts?_embed';
-        $response = Http::get('https://www.clubecuritibano.com.br/wp-json/wp/v2/posts?_embed');
-
+        $url='https://www.clubecuritibano.com.br/wp-json/wp/v2/posts?per_page=100&page=1&_embed';
 
         $json = json_decode(file_get_contents($url), true);
 
+        foreach ($json[0] as $noticia) {
+
+            return response()->json($noticia, Response::HTTP_OK);
+        
+        
+        }
         //updated, return success response
         return response()->json($json, Response::HTTP_OK);
 

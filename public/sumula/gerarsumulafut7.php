@@ -29,7 +29,7 @@ border-top-width: 18px; border-top: 5px #ffbf00 solid; border-bottom: 5px #ffbf0
 ">
 		<form method="post" target="_blank" action="imprimirSumulaFut7.php">
 
-		<input  type="hidden" name="id_match" id="id_match" class="ng-untouched ng-pristine ng-valid" value="2">
+		<input  type="hidden" name="id_match" id="id_match" class="ng-untouched ng-pristine ng-valid" value="31">
 			<input type="submit" value="Gerar " style="width:150px; height:50px;  margin:5px; border:1px #ffbf00 solid;">
 
 

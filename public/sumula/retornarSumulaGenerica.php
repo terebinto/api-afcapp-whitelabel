@@ -12,7 +12,7 @@ $conexao = mysqli_connect($servername, $username, $password, $base);
 
 $id_match = (isset($_GET['id_match'])) ? $_GET['id_match'] : 1;
 
-$queryM = "SELECT * FROM  nx510_bl_match WHERE id = " . $id_match;
+$queryM = "SELECT * FROM  nx510_bl_match a,nx510_bl_matchday  b WHERE a.m_id = b.id and a.id = " . $id_match;
 
 $sqlM = mysqli_query($conexao, $queryM) or die("ERRO no comando SQL 3:");
 
@@ -22,7 +22,7 @@ while ($campo2 = mysqli_fetch_row($sqlM)) {
   $idTime2 = $campo2[4];
   $data = utf8_encode($campo2[10]);
   $horaJogo = utf8_encode($campo2[11]);
-  $rodada = utf8_encode($campo2[2]);
+  $rodada = utf8_encode($campo2[15]);
 }
 
 $token = (isset($_GET['token'])) ? $_GET['token'] : 1;
