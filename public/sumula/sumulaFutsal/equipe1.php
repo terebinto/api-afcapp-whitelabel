@@ -435,7 +435,7 @@
                <colgroup width="32"></colgroup>
                <tbody>
                   <tr>
-                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; *//* border-left: 1px solid #000000; *//* border-right: 1px solid #000000 */background-color: lightgray;/* color: white; */font-size: 16px;/* transform-style: unset; *//* font-stretch: condensed; */font-variant: all-small-caps;" rowspan="2" valign="middle" height="34" align="center">Gols</td>
+                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; *//* border-left: 1px solid #000000; *//* border-right: 1px solid #000000 */background-color: lightgray;/* color: white; */font-size: 16px;/* transform-style: unset; *//* font-stretch: condensed; */font-variant: all-small-caps; width:34.5px;" rowspan="2" valign="middle" height="34" align="center">Gols</td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" align="left"><br></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" align="left"><br></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" align="left"><br></td>
@@ -476,7 +476,7 @@
                <colgroup width="32"></colgroup>
                <tbody>
                   <tr>
-                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; *//* border-left: 1px solid #000000; *//* border-right: 1px solid #000000 */background-color: #1b453b; color: white;  font-size: 16px;/* transform-style: unset; *//* font-stretch: condensed; */font-variant: all-small-caps;     width: 29px;" rowspan="2" valign="middle" height="34" align="center">Ass.</td>
+                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; *//* border-left: 1px solid #000000; *//* border-right: 1px solid #000000 */background-color: #1b453b; color: white;  font-size: 16px;/* transform-style: unset; *//* font-stretch: condensed; */font-variant: all-small-caps;  width:34.5px;" rowspan="2" valign="middle" height="34" align="center">Ass.</td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" align="left"><br></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" align="left"><br></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" align="left"><br></td>
