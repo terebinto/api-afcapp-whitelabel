@@ -30,7 +30,7 @@ class TeamControllerMobile extends Controller
     {
         $this->model = $modelConstructor;
         $this->request = $request;
-    }  
+    }
 
     /**
      * Display the specified resource.
@@ -48,25 +48,15 @@ class TeamControllerMobile extends Controller
 
                 $url = "https://ccfutebolsociety.com/api/v1/image?filename=https://ccfutebolsociety.com/storage/players/";
                 $img = $player->def_img;
-                $player->def_img =  $url.$img;   
-                
+                $player->def_img =  $url . $img;
             }
-
-             
-        }    
-
-
-
-       
+        }
 
         //updated, return success response
         return response()->json([
             'success' => true,
             'message' => 'Operação realizada com sucesso',
-            'data' => $data 
+            'data' => $data
         ], Response::HTTP_OK);
     }
-
-
-
 }
