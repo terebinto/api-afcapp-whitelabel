@@ -312,7 +312,8 @@
                   </tr>
                   <tr>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; *//* border-left: 1px solid #000000; *//* border-right: 1px solid #000000 */" colspan="4" height="18" align="center" valign="middle"><font face="Arial" size="1" color="#000000"><?=$atletas[11]->rg;?></font></td>
-                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="9" align="center" valign="middle"><font face="Arial" size="1" color="#000000"><?=$atletas[11]->nomeCompleto;?></font></td>
+                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="9" align="center" valign="middle"><font face="Arial" size="1" color="#000000" <? if ($atletas[11]->isSuspenso==1){ echo 'style="
+    text-decoration: line-through;"';}   ?>><?=$atletas[11]->nomeCompleto; ?></font></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="middle"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="top" sdnum="1046;0;0"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="top" sdnum="1046;0;0"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
@@ -326,7 +327,8 @@
                   </tr>
                   <tr>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; *//* border-left: 1px solid #000000; *//* border-right: 1px solid #000000 */" colspan="4" rowspan="2" height="17" align="center" valign="middle"><font face="Arial" size="1" color="#000000"><?=$atletas[12]->rg;?></font></td>
-                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="9" rowspan="2" align="center" valign="middle"><font face="Arial" size="1" color="#000000"><?=$atletas[12]->nomeCompleto;?></font></td>
+                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="9" align="center" valign="middle"><font face="Arial" size="1" color="#000000" <? if ($atletas[12]->isSuspenso==1){ echo 'style="
+    text-decoration: line-through;"';}   ?>><?=$atletas[12]->nomeCompleto; ?></font></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" rowspan="2" align="center" valign="middle"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" rowspan="2" align="center" valign="top" sdnum="1046;0;0"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" rowspan="2" align="center" valign="top" sdnum="1046;0;0"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
@@ -344,7 +346,8 @@
                   </tr>
                   <tr>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; *//* border-left: 1px solid #000000; *//* border-right: 1px solid #000000 */" colspan="4" height="18" align="center" valign="middle"><font face="Arial" size="1" color="#000000"><?=$atletas[13]->rg;?></font></td>
-                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="9" align="center" valign="middle"><font face="Arial" size="1" color="#000000"><?=$atletas[13]->nomeCompleto;?></font></td>
+                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="9" align="center" valign="middle"><font face="Arial" size="1" color="#000000" <? if ($atletas[13]->isSuspenso==1){ echo 'style="
+    text-decoration: line-through;"';}   ?>><?=$atletas[13]->nomeCompleto; ?></font></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="middle"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="top" sdnum="1046;0;0"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="top" sdnum="1046;0;0"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
@@ -357,7 +360,8 @@
                   </tr>
                   <tr>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; *//* border-left: 1px solid #000000; *//* border-right: 1px solid #000000 */" colspan="4" height="18" align="center" valign="middle"><font face="Arial" size="1" color="#000000"><?=$atletas[14]->rg;?></font></td>
-                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="9" align="center" valign="middle"><font face="Arial" size="1" color="#000000"><?=$atletas[14]->nomeCompleto;?></font></td>
+                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="9" align="center" valign="middle"><font face="Arial" size="1" color="#000000" <? if ($atletas[14]->isSuspenso==1){ echo 'style="
+    text-decoration: line-through;"';}   ?>><?=$atletas[14]->nomeCompleto; ?></font></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="middle"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="top" sdnum="1046;0;0"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="top" sdnum="1046;0;0"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
@@ -370,7 +374,8 @@
                   </tr>
                   <tr>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; *//* border-left: 1px solid #000000; *//* border-right: 1px solid #000000 */" colspan="4" height="18" align="center" valign="middle"><font face="Arial" size="1" color="#000000"><?=$atletas[15]->rg;?></font></td>
-                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="9" align="center" valign="middle"><font face="Arial" size="1" color="#000000"><?=$atletas[15]->nomeCompleto;?></font></td>
+                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="9" align="center" valign="middle"><font face="Arial" size="1" color="#000000" <? if ($atletas[15]->isSuspenso==1){ echo 'style="
+    text-decoration: line-through;"';}   ?>><?=$atletas[15]->nomeCompleto; ?></font></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="middle"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="top" sdnum="1046;0;0"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="top" sdnum="1046;0;0"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
@@ -383,7 +388,8 @@
                   </tr>
                   <tr>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; *//* border-left: 1px solid #000000; *//* border-right: 1px solid #000000 */" colspan="4" height="18" align="center" valign="middle"><font face="Arial" size="1" color="#000000"><?=$atletas[16]->rg;?></font></td>
-                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="9" align="center" valign="middle"><font face="Arial" size="1" color="#000000"><?=$atletas[16]->nomeCompleto;?></font></td>
+                     <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="9" align="center" valign="middle"><font face="Arial" size="1" color="#000000" <? if ($atletas[16]->isSuspenso==1){ echo 'style="
+    text-decoration: line-through;"';}   ?>><?=$atletas[16]->nomeCompleto; ?></font></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="middle"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="top" sdnum="1046;0;0"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
                      <td style="border-top: 1px solid #000000;/* border-bottom: 1px solid #000000; */border-left: 1px solid #000000;/* border-right: 1px solid #000000; */" colspan="2" align="center" valign="top" sdnum="1046;0;0"><b><font face="Arial" size="1" color="#000000"><br></font></b></td>
