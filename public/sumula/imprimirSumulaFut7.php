@@ -29,7 +29,7 @@ $client = curl_init($url);
 curl_setopt($client,CURLOPT_RETURNTRANSFER,true);
 $response = curl_exec($client);
  
-//echo $response[];
+echo $response;
 
   
 $result = json_decode($response);
