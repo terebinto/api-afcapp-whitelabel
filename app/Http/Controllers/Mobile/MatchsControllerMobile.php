@@ -38,9 +38,53 @@ class MatchsControllerMobile extends Controller
     {
         $this->model = $modelConstructor;
         $this->request = $request;
-    }    
+    } 
+    
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function matchdetail($id)
+    {
+        $mysqlRegister = Season::find($id);
 
-        /**
+        if (!$mysqlRegister) {
+            return response()->json(['error' => 'Temporada não encontrada!'], 200);
+        }
+
+        $matchs = DB::table('nx510_bl_matchday')
+            ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
+            ->where('nx510_bl_matchday.s_id', '=', $id)
+            ->where('nx510_bl_match.m_played', '=', '1')
+            ->orderByRaw('nx510_bl_match.m_date DESC')
+            ->paginate(30);
+
+       
+            foreach ($matchs  as $m) {
+
+                $team1 = Team::find($m->team1_id);
+                $team2 = Team::find($m->team2_id);
+                $m->team1_id=$team1;
+                $m->team2_id=$team2;
+            }    
+
+
+        //updated, return success response
+        return response()->json([
+            $matchs,
+        ], Response::HTTP_OK);
+
+
+       
+    }
+
+    
+    
+
+
+     /**
      * Display the specified resource.
      *
      * @param  int  $id
