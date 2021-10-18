@@ -34,9 +34,10 @@ Route::prefix('v1')->group(function () {
     //mobile
     Route::prefix('mobile')->group(function () {
         Route::get('seasons/{id}/player/{idPlayer}', [PlayerController::class, 'atletaSumula']); 
+        Route::get('seasons/{idSeasson}/teams/{id}', [TeamControllerMobile::class, 'seasonteam']); 
         Route::resource('seasons', SeasonControllerMobile::class);         
         Route::resource('content', ContentControllerMobile::class);
-        Route::resource('tournaments', TournamentControllerMobile::class);
+        Route::resource('tournaments', TournamentControllerMobile::class);       
         Route::resource('teams', TeamControllerMobile::class);
         Route::resource('standings', StandingControllerMobile::class);
         Route::resource('matchs', MatchsControllerMobile::class);
