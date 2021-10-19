@@ -376,4 +376,27 @@ class PlayerController extends Controller
             'message' => 'Equipe excluida com sucesso'
         ], Response::HTTP_OK);
     }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $mysqlRegister = Player::with('team')->find($id);
+
+        if (!$mysqlRegister) {
+            return response()->json(['error' => 'Jogador não encontrado!'], 200);
+        }
+
+        //updated, return success response
+        return response()->json([
+            'success' => true,
+            'message' => 'Operação realizada com sucesso',
+            'data' => $mysqlRegister
+        ], Response::HTTP_OK);
+    }
 }
