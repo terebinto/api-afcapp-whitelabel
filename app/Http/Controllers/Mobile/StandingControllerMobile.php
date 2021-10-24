@@ -36,4 +36,6 @@ class StandingControllerMobile extends Controller
         'data' => $dataRetorno
     ], Response::HTTP_OK);
     }
+
+    
 }

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Models\Team;
+use App\Models\Player;
 use App\Models\MatchEvent;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,13 @@ use App\Http\Controllers\Controller;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Api\StandingController;
+use App\Models\Matchs;
+use App\Models\Matchday;
+use App\Models\Group;
+use App\Models\GroupTeam;
+use App\Models\Season;
+use App\Models\SeasonTeam;
 
 class TeamControllerMobile extends Controller
 {
@@ -33,6 +41,226 @@ class TeamControllerMobile extends Controller
         $this->model = $modelConstructor;
         $this->request = $request;
     }
+
+    public function goals($seasonId, $idTime)
+    {
+        $mysqlRegister = Season::find($seasonId);
+
+        if (!$mysqlRegister) {
+            return response()->json(['error' => 'Temporada não encontrada!'], 200);
+        }
+
+        $matchs = DB::table('nx510_bl_matchday')
+            ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
+            ->join('nx510_bl_match_events', 'nx510_bl_match.id', '=', 'nx510_bl_match_events.match_id')
+            ->where('nx510_bl_matchday.s_id', '=', $seasonId)
+            ->where('nx510_bl_match.m_played', '=', '1')
+            ->where('nx510_bl_match_events.e_id', '=', '3')
+            ->orderByRaw('nx510_bl_matchday.id ASC')
+            ->select('player_id')
+            ->get();
+
+        $players = array();
+        $table_view = array();
+
+        foreach ($matchs  as $m) {
+            array_push($players, $m->player_id);
+        }
+
+        $filters = array_count_values($players);
+
+        $i = 1;
+        foreach ($filters as $key  => $val) {
+
+            $url = "https://ccfutebolsociety.com/api/v1/image?filename=https://ccfutebolsociety.com/storage/players/";
+            
+
+            $player = Player::with('team')->find($key);
+            $table_view[$i]['id'] = $player->id;
+            $table_view[$i]['first_name'] = $player->first_name;
+            $table_view[$i]['last_name'] = $player->last_name;
+            $table_view[$i]['def_img'] = $url.$player->def_img;
+            $table_view[$i]['team_id'] = $player->team_id;
+            $table_view[$i]['t_name'] = $player->team->t_name;
+            $table_view[$i]['goals'] = $val;
+            $i++;
+        }
+
+        $sort_arr = array();
+        foreach ($table_view as $uniqid => $row) {
+            foreach ($row as $key => $value) {
+                $sort_arr[$key][$uniqid] = $value;
+            }
+        }
+
+        array_multisort($sort_arr['goals'], SORT_DESC, $table_view);
+
+        $list =   $table_view;
+
+        $cont = 1;
+        $classificacao = array();
+
+        foreach ($list as $obj) {           
+
+            if ($idTime==$obj["team_id"]){
+                $obj["position"] = $cont;
+                $cont++;
+                array_push($classificacao, $obj);
+            }
+
+        }
+
+
+        //updated, return success response
+        return response()->json([
+            $classificacao
+        ], Response::HTTP_OK);
+    }
+
+
+
+
+
+    public function standing($seasonId, $id)
+    {
+        $seasson = Season::find($seasonId);
+
+
+        if (!$seasson) {
+            return response()->json(['error' => 'Temporada não encontrada!'], 200);
+        }
+
+        $dataRetorno['standing'] = StandingController::getStandingTime($seasonId, $id);
+
+        //updated, return success response
+        return response()->json([
+            'success' => true,
+            'message' => 'Classificação recuperado com sucesso',
+            'data' => $dataRetorno
+        ], Response::HTTP_OK);
+    }
+
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function sequence($seasson, $id)
+    {
+        $team = Team::find($id);
+
+        $arraySequencia = array();
+
+        $matchs = DB::table('nx510_bl_matchday')
+            ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
+            ->where('nx510_bl_matchday.s_id', '=', $seasson)
+            ->where('nx510_bl_match.m_played', '=', '1')
+            ->where('nx510_bl_match.team1_id', '=', $id)
+            ->orWhere('nx510_bl_match.team2_id', '=', $id)
+            ->orderByRaw('nx510_bl_match.m_date DESC')
+            ->get();
+
+        foreach ($matchs as $mm) {
+
+            if ($mm->team1_id == $id) {
+                if ($mm->score1 > $mm->score2) {
+                    $tipoSequencia = "V";
+                } else if ($mm->score1 == $mm->score2) {
+                    $tipoSequencia = "E";
+                } else if ($mm->score1 < $mm->score2) {
+                    $tipoSequencia = "D";
+                }
+
+                array_push($arraySequencia, $tipoSequencia);
+            } else if ($mm->team2_id == $id) {
+
+
+                if ($mm->score1 < $mm->score2) {
+                    $tipoSequencia = "V";
+                } else if ($mm->score1 == $mm->score2) {
+                    $tipoSequencia = "E";
+                } else if ($mm->score1 > $mm->score2) {
+                    $tipoSequencia = "D";
+                }
+
+                array_push($arraySequencia, $tipoSequencia);
+            }
+        }
+
+        $team['sequence'] = $arraySequencia;
+
+
+        //updated, return success response
+        return response()->json([
+            'success' => true,
+            'message' => 'Sequencia carregada com sucesso',
+            'data' => $team
+        ], Response::HTTP_OK);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function lastmatchs($seasson, $id)
+    {
+        $team = Team::find($id);
+
+        $matchs = DB::table('nx510_bl_matchday')
+            ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
+            ->where('nx510_bl_matchday.s_id', '=', $seasson)
+            ->where('nx510_bl_match.m_played', '=', '1')
+            ->where('nx510_bl_match.team1_id', '=', $id)
+            ->orWhere('nx510_bl_match.team2_id', '=', $id)
+            ->orderByRaw('nx510_bl_match.m_date DESC')
+            ->get();
+
+
+        $team['matchs'] = $matchs;
+
+        //updated, return success response
+        return response()->json([
+            'success' => true,
+            'message' => 'Ultimos jogos carregadas com sucesso',
+            'data' => $team
+        ], Response::HTTP_OK);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function nextmatchs($seasson, $id)
+    {
+        $team = Team::find($id);
+
+        $nextMatchs = DB::table('nx510_bl_matchday')
+            ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
+            ->where('nx510_bl_matchday.s_id', '=', $seasson)
+            ->where('nx510_bl_match.m_played', '=', '0')
+            ->where('nx510_bl_match.team1_id', '=', $id)
+            ->orWhere('nx510_bl_match.team2_id', '=', $id)
+            ->orderByRaw('nx510_bl_match.m_date DESC')
+            ->get();
+
+        $team['nextMatchs'] = $nextMatchs;
+
+        //updated, return success response
+        return response()->json([
+            'success' => true,
+            'message' => 'Proximos carregadas com sucesso',
+            'data' => $team
+        ], Response::HTTP_OK);
+    }
+
+
 
     /**
      * Display the specified resource.
@@ -58,7 +286,6 @@ class TeamControllerMobile extends Controller
         $totalCartaoAmarelo = 0;
         $totalCartaoVermelho = 0;
         $totalCartaoAzul = 0;
-        $arraySequencia = array();
 
         $matchs = DB::table('nx510_bl_matchday')
             ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
@@ -78,16 +305,11 @@ class TeamControllerMobile extends Controller
 
                 if ($mm->score1 > $mm->score2) {
                     $vitoriasMandante++;
-                    $tipoSequencia = "V";
                 } else if ($mm->score1 == $mm->score2) {
                     $empatesMandante++;
-                    $tipoSequencia = "E";
                 } else if ($mm->score1 < $mm->score2) {
                     $derrotasMandante++;
-                    $tipoSequencia = "D";
                 }
-
-                array_push($arraySequencia, $tipoSequencia);
 
                 $events = MatchEvent::where('match_id', '=', $mm->id)->get();
 
@@ -108,16 +330,12 @@ class TeamControllerMobile extends Controller
 
                 if ($mm->score1 < $mm->score2) {
                     $vitoriasVisitante++;
-                    $tipoSequencia = "V";
                 } else if ($mm->score1 == $mm->score2) {
                     $empatesVisitante++;
-                    $tipoSequencia = "E";
                 } else if ($mm->score1 > $mm->score2) {
                     $derrotasVisitante++;
-                    $tipoSequencia = "D";
                 }
 
-                array_push($arraySequencia, $tipoSequencia);
 
                 $events = MatchEvent::where('match_id', '=', $mm->id)->get();
 
@@ -133,20 +351,6 @@ class TeamControllerMobile extends Controller
                 }
             }
         }
-
-
-        $team['matchs'] = $matchs;
-
-        $nextMatchs = DB::table('nx510_bl_matchday')
-            ->join('nx510_bl_match', 'nx510_bl_matchday.id', '=', 'nx510_bl_match.m_id')
-            ->where('nx510_bl_matchday.s_id', '=', $seasson)
-            ->where('nx510_bl_match.m_played', '=', '0')
-            ->where('nx510_bl_match.team1_id', '=', $id)
-            ->orWhere('nx510_bl_match.team2_id', '=', $id)
-            ->orderByRaw('nx510_bl_match.m_date DESC')
-            ->get();
-
-        $team['nextMatchs'] = $nextMatchs;
 
         $vitorias = 0 + $vitoriasVisitante + $vitoriasVisitante;
         $empates = 0 + $empatesVisitante + $empatesMandante;
@@ -230,8 +434,6 @@ class TeamControllerMobile extends Controller
             }
         }
 
-
-
         $team['win'] = $vitorias;
         $team['draw'] = $empates;
         $team['lost'] = $derrotas;
@@ -245,7 +447,6 @@ class TeamControllerMobile extends Controller
         $team['count_yellow'] = $totalCartaoAmarelo;
         $team['count_red'] = $totalCartaoVermelho;
         $team['count_blue'] = $totalCartaoAzul;
-        $team['sequence'] = $arraySequencia;
 
 
         //updated, return success response
