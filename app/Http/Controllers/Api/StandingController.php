@@ -48,6 +48,7 @@ class StandingController extends Controller
             //updated, return success response
             $bonus_point = $t->bonus_point;
 
+
             $groupTeam = Group::with('groupteam')->where('s_id', '=', $seasonId)->get();
            
             $group_id="";
@@ -135,7 +136,8 @@ class StandingController extends Controller
             $table_view[$i]['draw'] = $drows+$drows_away;
             $table_view[$i]['lost'] = $loose+$loose_away;
             $table_view[$i]['goals'] = ($homeSc + $awayRc);
-            $table_view[$i]['points'] = $wins * 3 + $drows * 1 + $loose * 0 + $wins_away * 3 + $drows_away * 1 + $loose_away * 0 ;
+            $table_view[$i]['points'] =(0+$bonus_point) + $wins * 3 + $drows * 1 + $loose * 0 + $wins_away * 3 + $drows_away * 1 + $loose_away * 0 ;
+            $table_view[$i]['bonus_point'] = $bonus_point;            
             $table_view[$i]['goal_score'] = $homeSc +  $awayRc;
             $table_view[$i]['goals_conc'] = $homeRc + 	$awaySc;
             $table_view[$i]['goals_dif'] = ($homeSc +  $awayRc) - ($homeRc + 	$awaySc);
@@ -329,6 +331,8 @@ class StandingController extends Controller
                 }
             }
 
+            //bonusPoint
+
             
 
             $table_view[$i]['group_id'] = $group_id;
@@ -340,7 +344,8 @@ class StandingController extends Controller
             $table_view[$i]['draw'] = $drows+$drows_away;
             $table_view[$i]['lost'] = $loose+$loose_away;
             $table_view[$i]['goals'] = ($homeSc + $awayRc);
-            $table_view[$i]['points'] = $wins * 3 + $drows * 1 + $loose * 0 + $wins_away * 3 + $drows_away * 1 + $loose_away * 0 ;
+            $table_view[$i]['points'] =(0+$bonus_point) + $wins * 3 + $drows * 1 + $loose * 0 + $wins_away * 3 + $drows_away * 1 + $loose_away * 0 ;
+            $table_view[$i]['bonus_point'] = $bonus_point;
             $table_view[$i]['goal_score'] = $homeSc +  $awayRc;
             $table_view[$i]['goals_conc'] = $homeRc + 	$awaySc;
             $table_view[$i]['goals_dif'] = ($homeSc +  $awayRc) - ($homeRc + 	$awaySc);
