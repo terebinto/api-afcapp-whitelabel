@@ -58,7 +58,7 @@ Route::prefix('v1')->group(function () {
     }); 
     
     
-    Route::middleware('jwt')->group(function () {        
+    Route::middleware('jwt')->group(function () {    
         
         Route::resource('tournaments', TournamentController::class);  
         Route::get('tournaments/seasons/{id}', [SeasonController::class, 'tourseas']); 
@@ -78,9 +78,7 @@ Route::prefix('v1')->group(function () {
         Route::get('tournaments/seasons/{id}/matchdays/{idMatch}', [SeasonController::class, 'matchsporid']);
         Route::resource('matchevents', MatchEventController::class); 
       
-        
-        
-
+                
     });
 
 });
