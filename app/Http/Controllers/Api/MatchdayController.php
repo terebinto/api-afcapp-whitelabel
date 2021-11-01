@@ -60,7 +60,7 @@ class MatchdayController extends Controller
 
         $validator = Validator::make($request->all(), [
             'm_name' => 'required|digits_between:1,99',
-            's_id' => 'required|exists:App\Models\Season,id',
+            's_id' => 'required',
         ]);
 
 
