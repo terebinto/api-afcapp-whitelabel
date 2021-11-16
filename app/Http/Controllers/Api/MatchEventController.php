@@ -218,7 +218,9 @@ class MatchEventController extends Controller
         $update = $matchs->update([
             'score1' => $dataForm['score1'],
             'score2' => $dataForm['score2'],
-            'm_played' => $dataForm['m_played']
+            'm_played' => $dataForm['m_played'],
+            'm_date' => $dataForm['m_date'],
+            'm_time' => $dataForm['m_time']
         ]);
 
 
