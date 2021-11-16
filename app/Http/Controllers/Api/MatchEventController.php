@@ -82,7 +82,10 @@ class MatchEventController extends Controller
         $update = $matchs->update([
             'score1' => $dataForm['score1'],
             'score2' => $dataForm['score2'],
-            'm_played' => $dataForm['m_played']
+            'm_played' => $dataForm['m_played'],
+            'm_date' => $dataForm['m_date'],
+            'm_time' => $dataForm['m_time']
+            
         ]);
 
         foreach ($dataForm['events'] as $resposta) {
@@ -93,9 +96,7 @@ class MatchEventController extends Controller
             $cobRes->match_id = $dataForm['match_id'];
             $cobRes->ecount = $resposta['ecount'];
             $cobRes->minutes = $resposta['minutes'];
-            $cobRes->t_id = $resposta['t_id'];
-            $cobRes->m_date = $resposta['m_date'];
-            $cobRes->m_time = $resposta['m_time'];
+            $cobRes->t_id = $resposta['t_id'];          
 
             $dataT = Team::where('id', '=', $cobRes->t_id)->first();
 
@@ -233,6 +234,7 @@ class MatchEventController extends Controller
             $cobRes->ecount = $resposta['ecount'];
             $cobRes->minutes = $resposta['minutes'];
             $cobRes->t_id = $resposta['t_id'];
+
 
             $dataT = Team::where('id', '=', $cobRes->t_id)->first();
 
