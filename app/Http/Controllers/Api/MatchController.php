@@ -80,6 +80,8 @@ class MatchController extends Controller
             $cobRes->team1_id = $resposta['team1_id'];
             $cobRes->team2_id = $resposta['team2_id'];
             $cobRes->m_id = $resposta['m_id'];
+            $cobRes->m_date = $resposta['m_date'];
+            $cobRes->m_time = $resposta['m_time'];
 
             $dataT = Team::where('id', '=', $cobRes->team1_id)->first();
 
