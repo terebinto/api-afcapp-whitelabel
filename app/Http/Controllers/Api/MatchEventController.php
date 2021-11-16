@@ -94,6 +94,8 @@ class MatchEventController extends Controller
             $cobRes->ecount = $resposta['ecount'];
             $cobRes->minutes = $resposta['minutes'];
             $cobRes->t_id = $resposta['t_id'];
+            $cobRes->m_date = $resposta['m_date'];
+            $cobRes->m_time = $resposta['m_time'];
 
             $dataT = Team::where('id', '=', $cobRes->t_id)->first();
 
